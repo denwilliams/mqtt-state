@@ -2,13 +2,11 @@
 
 State management for home automation based on MQTT input/output.
 
-Allows for transformation of MQTT input events into managed state that is output as MQTT events.
-
-TODO: prometheus metrics
+Allows for transformation of MQTT input events into managed state that is output in realtime as MQTT events, and fetchable at any time using Prometheus or simple JSON via HTTP.
 
 ## Environment
 
-CONFIG_PATH - path to configuration file
+`CONFIG_PATH` - path to configuration file
 
 If not specified will default to `config.yml` in the app folder.
 
@@ -18,15 +16,25 @@ If not specified will default to `config.yml` in the app folder.
 npm i -g mqtt-state # TBD
 ```
 
+## Configuring
+
+First create a config file (see config.example.yml).
+
+Specify the MQTT URI, topics to subscribe to (wildcards allowed), a place to persist state permanently, and a list of rules (see below).
+
 ## Running
-
-First create a config file (see config.example.yml)
-
-Then run:
 
 ```
 CONFIG_PATH=/path/to/config.yml mqtt-state
 ```
+
+MQTT subscriptions are persisted in the root (Redux) state.
+
+Rules are bound to the Redux state using RxJs and output as MQTT events when their value is updated.
+
+The entire current state (root state, plus calculated rule state) can be fetched at any time by `http://localhost:3000/state`.
+
+Rule state for numeric values is available as Prometheus metrics via `http://localhost:3000/metrics`.
 
 ## Rule Types
 
