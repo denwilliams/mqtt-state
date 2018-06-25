@@ -8,8 +8,9 @@ TODO: prometheus metrics
 
 ## Environment
 
-DATA_PATH
-MQTT_URI
+CONFIG_PATH - path to configuration file
+
+If not specified will default to `config.yml` in the app folder.
 
 ## Installing
 
