@@ -6,7 +6,7 @@ interface "Data File" as file
 interface "Prometheus Client" as prom
 interface "GET /state" as getstate
 interface "GET /metrics" as getmetrics
-database "Root\nState" as root
+database "Root\nState\n(Redux)" as root
 agent "Rules" as rules
 database "Calculated\nState" as calculated
 

@@ -14,15 +14,13 @@ exports.create = (rulesList, reactive, mqtt) => {
       return;
     }
 
-    // console.log(ruleFactory);
     const stream = ruleFactory(rule, reactive);
-    // console.log(stream);
 
     // const counter = new client.Counter({
     //   name: 'metric_name',
     //   help: 'metric_help'
     // });
-    const gauge = new Gauge({ name: rule.key.replace(/\//, '_'), help: 'metric_help' });
+    const gauge = new Gauge({ name: rule.key.replace(/\//g, '_'), help: 'metric_help' });
 
     stream.subscribe(n => {
       state[rule.key] = n;

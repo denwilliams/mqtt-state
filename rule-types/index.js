@@ -4,4 +4,5 @@ exports.calculation = require('./calculation');
 exports.logical = require('./logical');
 exports.match = require('./match');
 exports.merge = require('./merge');
+exports.pick = require('./pick');
 
