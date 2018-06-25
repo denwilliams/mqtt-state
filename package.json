@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "express": "^4.16.3",
+    "js-yaml": "^3.12.0",
+    "mqtt": "^2.18.1",
+    "prom-client": "^11.0.0",
+    "redux": "^4.0.0",
+    "rxjs": "^6.2.1"
+  },
+  "name": "mqtt-state",
+  "description": "State management for home automation based on MQTT input/output.",
+  "version": "1.0.0",
+  "main": "main.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "mqtt-state": "./main.js"
+  },
+  "author": "",
+  "license": "MIT"
+}

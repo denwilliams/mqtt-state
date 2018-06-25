@@ -1,0 +1,59 @@
+mqtt:
+  uri: mqtt://192.168.86.123
+  subscriptions:
+    - value/#
+    - home/sensor/#
+    - rfsensor/myroom/rfin
+data:
+  file: /etc/mqtt-state/state.json
+http:
+  port: 3000
+rules:
+  - key: bedroom/temperature
+    type: alias
+    source: root/value/sensor/bedroom/temperature
+  - key: bedroom/light
+    type: alias
+    source: root/value/sensor/bedroom/light
+  - key: living/temperature
+    type: alias
+    source: root/value/sensor/lounge-temperature/temperature
+  - key: living/humidity
+    type: alias
+    source: root/value/sensor/lounge-humidity/humidity
+  - key: living/light
+    type: alias
+    source: root/value/sensor/lounge-luminescence/luminescence
+  - key: nursery/temperature
+    type: alias
+    source: root/value/sensor/nursery/temperature
+  - key: nursery/light
+    type: alias
+    source: root/value/sensor/nursery/light
+  - key: bedroom/toocold
+    type: calculation
+    op: '<'
+    source: bedroom/temperature
+    value: 18
+  - key: house/temperatures
+    type: merge
+    sources:
+      bedroom: 'bedroom/temperature'
+      nursery: 'nursery/temperature'
+  - key: hallway/motion
+    type: match
+    source: 'root/RF433/garage/rfin'
+    regexp: '.*(59875C|D5455)$'
+  - key: hallway/presence
+    type: activity
+    interval: 30000
+    sources:
+      - 'hallway/motion'
+      - 'root/sensor/hallway/input/trigger'
+      - 'root/sensor/kitchen/input/trigger'
+  - key: house/motion
+    type: logical
+    op: or
+    sources:
+      - hallway/presence
+      - kitchen/presence
