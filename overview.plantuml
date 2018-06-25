@@ -6,16 +6,18 @@ interface "Data File" as file
 interface "Prometheus Client" as prom
 interface "GET /state" as getstate
 interface "GET /metrics" as getmetrics
-component [Root State] as root
-component [Rules] as rules
+database "Root\nState" as root
+agent "Rules" as rules
+database "Calculated\nState" as calculated
 
-mqttin .right.> root
+mqttin -> root
 root .up.> file: backup
 root -> rules: events
+rules .down.> calculated: events
 rules -> mqttout
 rules .down.> prom: gauge
 root .down.> getstate: current state
-prom .down.> getstate: current state
+calculated .down.> getstate: current state
 prom .down.> getmetrics: current state
 
 @enduml
