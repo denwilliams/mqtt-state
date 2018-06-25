@@ -14,11 +14,17 @@ MQTT_URI
 ## Installing
 
 ```
-npm i -g mqtt-state
+npm i -g mqtt-state # TBD
 ```
 
+## Running
+
+First create a config file (see config.example.yml)
+
+Then run:
+
 ```
-MQTT_URI=mqtt://192.168.86.123 node index
+CONFIG_PATH=/path/to/config.yml mqtt-state
 ```
 
 ## Rule Types
