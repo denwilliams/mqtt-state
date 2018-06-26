@@ -1,10 +1,12 @@
 mqtt:
   uri: mqtt://192.168.86.123
+  # anything that matches these will become the root state
   subscriptions:
     - value/#
     - home/sensor/#
     - rfsensor/myroom/rfin
 data:
+  # location to backup state for recovering on restart
   file: /etc/mqtt-state/state.json
 http:
   port: 3000

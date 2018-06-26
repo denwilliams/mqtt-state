@@ -8,7 +8,7 @@ interface "GET /state" as getstate
 interface "GET /metrics" as getmetrics
 database "Root\nState\n(Redux)" as root
 agent "Rules" as rules
-database "Calculated\nState" as calculated
+database "Calculated\nState\n(RxJs)" as calculated
 
 mqttin -> root
 root .up.> file: backup
