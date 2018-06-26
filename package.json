@@ -18,6 +18,14 @@
   "bin": {
     "mqtt-state": "./main.js"
   },
-  "author": "",
-  "license": "MIT"
+  "author": "Den Williams",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/denwilliams/mqtt-state.git"
+  },
+  "bugs": {
+    "url": "https://github.com/denwilliams/mqtt-state/issues"
+  },
+  "homepage": "https://github.com/denwilliams/mqtt-state#readme"
 }
