@@ -15,7 +15,7 @@ If not specified will default to `config.yml` in the app folder.
 ## Installing
 
 ```
-npm i -g mqtt-state # TBD
+npm i -g mqtt-state
 ```
 
 ## Configuring
