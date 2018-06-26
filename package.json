@@ -1,4 +1,8 @@
 {
+  "name": "mqtt-state",
+  "description": "State management for home automation based on MQTT input/output.",
+  "version": "1.0.2",
+  "main": "main.js",
   "dependencies": {
     "express": "^4.16.3",
     "js-yaml": "^3.12.0",
@@ -7,10 +11,6 @@
     "redux": "^4.0.0",
     "rxjs": "^6.2.1"
   },
-  "name": "mqtt-state",
-  "description": "State management for home automation based on MQTT input/output.",
-  "version": "1.0.1",
-  "main": "main.js",
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
