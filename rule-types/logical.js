@@ -1,4 +1,4 @@
-const { zip } = require('rxjs');
+const { combineLatest } = require('rxjs');
 const { map } = require('rxjs/operators');
 const operators = require('./operators/logical');
 
@@ -11,6 +11,6 @@ module.exports = (rule, reactive) => {
 
   if (!operator) throw new Error('No operator found for ' + opName);
 
-  return zip(...bindings)
+  return combineLatest(...bindings)
   .pipe(map(operator));
 };

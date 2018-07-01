@@ -1,4 +1,4 @@
-const { zip } = require('rxjs');
+const { combineLatest } = require('rxjs');
 const { map } = require('rxjs/operators');
 
 module.exports = (rule, reactive) => {
@@ -6,7 +6,7 @@ module.exports = (rule, reactive) => {
   const values = Object.values(rule.sources);
   const bindings = values.map(path => reactive.getBinding(path));
 
-  return zip(...bindings)
+  return combineLatest(...bindings)
   .pipe(map(results => {
     const merged = {};
 
