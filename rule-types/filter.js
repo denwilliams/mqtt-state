@@ -1,4 +1,4 @@
-const { distinctUntilChanged, filter } = require('rxjs/operators');
+const { filter } = require('rxjs/operators');
 
 module.exports = (rule, reactive) => {
   const matcher = new RegExp(rule.regexp);

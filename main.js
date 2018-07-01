@@ -14,7 +14,12 @@ rootState.subscribe(() => {
 });
 
 const reactive = require('./reactive').create(rootState);
-const mqtt = require('./mqtt').create(rootState, config.mqtt.uri, config.mqtt.subscriptions);
+const mqtt = require('./mqtt').create(
+  rootState,
+  config.mqtt.uri,
+  config.mqtt.subscriptions || [],
+  config.mqtt.raw || []
+);
 
 var rulesList = config.rules;
 const rules = require('./rules').create(rulesList, reactive, mqtt);

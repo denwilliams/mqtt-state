@@ -1,6 +1,6 @@
 const mqtt = require('mqtt')
 
-exports.create = (rootState, uri, subscriptions) => {
+exports.create = (rootState, uri, subscriptions, raw) => {
   console.log('Connecting to ' + uri);
   const client  = mqtt.connect(uri);
 
@@ -11,13 +11,19 @@ exports.create = (rootState, uri, subscriptions) => {
 
   client.on('message', function (topic, message) {
     // message is Buffer
-    const str = message.toString();
-    try {
-      rootState.setValue('root/' + topic, JSON.parse(str));
-    } catch(err) {
-      // naive error handling
-      rootState.setValue('root/' + topic, str);
+    let data = message.toString();
+
+    const topicParts = topic.split('/');
+    const lastPart = topicParts[topicParts.length - 1];
+    if (!raw.includes(lastPart)) {
+      try {
+        data = JSON.parse(data);
+      } catch(err) {
+        // naive error handling
+      }
     }
+
+    rootState.setValue('root/' + topic, data);
   });
 
   return {
