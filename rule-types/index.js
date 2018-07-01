@@ -7,4 +7,5 @@ exports.filter = require('./filter');
 exports.match = require('./match');
 exports.merge = require('./merge');
 exports.pick = require('./pick');
+exports.switch = require('./switch');
 exports.throttle = require('./throttle');
