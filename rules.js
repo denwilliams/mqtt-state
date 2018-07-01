@@ -20,14 +20,19 @@ exports.create = (rulesList, reactive, mqtt) => {
     //   name: 'metric_name',
     //   help: 'metric_help'
     // });
-    const gauge = new Gauge({ name: rule.key.replace(/\//g, '_'), help: 'metric_help' });
+
+    let gauge;
+    if (!rule.hidden) {
+      gauge = new Gauge({ name: rule.key.replace(/\//g, '_'), help: 'metric_help' });
+    }
 
     stream.subscribe(n => {
       state[rule.key] = n;
       console.log(rule.key, n);
       mqtt.emit(rule.key, n);
 
-      if (typeof n === 'number') gauge.set(n);
+      if (!gauge) return;
+      else if (typeof n === 'number') gauge.set(n);
       else if (typeof n === 'boolean') gauge.set(n ? 1 : 0);
     });
     reactive.setBinding(rule.key, stream);
