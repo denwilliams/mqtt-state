@@ -1,5 +1,6 @@
 exports.activity = require('./activity');
 exports.alias = require('./alias');
+exports.bool = require('./bool');
 exports.calculation = require('./calculation');
 exports.debounce = require('./debounce');
 exports.logical = require('./logical');
