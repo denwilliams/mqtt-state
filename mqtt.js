@@ -27,8 +27,8 @@ exports.create = (rootState, uri, subscriptions, raw) => {
   });
 
   return {
-    emit(key, value) {
-      client.publish(key, JSON.stringify(value));
+    emit(key, value, options) {
+      client.publish(key, JSON.stringify(value), options);
     },
     end() {
       client.end();
