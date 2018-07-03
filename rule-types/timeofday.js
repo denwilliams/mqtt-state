@@ -12,10 +12,9 @@ module.exports = (rule, reactive) => {
   .pipe(map(value => {
     const dval = new Date(value);
     const timeOfDay = dval.getHours() + (dval.getMinutes() / 60);
-    if (outside) {
-      return timeOfDay < a || timeOfDay > b;
-    }
-    return timeOfDay > a && timeOfDay < b;
+    return (outside)
+      ? timeOfDay < a || timeOfDay > b
+      : timeOfDay > a && timeOfDay < b;
   }))
   .pipe(distinctUntilChanged());
 };
