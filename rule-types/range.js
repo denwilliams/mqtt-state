@@ -9,10 +9,9 @@ module.exports = (rule, reactive) => {
 
   return reactive.getBinding(rule.source)
   .pipe(map(value => {
-    if (outside) {
-      return value < a || value > b;
-    }
-    return value > a && value < b;
+    return (outside)
+      ? value < a || value > b
+      : value > a && value < b;
   }))
   .pipe(distinctUntilChanged());
 };
