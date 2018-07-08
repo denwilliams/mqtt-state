@@ -12,7 +12,7 @@ module.exports = (rule, reactive) => {
   .pipe(map(value => {
     if (lastResult) {
       // currently on - look for off
-      lastResult = (direction) ? value < mid : value > mid;
+      lastResult = (direction > 0) ? value < mid : value > mid;
       return lastResult;
     }
 
