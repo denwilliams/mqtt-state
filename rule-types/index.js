@@ -2,6 +2,7 @@ exports.activity = require('./activity');
 exports.alias = require('./alias');
 exports.bool = require('./bool');
 exports.calculation = require('./calculation');
+exports.dayofweek = require('./dayofweek');
 exports.debounce = require('./debounce');
 exports.logical = require('./logical');
 exports.not = require('./not');
