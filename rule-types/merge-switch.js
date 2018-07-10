@@ -14,7 +14,6 @@ const { map } = require('rxjs/operators');
 */
 
 module.exports = (rule, reactive) => {
-  console.log(rule);
   const sources = rule.cases.map(c => c.source);
   const values = rule.cases.map(c => c.value);
   const matchers = rule.cases.map(c => new RegExp(c.regexp));
@@ -23,7 +22,6 @@ module.exports = (rule, reactive) => {
 
   return combineLatest(...bindings)
   .pipe(map(results => {
-    console.log(results);
     for (let i = 0; i < results.length; i++) {
       if (matchers[i].test(results[i])) return values[i];
     }
