@@ -1,7 +1,7 @@
 {
   "name": "mqtt-state",
   "description": "State management for home automation based on MQTT input/output.",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "main": "main.js",
   "dependencies": {
     "express": "^4.16.3",
