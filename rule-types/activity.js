@@ -21,22 +21,27 @@ module.exports = (rule, reactive) => {
     return function mySimpleOperatorImplementation(source) {
       return Observable.create(subscriber => {
         let bumper;
+
+        subscriber.next(rule.initial || false);
+
         const timeoutFn = () => {
           subscriber.next(false);
           clearTimeout(bumper);
           bumper = undefined;
         };
-        var subscription = source.subscribe(() => {
-          if (!ready) return;
+        const subscription = source.subscribe(
+          () => {
+            if (!ready) return;
 
-          // console.log('bump')
-          if (!bumper) subscriber.next(true);
-          else clearTimeout(bumper);
+            // console.log('bump')
+            if (!bumper) subscriber.next(true);
+            else clearTimeout(bumper);
 
-          bumper = setTimeout(timeoutFn, duration);
-        },
-        err => subscriber.error(err),
-        () => subscriber.complete());
+            bumper = setTimeout(timeoutFn, duration);
+          },
+          err => subscriber.error(err),
+          () => subscriber.complete()
+        );
 
         return subscription;
       });

@@ -1,7 +1,7 @@
 {
   "name": "mqtt-state",
   "description": "State management for home automation based on MQTT input/output.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "main": "main.js",
   "dependencies": {
     "express": "^4.16.3",
@@ -18,7 +18,9 @@
   "bin": {
     "mqtt-state": "./main.js"
   },
-  "engines" : { "node" : ">=8.6.0" },
+  "engines": {
+    "node": ">=8.6.0"
+  },
   "author": "Den Williams",
   "license": "MIT",
   "repository": {
