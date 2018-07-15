@@ -3,9 +3,15 @@ exports.create = (rootState, reactive) => {
     rootState.setValue('root/ticker/minutes', new Date().getTime());
   };
 
-  onTick();
-  reactive.getRootBinding('root/ticker/minutes');
+  return {
+    start() {
+      onTick();
+      reactive.getRootBinding('root/ticker/minutes');
 
-  setInterval(onTick, 60000);
-  // setImmediate(onTick);
+      setInterval(onTick, 60000);
+      // setImmediate(onTick);
+
+      return Promise.resolve();
+    }
+  };
 };

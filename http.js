@@ -8,5 +8,14 @@ exports.create = (rootState, rules, port = 3000) => {
   app.get('/state/*', (req, res) => res.json(rules.getState()[req.params[0]]));
   app.get('/metrics', (req, res) => res.type('txt').send(register.metrics()));
 
-  app.listen(port, () => console.log(`Listening on port ${port}`));
+  return {
+    start() {
+      return new Promise(resolve => {
+        app.listen(port, () => {
+          console.log(`Listening on port ${port}`);
+          resolve();
+        });
+      });
+    }
+  };
 };

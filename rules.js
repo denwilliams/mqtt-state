@@ -5,6 +5,8 @@ const subrules = require('./subrules');
 
 exports.create = (rulesList, reactive, mqtt) => {
   const state = {};
+  let emitMqtt = false;
+
   // for now rules need to appear in dependency order
   rulesList.forEach(bindRule);
 
@@ -35,7 +37,8 @@ exports.create = (rulesList, reactive, mqtt) => {
     stream.subscribe(n => {
       state[rule.key] = n;
       console.log(rule.key, n);
-      mqtt.emit(rule.key, n, options);
+
+      if (emitMqtt) mqtt.emit(rule.key, n, options);
 
       if (!gauge) return;
       else if (typeof n === 'number') gauge.set(n);
@@ -50,6 +53,16 @@ exports.create = (rulesList, reactive, mqtt) => {
   }
 
   return {
+    start() {
+      emitMqtt = true;
+      console.log('++ Rules started');
+      return Promise.resolve();
+    },
+    stop() {
+      emitMqtt = false;
+      console.log('-- Rules stopped');
+      return Promise.resolve();
+    },
     getState() {
       return state;
     }
