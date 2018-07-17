@@ -26,14 +26,15 @@ module.exports = (rule, reactive) => {
           clearTimeout(bumper);
           bumper = undefined;
         };
-        var subscription = source.subscribe(() => {
-          if (!ready) return;
-
-          // console.log('bump')
+        const bump = () => {
           if (!bumper) subscriber.next(true);
           else clearTimeout(bumper);
 
           bumper = setTimeout(timeoutFn, duration);
+        };
+        var subscription = source.subscribe(() => {
+          if (!ready) return;
+          bump();
         },
         err => subscriber.error(err),
         () => subscriber.complete());
