@@ -44,7 +44,7 @@ module.exports = (rule, reactive) => {
           () => subscriber.complete()
         );
 
-        if (rule.initial) bump();
+        if (rule.initial) setImmediate(() => bump());
         else subscriber.next(false);
 
         return subscription;
