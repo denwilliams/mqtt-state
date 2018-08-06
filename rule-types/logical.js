@@ -11,6 +11,5 @@ module.exports = (rule, reactive) => {
 
   if (!operator) throw new Error('No operator found for ' + opName);
 
-  return combineLatest(...bindings)
-  .pipe(map(operator));
+  return combineLatest(...bindings).pipe(map(operator));
 };

@@ -16,16 +16,23 @@ module.exports = (rule, reactive) => {
 
   const outside = rule.outside || false;
 
-  return reactive.getBinding(rule.source)
-  .pipe(map(value => {
-    const dval = new Date(value);
-    const timeOfDay = dval.getHours() + (dval.getMinutes() / 60);
+  return reactive
+    .getBinding(rule.source)
+    .pipe(
+      map(value => {
+        const dval = new Date(value);
+        const timeOfDay = dval.getHours() + dval.getMinutes() / 60;
 
-    if (outside) return (timeOfDay < a || timeOfDay > b2)
-      && (timeOfDay < a2 || timeOfDay > b);
+        if (outside)
+          return (
+            (timeOfDay < a || timeOfDay > b2) &&
+            (timeOfDay < a2 || timeOfDay > b)
+          );
 
-    return (timeOfDay > a && timeOfDay < b2)
-      || (timeOfDay > a2 && timeOfDay < b);
-  }))
-  .pipe(distinctUntilChanged());
+        return (
+          (timeOfDay > a && timeOfDay < b2) || (timeOfDay > a2 && timeOfDay < b)
+        );
+      })
+    )
+    .pipe(distinctUntilChanged());
 };

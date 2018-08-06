@@ -28,7 +28,10 @@ exports.create = (rulesList, reactive, mqtt) => {
 
     let gauge;
     if (!rule.hidden) {
-      gauge = new Gauge({ name: rule.key.replace(/\//g, '_'), help: 'metric_help' });
+      gauge = new Gauge({
+        name: rule.key.replace(/\//g, '_'),
+        help: 'metric_help'
+      });
     }
 
     const options = {

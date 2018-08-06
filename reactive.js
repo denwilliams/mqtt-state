@@ -1,20 +1,20 @@
 const { from } = require('rxjs');
 const { map, distinctUntilChanged } = require('rxjs/operators');
 
-exports.create = (rootState) => {
+exports.create = rootState => {
   const bindings = {};
 
   const state$ = from(rootState.store);
   // state$.unsubscribe();
 
   function getRootBinding(path) {
-    const key = (path.startsWith('root/')) ? path : `root/${path}`;
+    const key = path.startsWith('root/') ? path : `root/${path}`;
     if (bindings[key]) return bindings[key];
 
     // console.log('BINDING', key);
     const stream = state$
-    .pipe(map(state => state[key]))
-    .pipe(distinctUntilChanged());
+      .pipe(map(state => state[key]))
+      .pipe(distinctUntilChanged());
 
     // eslint-disable-next-line no-console
     setTimeout(() => stream.subscribe(n => console.log(key, n)), 1);

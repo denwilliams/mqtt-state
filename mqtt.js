@@ -7,9 +7,9 @@ exports.create = (rootState, uri, subscriptions, raw) => {
     start() {
       // eslint-disable-next-line no-console
       console.log('Connecting to ' + uri);
-      client  = mqtt.connect(uri);
+      client = mqtt.connect(uri);
 
-      client.on('message', function (topic, message) {
+      client.on('message', (topic, message) => {
         // message is Buffer
         let data = message.toString();
 
@@ -18,7 +18,7 @@ exports.create = (rootState, uri, subscriptions, raw) => {
         if (!raw.includes(lastPart)) {
           try {
             data = JSON.parse(data);
-          } catch(err) {
+          } catch (err) {
             // naive error handling
           }
         }
@@ -26,8 +26,8 @@ exports.create = (rootState, uri, subscriptions, raw) => {
         rootState.setValue('root/' + topic, data);
       });
 
-      return new Promise((resolve) => {
-        client.on('connect', function () {
+      return new Promise(resolve => {
+        client.on('connect', () => {
           // eslint-disable-next-line no-console
           console.log('MQTT connected');
           subscriptions.forEach(s => client.subscribe(s));

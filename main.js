@@ -27,7 +27,8 @@ const rules = require('./rules').create(rulesList, reactive, mqtt);
 const http = require('./http').create(rootState, rules, config.http.port);
 const ticker = require('./ticker').create(rootState, reactive);
 
-mqtt.start()
-.then(() => rules.start())
-.then(() => http.start())
-.then(() => ticker.start());
+mqtt
+  .start()
+  .then(() => rules.start())
+  .then(() => http.start())
+  .then(() => ticker.start());

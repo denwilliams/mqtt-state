@@ -1,6 +1,6 @@
 const { createStore } = require('redux');
 
-exports.create = (initialState) => {
+exports.create = initialState => {
   function setToValue(obj, key, value) {
     obj[key] = value;
   }
@@ -10,12 +10,12 @@ exports.create = (initialState) => {
   }
 
   const actions = {
-    'SET_VALUE': (state, key, value) => {
+    SET_VALUE: (state, key, value) => {
       const newState = { ...state };
       setToValue(newState, key, value);
       return newState;
     },
-    'INCREMENT': (state, key) => {
+    INCREMENT: (state, key) => {
       const newState = { ...state };
       setTo(newState, key, value => (value || 0) + 1);
       return newState;

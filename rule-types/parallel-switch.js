@@ -44,13 +44,13 @@ module.exports = (rule, reactive) => {
   const cases = Object.values(rule.cases);
   const bindings = cases.map(c => subrules[c.type](c, reactive));
 
-  return combineLatest(...bindings)
-  .pipe(map(results => {
-    for (let i = 0; i < results.length; i++) {
-      if (results[i]) return caseValues[i];
-    }
+  return combineLatest(...bindings).pipe(
+    map(results => {
+      for (let i = 0; i < results.length; i++) {
+        if (results[i]) return caseValues[i];
+      }
 
-    return null;
-  }));
+      return null;
+    })
+  );
 };
-

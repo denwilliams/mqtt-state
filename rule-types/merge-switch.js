@@ -20,13 +20,13 @@ module.exports = (rule, reactive) => {
 
   const bindings = sources.map(path => reactive.getBinding(path));
 
-  return combineLatest(...bindings)
-  .pipe(map(results => {
-    for (let i = 0; i < results.length; i++) {
-      if (matchers[i].test(results[i])) return values[i];
-    }
+  return combineLatest(...bindings).pipe(
+    map(results => {
+      for (let i = 0; i < results.length; i++) {
+        if (matchers[i].test(results[i])) return values[i];
+      }
 
-    return null;
-  }));
+      return null;
+    })
+  );
 };
-

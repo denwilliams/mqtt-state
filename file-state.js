@@ -1,6 +1,6 @@
 const { existsSync, readFileSync, writeFile } = require('fs');
 
-exports.create = (filePath) => {
+exports.create = filePath => {
   let next;
   // let complete;
   let stream;
@@ -15,12 +15,11 @@ exports.create = (filePath) => {
     stream = Observable.create(subscriber => {
       next = x => subscriber.next(x);
       // complete = () => subscriber.complete();
-    })
-    .pipe(throttleTime(1000, undefined, { leading: true, trailing: true }));
+    }).pipe(throttleTime(1000, undefined, { leading: true, trailing: true }));
 
-    stream.subscribe((state) => {
+    stream.subscribe(state => {
       // console.log('Saving...');
-      writeFile(filePath, JSON.stringify(state), 'utf8', (err) => {
+      writeFile(filePath, JSON.stringify(state), 'utf8', err => {
         // eslint-disable-next-line no-console
         if (err) console.error(err);
         // console.log('Saved!');

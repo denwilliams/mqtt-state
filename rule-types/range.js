@@ -7,11 +7,12 @@ module.exports = (rule, reactive) => {
 
   const outside = rule.outside || false;
 
-  return reactive.getBinding(rule.source)
-  .pipe(map(value => {
-    return (outside)
-      ? value < a || value > b
-      : value > a && value < b;
-  }))
-  .pipe(distinctUntilChanged());
+  return reactive
+    .getBinding(rule.source)
+    .pipe(
+      map(value => {
+        return outside ? value < a || value > b : value > a && value < b;
+      })
+    )
+    .pipe(distinctUntilChanged());
 };

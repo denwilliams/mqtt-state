@@ -8,11 +8,10 @@ module.exports = (rule, reactive) => {
 
   let ready = !rule.delay;
   if (rule.delay) {
-    setTimeout(() => ready = true, rule.delay);
+    setTimeout(() => (ready = true), rule.delay);
   }
 
-  return merge(...sources)
-  .pipe(bumper(interval));
+  return merge(...sources).pipe(bumper(interval));
 
   // ------
 

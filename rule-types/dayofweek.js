@@ -12,12 +12,15 @@ const { distinctUntilChanged, map } = require('rxjs/operators');
 module.exports = (rule, reactive) => {
   const days = rule.days;
 
-  return reactive.getBinding(rule.source)
-  .pipe(map(value => {
-    const dval = new Date(value);
-    const dayOfWeek = dval.getDay();
+  return reactive
+    .getBinding(rule.source)
+    .pipe(
+      map(value => {
+        const dval = new Date(value);
+        const dayOfWeek = dval.getDay();
 
-    return days.includes(dayOfWeek);
-  }))
-  .pipe(distinctUntilChanged());
+        return days.includes(dayOfWeek);
+      })
+    )
+    .pipe(distinctUntilChanged());
 };
