@@ -20,13 +20,14 @@ exports.create = (rootState, rules, port = 3000) => {
     return selectors.reduce((obj, s) => {
       obj[s] = state[s];
       return obj;
-    }, {})
+    }, {});
   }
 
   return {
     start() {
       return new Promise(resolve => {
         app.listen(port, () => {
+          // eslint-disable-next-line no-console
           console.log(`Listening on port ${port}`);
           resolve();
         });

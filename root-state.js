@@ -23,10 +23,10 @@ exports.create = (initialState) => {
   };
 
   function appState(state = {}, action) {
-    const actionFn = actions[action.type]
-    if (!actionFn) return state
+    const actionFn = actions[action.type];
+    if (!actionFn) return state;
 
-    return actionFn(state, action.path, action.value)
+    return actionFn(state, action.path, action.value);
   }
 
   const store = createStore(appState, initialState);

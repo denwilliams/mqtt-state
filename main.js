@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const yaml = require('js-yaml');
 const fs = require('fs');
+const join = require('path');
 
 const configPath = process.env.CONFIG_PATH || __dirname + '/config.yml';
 const config = yaml.safeLoad(fs.readFileSync(configPath, 'utf8'));

@@ -1,10 +1,11 @@
-const mqtt = require('mqtt')
+const mqtt = require('mqtt');
 
 exports.create = (rootState, uri, subscriptions, raw) => {
   let client;
 
   return {
     start() {
+      // eslint-disable-next-line no-console
       console.log('Connecting to ' + uri);
       client  = mqtt.connect(uri);
 
@@ -25,8 +26,9 @@ exports.create = (rootState, uri, subscriptions, raw) => {
         rootState.setValue('root/' + topic, data);
       });
 
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         client.on('connect', function () {
+          // eslint-disable-next-line no-console
           console.log('MQTT connected');
           subscriptions.forEach(s => client.subscribe(s));
           resolve();

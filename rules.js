@@ -1,4 +1,4 @@
-const { Counter, Gauge } = require('prom-client');
+const { Gauge } = require('prom-client');
 
 const types = require('./rule-types');
 const subrules = require('./subrules');
@@ -14,6 +14,7 @@ exports.create = (rulesList, reactive, mqtt) => {
     const ruleFactory = types[rule.type];
 
     if (!ruleFactory) {
+      // eslint-disable-next-line no-console
       console.log('No rule factory for', rule.type);
       return;
     }
@@ -36,6 +37,7 @@ exports.create = (rulesList, reactive, mqtt) => {
 
     stream.subscribe(n => {
       state[rule.key] = n;
+      // eslint-disable-next-line no-console
       console.log(rule.key, n);
 
       if (emitMqtt) mqtt.emit(rule.key, n, options);
@@ -55,11 +57,13 @@ exports.create = (rulesList, reactive, mqtt) => {
   return {
     start() {
       emitMqtt = true;
+      // eslint-disable-next-line no-console
       console.log('++ Rules started');
       return Promise.resolve();
     },
     stop() {
       emitMqtt = false;
+      // eslint-disable-next-line no-console
       console.log('-- Rules stopped');
       return Promise.resolve();
     },

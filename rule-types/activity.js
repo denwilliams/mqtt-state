@@ -1,5 +1,4 @@
 const { Observable } = require('rxjs');
-const { map } = require('rxjs/operators');
 const { merge } = require('rxjs');
 
 module.exports = (rule, reactive) => {
@@ -49,6 +48,6 @@ module.exports = (rule, reactive) => {
 
         return subscription;
       });
-    }
+    };
   }
 };

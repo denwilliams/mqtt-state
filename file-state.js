@@ -2,7 +2,7 @@ const { existsSync, readFileSync, writeFile } = require('fs');
 
 exports.create = (filePath) => {
   let next;
-  let complete;
+  // let complete;
   let stream;
 
   function getSaveStream() {
@@ -14,13 +14,15 @@ exports.create = (filePath) => {
 
     stream = Observable.create(subscriber => {
       next = x => subscriber.next(x);
-      complete = () => subscriber.complete();
+      // complete = () => subscriber.complete();
     })
     .pipe(throttleTime(1000, undefined, { leading: true, trailing: true }));
 
     stream.subscribe((state) => {
       // console.log('Saving...');
       writeFile(filePath, JSON.stringify(state), 'utf8', (err) => {
+        // eslint-disable-next-line no-console
+        if (err) console.error(err);
         // console.log('Saved!');
       });
     });
@@ -37,5 +39,5 @@ exports.create = (filePath) => {
       if (!existsSync(filePath)) return {};
       return JSON.parse(readFileSync(filePath, 'utf8'));
     }
-  }
+  };
 };
