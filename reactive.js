@@ -1,5 +1,5 @@
-const { from } = require('rxjs');
-const { map, distinctUntilChanged } = require('rxjs/operators');
+const { from } = require("rxjs");
+const { map, distinctUntilChanged } = require("rxjs/operators");
 
 exports.create = rootState => {
   const bindings = {};
@@ -8,7 +8,7 @@ exports.create = rootState => {
   // state$.unsubscribe();
 
   function getRootBinding(path) {
-    const key = path.startsWith('root/') ? path : `root/${path}`;
+    const key = path.startsWith("root/") ? path : `root/${path}`;
     if (bindings[key]) return bindings[key];
 
     // console.log('BINDING', key);
@@ -25,9 +25,9 @@ exports.create = rootState => {
 
   function getBinding(path) {
     // console.log('getBinding', path);
-    if (path.startsWith('root/')) return getRootBinding(path);
+    if (path.startsWith("root/")) return getRootBinding(path);
 
-    if (!bindings[path]) throw new Error('No binding for ' + path);
+    if (!bindings[path]) throw new Error("No binding for " + path);
 
     return bindings[path];
   }

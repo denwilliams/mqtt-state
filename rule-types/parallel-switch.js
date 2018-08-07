@@ -1,25 +1,25 @@
-const { combineLatest } = require('rxjs');
-const { map } = require('rxjs/operators');
+const { combineLatest } = require("rxjs");
+const { map } = require("rxjs/operators");
 
 const subrules = {};
-subrules.activity = require('./activity');
-subrules.alias = require('./alias');
-subrules.bool = require('./bool');
-subrules.calculation = require('./calculation');
-subrules.dayofweek = require('./dayofweek');
-subrules.debounce = require('./debounce');
-subrules.logical = require('./logical');
-subrules.not = require('./not');
-subrules.filter = require('./filter');
-subrules.match = require('./match');
-subrules.merge = require('./merge');
-subrules['merge-switch'] = require('./merge-switch');
-subrules.onoffrange = require('./onoffrange');
-subrules.pick = require('./pick');
-subrules.range = require('./range');
-subrules.switch = require('./switch');
-subrules.throttle = require('./throttle');
-subrules.timeofday = require('./timeofday');
+subrules.activity = require("./activity");
+subrules.alias = require("./alias");
+subrules.bool = require("./bool");
+subrules.calculation = require("./calculation");
+subrules.dayofweek = require("./dayofweek");
+subrules.debounce = require("./debounce");
+subrules.logical = require("./logical");
+subrules.not = require("./not");
+subrules.filter = require("./filter");
+subrules.match = require("./match");
+subrules.merge = require("./merge");
+subrules["merge-switch"] = require("./merge-switch");
+subrules.onoffrange = require("./onoffrange");
+subrules.pick = require("./pick");
+subrules.range = require("./range");
+subrules.switch = require("./switch");
+subrules.throttle = require("./throttle");
+subrules.timeofday = require("./timeofday");
 
 // Returns a single string value for the case that first matches.
 // If none match then null.

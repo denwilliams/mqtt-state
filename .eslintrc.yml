@@ -10,16 +10,6 @@ plugins:
 parserOptions:
   ecmaVersion: 2018
 rules:
-  indent:
-    - error
-    - 2
-    - MemberExpression: 1
   linebreak-style:
     - error
     - unix
-  quotes:
-    - error
-    - single
-  semi:
-    - error
-    - always

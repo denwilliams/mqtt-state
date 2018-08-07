@@ -1,6 +1,6 @@
 // Might need to be root - emit time of day as decimal once per minute
 // insde/outside pair of numbers
-const { distinctUntilChanged, map } = require('rxjs/operators');
+const { distinctUntilChanged, map } = require("rxjs/operators");
 
 module.exports = (rule, reactive) => {
   const a = rule.values[0];

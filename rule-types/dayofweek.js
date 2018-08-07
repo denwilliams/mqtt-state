@@ -1,4 +1,4 @@
-const { distinctUntilChanged, map } = require('rxjs/operators');
+const { distinctUntilChanged, map } = require("rxjs/operators");
 
 /*
 - key: my/rule

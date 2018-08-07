@@ -1,4 +1,4 @@
-const { distinctUntilChanged, map } = require('rxjs/operators');
+const { distinctUntilChanged, map } = require("rxjs/operators");
 
 module.exports = (rule, reactive) => {
   const cases = Object.keys(rule.cases).map(key => {

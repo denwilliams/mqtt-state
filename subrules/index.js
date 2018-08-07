@@ -1,1 +1,1 @@
-exports.switch = require('./switch');
+exports.switch = require("./switch");

@@ -1,7 +1,7 @@
-const { distinctUntilChanged, map } = require('rxjs/operators');
+const { distinctUntilChanged, map } = require("rxjs/operators");
 
 module.exports = (rule, reactive) => {
-  const path = rule.field.split('.');
+  const path = rule.field.split(".");
 
   return reactive
     .getBinding(rule.source)

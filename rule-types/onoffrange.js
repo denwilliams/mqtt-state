@@ -1,6 +1,6 @@
 // turn on when outside first number
 // turn off when outside second number
-const { distinctUntilChanged, map } = require('rxjs/operators');
+const { distinctUntilChanged, map } = require("rxjs/operators");
 
 module.exports = (rule, reactive) => {
   const { low, mid, high } = rule.values;

@@ -1,4 +1,4 @@
-const mqtt = require('mqtt');
+const mqtt = require("mqtt");
 
 exports.create = (rootState, uri, subscriptions, raw) => {
   let client;
@@ -6,14 +6,14 @@ exports.create = (rootState, uri, subscriptions, raw) => {
   return {
     start() {
       // eslint-disable-next-line no-console
-      console.log('Connecting to ' + uri);
+      console.log("Connecting to " + uri);
       client = mqtt.connect(uri);
 
-      client.on('message', (topic, message) => {
+      client.on("message", (topic, message) => {
         // message is Buffer
         let data = message.toString();
 
-        const topicParts = topic.split('/');
+        const topicParts = topic.split("/");
         const lastPart = topicParts[topicParts.length - 1];
         if (!raw.includes(lastPart)) {
           try {
@@ -23,13 +23,13 @@ exports.create = (rootState, uri, subscriptions, raw) => {
           }
         }
 
-        rootState.setValue('root/' + topic, data);
+        rootState.setValue("root/" + topic, data);
       });
 
       return new Promise(resolve => {
-        client.on('connect', () => {
+        client.on("connect", () => {
           // eslint-disable-next-line no-console
-          console.log('MQTT connected');
+          console.log("MQTT connected");
           subscriptions.forEach(s => client.subscribe(s));
           resolve();
         });

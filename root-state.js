@@ -1,4 +1,4 @@
-const { createStore } = require('redux');
+const { createStore } = require("redux");
 
 exports.create = initialState => {
   function setToValue(obj, key, value) {
@@ -40,7 +40,7 @@ exports.create = initialState => {
   return {
     store,
     setValue(path, value) {
-      store.dispatch({ type: 'SET_VALUE', path, value });
+      store.dispatch({ type: "SET_VALUE", path, value });
     },
     getState() {
       return store.getState();

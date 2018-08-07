@@ -1,4 +1,4 @@
-const { existsSync, readFileSync, writeFile } = require('fs');
+const { existsSync, readFileSync, writeFile } = require("fs");
 
 exports.create = filePath => {
   let next;
@@ -9,8 +9,8 @@ exports.create = filePath => {
     if (stream) return next;
 
     // TODO: why is this causing error when required at module?
-    const { Observable } = require('rxjs');
-    const { throttleTime } = require('rxjs/operators');
+    const { Observable } = require("rxjs");
+    const { throttleTime } = require("rxjs/operators");
 
     stream = Observable.create(subscriber => {
       next = x => subscriber.next(x);
@@ -19,7 +19,7 @@ exports.create = filePath => {
 
     stream.subscribe(state => {
       // console.log('Saving...');
-      writeFile(filePath, JSON.stringify(state), 'utf8', err => {
+      writeFile(filePath, JSON.stringify(state), "utf8", err => {
         // eslint-disable-next-line no-console
         if (err) console.error(err);
         // console.log('Saved!');
@@ -36,7 +36,7 @@ exports.create = filePath => {
     },
     load() {
       if (!existsSync(filePath)) return {};
-      return JSON.parse(readFileSync(filePath, 'utf8'));
+      return JSON.parse(readFileSync(filePath, "utf8"));
     }
   };
 };

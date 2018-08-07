@@ -1,5 +1,5 @@
 // insde/outside pair of numbers
-const { distinctUntilChanged, map } = require('rxjs/operators');
+const { distinctUntilChanged, map } = require("rxjs/operators");
 
 module.exports = (rule, reactive) => {
   const a = rule.values[0];

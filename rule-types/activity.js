@@ -1,5 +1,5 @@
-const { Observable } = require('rxjs');
-const { merge } = require('rxjs');
+const { Observable } = require("rxjs");
+const { merge } = require("rxjs");
 
 module.exports = (rule, reactive) => {
   const interval = rule.interval;

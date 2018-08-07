@@ -1,7 +1,7 @@
-const { Gauge } = require('prom-client');
+const { Gauge } = require("prom-client");
 
-const types = require('./rule-types');
-const subrules = require('./subrules');
+const types = require("./rule-types");
+const subrules = require("./subrules");
 
 exports.create = (rulesList, reactive, mqtt) => {
   const state = {};
@@ -15,7 +15,7 @@ exports.create = (rulesList, reactive, mqtt) => {
 
     if (!ruleFactory) {
       // eslint-disable-next-line no-console
-      console.log('No rule factory for', rule.type);
+      console.log("No rule factory for", rule.type);
       return;
     }
 
@@ -29,8 +29,8 @@ exports.create = (rulesList, reactive, mqtt) => {
     let gauge;
     if (!rule.hidden) {
       gauge = new Gauge({
-        name: rule.key.replace(/\//g, '_'),
-        help: 'metric_help'
+        name: rule.key.replace(/\//g, "_"),
+        help: "metric_help"
       });
     }
 
@@ -46,8 +46,8 @@ exports.create = (rulesList, reactive, mqtt) => {
       if (emitMqtt) mqtt.emit(rule.key, n, options);
 
       if (!gauge) return;
-      else if (typeof n === 'number') gauge.set(n);
-      else if (typeof n === 'boolean') gauge.set(n ? 1 : 0);
+      else if (typeof n === "number") gauge.set(n);
+      else if (typeof n === "boolean") gauge.set(n ? 1 : 0);
     });
     reactive.setBinding(rule.key, stream);
 
@@ -61,13 +61,13 @@ exports.create = (rulesList, reactive, mqtt) => {
     start() {
       emitMqtt = true;
       // eslint-disable-next-line no-console
-      console.log('++ Rules started');
+      console.log("++ Rules started");
       return Promise.resolve();
     },
     stop() {
       emitMqtt = false;
       // eslint-disable-next-line no-console
-      console.log('-- Rules stopped');
+      console.log("-- Rules stopped");
       return Promise.resolve();
     },
     getState() {

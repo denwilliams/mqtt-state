@@ -1,5 +1,5 @@
-const { distinctUntilChanged, map } = require('rxjs/operators');
-const operators = require('./operators/calculation');
+const { distinctUntilChanged, map } = require("rxjs/operators");
+const operators = require("./operators/calculation");
 
 module.exports = (rule, reactive) => {
   return reactive

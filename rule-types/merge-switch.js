@@ -1,5 +1,5 @@
-const { combineLatest } = require('rxjs');
-const { map } = require('rxjs/operators');
+const { combineLatest } = require("rxjs");
+const { map } = require("rxjs/operators");
 
 /*
 - key: my/key
