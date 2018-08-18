@@ -1,5 +1,6 @@
 exports.activity = require("./activity");
 exports.alias = require("./alias");
+exports.all = require("./all");
 exports.bool = require("./bool");
 exports.calculation = require("./calculation");
 exports.counter = require("./counter");
