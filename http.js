@@ -7,10 +7,6 @@ exports.create = (rootState, rules, port = 3000) => {
   app.get("/state", (req, res) => {
     const state = getState(req.query);
 
-    if (req.query.format) {
-      res.type(req.query.format);
-    }
-
     res.format({
       text: () => {
         const entries = Object.entries(state);
@@ -33,10 +29,6 @@ exports.create = (rootState, rules, port = 3000) => {
   app.get("/state/*", (req, res) => {
     const key = req.params[0];
     const value = rules.getState()[key];
-
-    if (req.query.format) {
-      res.type(req.query.format);
-    }
 
     res.format({
       text: () => {
