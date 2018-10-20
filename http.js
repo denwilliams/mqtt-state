@@ -50,6 +50,27 @@ exports.create = (rootState, rules, port = 3000) => {
     });
   });
   app.get("/metrics", (req, res) => res.type("txt").send(register.metrics()));
+  app.get("/rules", (req, res) => {
+    const rulesList = rules.getList();
+
+    res.format({
+      text: () => {
+        const entries = Object.entries(rulesList);
+        const lines = entries.map(e => `${e[0]}: ${e[1]}`);
+        res.send(lines.join("\n"));
+      },
+      html: () => {
+        const entries = Object.entries(rulesList);
+        const lines = entries.map(
+          e => `<html><body><strong>${e[0]}</strong>: ${e[1]}</body></html>`
+        );
+        res.send(lines.join("<br />"));
+      },
+      json: () => {
+        res.json(rulesList);
+      }
+    });
+  });
 
   function getState(query) {
     const state = {};

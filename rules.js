@@ -72,6 +72,9 @@ exports.create = (rulesList, reactive, mqtt) => {
     },
     getState() {
       return state;
+    },
+    getList() {
+      return rulesList;
     }
   };
 };
