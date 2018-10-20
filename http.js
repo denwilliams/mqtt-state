@@ -12,7 +12,14 @@ exports.create = (rootState, rules, port = 3000) => {
   });
 
   app.get("/state", (req, res) => {
-    const state = getState(req.query);
+    const stateUnordered = getState(req.query);
+
+    const state = {};
+    Object.keys(stateUnordered)
+      .sort()
+      .forEach(key => {
+        state[key] = stateUnordered[key];
+      });
 
     res.format({
       text: () => {
