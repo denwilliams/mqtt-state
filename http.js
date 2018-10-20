@@ -6,6 +6,11 @@ exports.create = (rootState, rules, port = 3000) => {
 
   app.get("/state", (req, res) => {
     const state = getState(req.query);
+
+    if (req.query.format) {
+      res.type(req.query.format);
+    }
+
     res.format({
       text: () => {
         const entries = Object.entries(state);
@@ -14,7 +19,9 @@ exports.create = (rootState, rules, port = 3000) => {
       },
       html: () => {
         const entries = Object.entries(state);
-        const lines = entries.map(e => `<strong>${e[0]}</strong>: ${e[1]}`);
+        const lines = entries.map(
+          e => `<html><body><strong>${e[0]}</strong>: ${e[1]}</body></html>`
+        );
         res.send(lines.join("<br />"));
       },
       json: () => {
@@ -23,7 +30,26 @@ exports.create = (rootState, rules, port = 3000) => {
     });
   });
 
-  app.get("/state/*", (req, res) => res.json(rules.getState()[req.params[0]]));
+  app.get("/state/*", (req, res) => {
+    const key = req.params[0];
+    const value = rules.getState()[key];
+
+    if (req.query.format) {
+      res.type(req.query.format);
+    }
+
+    res.format({
+      text: () => {
+        res.send(`${key}: ${value}`);
+      },
+      html: () => {
+        res.send(`<html><body><strong>${key}</strong>: ${value}</body></html>`);
+      },
+      json: () => {
+        res.json(value);
+      }
+    });
+  });
   app.get("/metrics", (req, res) => res.type("txt").send(register.metrics()));
 
   function getState(query) {
