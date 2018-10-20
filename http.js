@@ -22,10 +22,8 @@ exports.create = (rootState, rules, port = 3000) => {
       },
       html: () => {
         const entries = Object.entries(state);
-        const lines = entries.map(
-          e => `<html><body><strong>${e[0]}</strong>: ${e[1]}</body></html>`
-        );
-        res.send(lines.join("<br />"));
+        const lines = entries.map(e => `<strong>${e[0]}</strong>: ${e[1]}`);
+        res.send(`<html><body>${lines.join("<br />")}</body></html>`);
       },
       json: () => {
         res.json(state);
@@ -55,16 +53,22 @@ exports.create = (rootState, rules, port = 3000) => {
 
     res.format({
       text: () => {
-        const entries = Object.entries(rulesList);
-        const lines = entries.map(e => `${e[0]}: ${e[1]}`);
-        res.send(lines.join("\n"));
+        const ruleItems = rulesList.reduce((arr, rule) => {
+          const entries = Object.entries(rule);
+          const lines = entries.map(e => `${e[0]}: ${e[1]}`);
+          arr.push(lines.join("\n"));
+          return arr;
+        }, []);
+        res.send(ruleItems.join("\n\n"));
       },
       html: () => {
-        const entries = Object.entries(rulesList);
-        const lines = entries.map(
-          e => `<html><body><strong>${e[0]}</strong>: ${e[1]}</body></html>`
-        );
-        res.send(lines.join("<br />"));
+        const ruleItems = rulesList.reduce((arr, rule) => {
+          const entries = Object.entries(rule);
+          const lines = entries.map(e => `<strong>${e[0]}</strong>: ${e[1]}`);
+          arr.push(lines.join("\n"));
+          return arr;
+        }, []);
+        res.send(`<html><body>${ruleItems.join("<br /><br />")}</body></html>`);
       },
       json: () => {
         res.json(rulesList);
