@@ -4,7 +4,25 @@ const { register } = require("prom-client");
 exports.create = (rootState, rules, port = 3000) => {
   const app = express();
 
-  app.get("/state", (req, res) => res.json(getState(req.query)));
+  app.get("/state", (req, res) => {
+    const state = getState(req.query);
+    res.format({
+      text: () => {
+        const entries = Object.entries(state);
+        const lines = entries.map(e => `${e[0]}: ${e[1]}`);
+        res.send(lines.join("\n"));
+      },
+      html: () => {
+        const entries = Object.entries(state);
+        const lines = entries.map(e => `<strong>${e[0]}</strong>: ${e[1]}`);
+        res.send(lines.join("<br />"));
+      },
+      json: () => {
+        res.json(state);
+      }
+    });
+  });
+
   app.get("/state/*", (req, res) => res.json(rules.getState()[req.params[0]]));
   app.get("/metrics", (req, res) => res.type("txt").send(register.metrics()));
 
