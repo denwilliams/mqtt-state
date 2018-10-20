@@ -4,6 +4,13 @@ const { register } = require("prom-client");
 exports.create = (rootState, rules, port = 3000) => {
   const app = express();
 
+  app.use((req, res, next) => {
+    if (req.query.accept) {
+      req.headers.accept = req.query.accept;
+    }
+    next();
+  });
+
   app.get("/state", (req, res) => {
     const state = getState(req.query);
 
