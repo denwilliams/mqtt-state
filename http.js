@@ -65,7 +65,7 @@ exports.create = (rootState, rules, port = 3000) => {
         const ruleItems = rulesList.reduce((arr, rule) => {
           const entries = Object.entries(rule);
           const lines = entries.map(e => `<strong>${e[0]}</strong>: ${e[1]}`);
-          arr.push(lines.join("\n"));
+          arr.push(lines.join("<br />"));
           return arr;
         }, []);
         res.send(`<html><body>${ruleItems.join("<br /><br />")}</body></html>`);
