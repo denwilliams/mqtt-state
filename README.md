@@ -4,6 +4,8 @@ State management for home automation (or potentially anything else) based on MQT
 
 Allows for transformation of MQTT input events into managed state that is output in realtime as MQTT events, and fetchable at any time using Prometheus or simple JSON via HTTP.
 
+> BREAKING CHANGE IN 2.0 - now uses Accept header rather than always returning JSON. Note you can override the accept header using query string (?accept=application/json). This was primarily to allow Node-RED to continue fetch in JSON.
+
 ![Overview](overview.png)
 
 ## Environment
