@@ -37,7 +37,11 @@ exports.create = (rulesList, reactive, mqtt) => {
       addParent(rule.source);
     }
     if (rule.sources) {
-      rule.sources.forEach(addParent);
+      if (Array.isArray(rule.sources)) {
+        rule.sources.forEach(addParent);
+      } else {
+        Object.keys(rule.sources).forEach(addParent);
+      }
     }
     // TODO: subrules
 
