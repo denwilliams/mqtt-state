@@ -1,5 +1,6 @@
 const express = require("express");
 const { register } = require("prom-client");
+const chartTemplate = require("./chart-template");
 
 exports.create = (rootState, rules, port = 3000) => {
   const app = express();
@@ -81,6 +82,9 @@ exports.create = (rootState, rules, port = 3000) => {
         res.json(rulesList);
       }
     });
+  });
+  app.get("/tree", (req, res) => {
+    res.send(chartTemplate.render(rules.getDependencyTree()));
   });
 
   function getState(query) {

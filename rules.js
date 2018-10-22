@@ -6,6 +6,7 @@ const subrules = require("./subrules");
 exports.create = (rulesList, reactive, mqtt) => {
   const state = {};
   let emitMqtt = false;
+  const dependencyTree = {};
 
   // for now rules need to appear in dependency order
   rulesList.forEach(bindRule);
@@ -20,6 +21,25 @@ exports.create = (rulesList, reactive, mqtt) => {
     }
 
     const stream = ruleFactory(rule, reactive);
+
+    const dependency = dependencyTree[rule.key] || {};
+    dependencyTree[rule.key] = dependency;
+    dependency.hidden = rule.hidden;
+    dependency.retain = rule.retain;
+    dependency.parents = [];
+    const addParent = parent => {
+      dependency.parents.push(parent);
+      if (!dependencyTree[parent]) {
+        dependencyTree[parent] = { parents: [] };
+      }
+    };
+    if (rule.source) {
+      addParent(rule.source);
+    }
+    if (rule.sources) {
+      rule.sources.forEach(addParent);
+    }
+    // TODO: subrules
 
     // const counter = new client.Counter({
     //   name: 'metric_name',
@@ -75,6 +95,9 @@ exports.create = (rulesList, reactive, mqtt) => {
     },
     getList() {
       return rulesList;
+    },
+    getDependencyTree() {
+      return dependencyTree;
     }
   };
 };
