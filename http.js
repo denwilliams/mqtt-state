@@ -25,12 +25,14 @@ exports.create = (rootState, rules, port = 3000) => {
     res.format({
       text: () => {
         const entries = Object.entries(state);
-        const lines = entries.map(e => `${e[0]}: ${e[1]}`);
+        const lines = entries.map(e => `${e[0]}: ${stringValue(e[1])}`);
         res.send(lines.join("\n"));
       },
       html: () => {
         const entries = Object.entries(state);
-        const lines = entries.map(e => `<strong>${e[0]}</strong>: ${e[1]}`);
+        const lines = entries.map(
+          e => `<strong>${e[0]}</strong>: ${stringValue(e[1])}`
+        );
         res.send(`<html><body>${lines.join("<br />")}</body></html>`);
       },
       json: () => {
@@ -45,10 +47,14 @@ exports.create = (rootState, rules, port = 3000) => {
 
     res.format({
       text: () => {
-        res.send(`${key}: ${value}`);
+        res.send(`${key}: ${stringValue(value)}`);
       },
       html: () => {
-        res.send(`<html><body><strong>${key}</strong>: ${value}</body></html>`);
+        res.send(
+          `<html><body><strong>${key}</strong>: ${stringValue(
+            value
+          )}</body></html>`
+        );
       },
       json: () => {
         res.json(value);
@@ -114,3 +120,10 @@ exports.create = (rootState, rules, port = 3000) => {
     }
   };
 };
+
+function stringValue(val) {
+  if (typeof val === "object") {
+    return JSON.stringify(val);
+  }
+  return String(val);
+}
