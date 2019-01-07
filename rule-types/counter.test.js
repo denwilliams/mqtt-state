@@ -9,8 +9,10 @@ test("counts how many times the source emits (changes)", t => {
     { key: "output/counter", type: "counter", source: "root/input/counter" }
   ]);
 
+  t.is(rules.getState()["output/counter"], 1);
+
   rootState.setValue("root/input/counter", 123);
   rootState.setValue("root/input/counter", 456);
 
-  t.is(rules.getState()["output/counter"], 2);
+  t.is(rules.getState()["output/counter"], 3);
 });

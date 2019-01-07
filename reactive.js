@@ -17,7 +17,7 @@ exports.create = rootState => {
       .pipe(distinctUntilChanged());
 
     // eslint-disable-next-line no-console
-    setTimeout(() => stream.subscribe(n => console.log(key, n)), 1);
+    // setTimeout(() => stream.subscribe(n => console.log(key, n)), 1);
 
     bindings[key] = stream;
     return stream;

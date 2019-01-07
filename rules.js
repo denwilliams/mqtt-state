@@ -12,7 +12,10 @@ exports.create = (rulesList, reactive, mqtt) => {
   rulesList.forEach(bindRule);
 
   function bindRule(rule) {
-    const ruleFactory = types[rule.type];
+    const { type: ruleType } = rule;
+    if (ruleType === "chain") return bindChain(rule);
+
+    const ruleFactory = types[ruleType];
 
     if (!ruleFactory) {
       // eslint-disable-next-line no-console
@@ -22,6 +25,7 @@ exports.create = (rulesList, reactive, mqtt) => {
 
     const stream = ruleFactory(rule, reactive);
 
+    // TODO: move logic to rules
     const dependency = dependencyTree[rule.key] || {};
     dependencyTree[rule.key] = dependency;
     dependency.hidden = rule.hidden;
@@ -43,6 +47,8 @@ exports.create = (rulesList, reactive, mqtt) => {
         Object.keys(rule.sources).forEach(addParent);
       }
     }
+    // END TODO:
+
     // TODO: subrules
 
     // const counter = new client.Counter({
@@ -65,7 +71,7 @@ exports.create = (rulesList, reactive, mqtt) => {
     stream.subscribe(n => {
       state[rule.key] = n;
       // eslint-disable-next-line no-console
-      console.log(rule.key, n);
+      // console.log(rule.key, n);
 
       if (emitMqtt) mqtt.emit(rule.key, n, options);
 
@@ -79,6 +85,20 @@ exports.create = (rulesList, reactive, mqtt) => {
     if (!subruleFactory) return;
 
     subruleFactory(rule).forEach(bindRule);
+  }
+
+  function bindChain(chain) {
+    const { key: chainKey, source } = chain;
+    let index = 0;
+    const lastKey = () => chainKey + "/" + index;
+    const nextKey = () => chainKey + "/" + ++index;
+
+    bindRule({ key: lastKey(), type: "alias", source });
+    chain.rules.forEach(rule => {
+      const source = lastKey();
+      const key = nextKey();
+      bindRule(Object.assign({}, rule, { key, source }));
+    });
   }
 
   return {

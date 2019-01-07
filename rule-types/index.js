@@ -12,6 +12,7 @@ exports.filter = require("./filter");
 exports.match = require("./match");
 exports.merge = require("./merge");
 exports["merge-switch"] = require("./merge-switch");
+exports.onoffauto = require("./onoffauto");
 exports.onoffrange = require("./onoffrange");
 exports.pick = require("./pick");
 exports.range = require("./range");
