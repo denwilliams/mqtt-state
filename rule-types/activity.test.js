@@ -28,7 +28,7 @@ test.skip("activity single source", t => {
   t.is(rules.getState()["output/alias"], 123);
 });
 
-test.skip("activity multipe sources", t => {
+test.skip("activity multiple sources", t => {
   const { mockMqtt, reactive, rootState } = t.context;
   const rules = createRules(
     [
