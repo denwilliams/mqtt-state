@@ -96,7 +96,7 @@ test("<=", t => {
   t.is(rules.getState()[t.context.output], false);
 
   rootState.setValue("root/input", 10);
-  t.is(rules.getState()[t.context.output], false);
+  t.is(rules.getState()[t.context.output], true);
 });
 
 test("==", t => {
