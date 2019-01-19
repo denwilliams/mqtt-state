@@ -71,7 +71,7 @@ exports.create = (rulesList, reactive, mqtt) => {
     stream.subscribe(n => {
       state[rule.key] = n;
       // eslint-disable-next-line no-console
-      // console.log(rule.key, n);
+      console.log(rule.key, n);
 
       if (emitMqtt) mqtt.emit(rule.key, n, options);
 

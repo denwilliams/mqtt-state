@@ -5,19 +5,10 @@ exports.create = initialState => {
     obj[key] = value;
   }
 
-  function setTo(obj, key, setter) {
-    obj[key] = setter(obj[key]);
-  }
-
   const actions = {
     SET_VALUE: (state, key, value) => {
       const newState = { ...state };
       setToValue(newState, key, value);
-      return newState;
-    },
-    INCREMENT: (state, key) => {
-      const newState = { ...state };
-      setTo(newState, key, value => (value || 0) + 1);
       return newState;
     }
   };
