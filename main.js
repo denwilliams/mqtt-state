@@ -22,7 +22,16 @@ const mqtt = require("./mqtt").create(
   config.mqtt.raw || []
 );
 
-var rulesList = config.rules;
+let rulesList = [];
+for (const rule of config.rules) {
+  if (!rule.import) {
+    rulesList.push(rule);
+    continue;
+  }
+  const imported = yaml.safeLoad(fs.readFileSync(rule.import, "utf8"));
+  rulesList = rulesList.concat(imported);
+}
+
 const rules = require("./rules").create(rulesList, reactive, mqtt);
 const http = require("./http").create(rootState, rules, config.http.port);
 const ticker = require("./ticker").create(rootState, reactive);
