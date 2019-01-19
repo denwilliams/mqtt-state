@@ -26,6 +26,15 @@ First create a config file (see config.example.yml).
 
 Specify the MQTT URI, topics to subscribe to (wildcards allowed), a place to persist state permanently, and a list of rules (see below).
 
+### Importing
+
+To break up large config files you can import rules from extra files:
+
+```yaml
+rules:
+  - import: "/path/to/rules.yml"
+```
+
 ## Running
 
 ```
