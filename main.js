@@ -32,7 +32,8 @@ for (const rule of config.rules) {
   rulesList = rulesList.concat(imported);
 }
 
-const rules = require("./rules").create(rulesList, reactive, mqtt);
+const metrics = require("./metrics").create(config.metrics);
+const rules = require("./rules").create(rulesList, reactive, mqtt, metrics);
 const http = require("./http").create(rootState, rules, config.http.port);
 const ticker = require("./ticker").create(rootState, reactive);
 

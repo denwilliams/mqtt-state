@@ -3,7 +3,7 @@ const { Gauge } = require("prom-client");
 const types = require("./rule-types");
 const subrules = require("./subrules");
 
-exports.create = (rulesList, reactive, mqtt) => {
+exports.create = (rulesList, reactive, mqtt, metrics) => {
   const state = {};
   let emitMqtt = false;
   const dependencyTree = {};
@@ -56,13 +56,7 @@ exports.create = (rulesList, reactive, mqtt) => {
     //   help: 'metric_help'
     // });
 
-    let gauge;
-    if (!rule.hidden) {
-      gauge = new Gauge({
-        name: rule.key.replace(/\//g, "_"),
-        help: "metric_help"
-      });
-    }
+    const gauge = getMetric(rule, metrics);
 
     const options = {
       retain: rule.retain
@@ -125,3 +119,22 @@ exports.create = (rulesList, reactive, mqtt) => {
     }
   };
 };
+
+function getMetric(rule, metrics) {
+  if (rule.hidden) return null;
+
+  if (!rule.metric) {
+    return new Gauge({
+      name: rule.key.replace(/\//g, "_"),
+      help: "metric_help"
+    });
+  }
+
+  const existingMetric = metrics[rule.metric.name];
+
+  return {
+    set(value) {
+      existingMetric.set(rule.metric.labels, value);
+    }
+  };
+}
