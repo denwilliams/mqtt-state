@@ -13,7 +13,7 @@ http:
 metrics:
   - name: temperature
     help: Current temperature
-    labels:
+    labelNames:
       - room
       - zone
 rules:
