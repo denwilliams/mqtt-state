@@ -19,5 +19,6 @@ exports.range = require("./range");
 exports.switch = require("./switch");
 exports.throttle = require("./throttle");
 exports.timeofday = require("./timeofday");
+exports.toggle = require("./toggle");
 
 exports["parallel-switch"] = require("./parallel-switch");
