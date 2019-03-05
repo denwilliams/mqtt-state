@@ -1,7 +1,7 @@
 {
   "name": "mqtt-state",
   "description": "State management for home automation based on MQTT input/output.",
-  "version": "2.3.1",
+  "version": "2.4.0",
   "main": "main.js",
   "dependencies": {
     "eslint": "^5.3.0",
