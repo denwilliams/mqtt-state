@@ -1,9 +1,12 @@
 const express = require("express");
+const cors = require("cors");
 const { register } = require("prom-client");
 const chartTemplate = require("./chart-template");
 
 exports.create = (rootState, rules, port = 3000) => {
   const app = express();
+
+  app.use(cors());
 
   app.use((req, res, next) => {
     if (req.query.accept) {
