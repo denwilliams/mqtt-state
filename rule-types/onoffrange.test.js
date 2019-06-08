@@ -139,3 +139,74 @@ test("becomes false true if value crosses midpoint from high", t => {
   rootState.setValue("root/input/onoffrange", 15);
   t.is(rules.getState()[t.context.output], false);
 });
+
+test("returns off return value when defined", t => {
+  const { createRules } = t.context;
+  const rules = createRules([
+    {
+      key: t.context.output,
+      type: "onoffrange",
+      source: "root/input/onoffrange",
+      values: {
+        low: 10,
+        mid: 15,
+        high: 20
+      },
+      returns: {
+        low: "low",
+        off: "off",
+        high: "high"
+      }
+    }
+  ]);
+
+  t.is(rules.getState()[t.context.output], "off");
+});
+
+test("returns high return value when defined", t => {
+  const { createRules, rootState } = t.context;
+  const rules = createRules([
+    {
+      key: t.context.output,
+      type: "onoffrange",
+      source: "root/input/onoffrange",
+      values: {
+        low: 10,
+        mid: 15,
+        high: 20
+      },
+      returns: {
+        low: "low",
+        off: "off",
+        high: "high"
+      }
+    }
+  ]);
+
+  rootState.setValue("root/input/onoffrange", 25);
+  t.is(rules.getState()[t.context.output], "high");
+});
+
+test("returns low return value when defined", t => {
+  const { createRules, rootState } = t.context;
+  const rules = createRules([
+    {
+      key: t.context.output,
+      type: "onoffrange",
+      source: "root/input/onoffrange",
+      values: {
+        low: 10,
+        mid: 15,
+        high: 20
+      },
+      returns: {
+        low: "low",
+        off: "off",
+        high: "high"
+      }
+    }
+  ]);
+
+  rootState.setValue("root/input/onoffrange", 5);
+  t.is(rules.getState()[t.context.output], "low");
+});
