@@ -12,6 +12,7 @@ exports.filter = require("./filter");
 exports.match = require("./match");
 exports.merge = require("./merge");
 exports["merge-switch"] = require("./merge-switch");
+exports["minutes-since"] = require("./minutes-since");
 exports.onoffauto = require("./onoffauto");
 exports.onoffrange = require("./onoffrange");
 exports.pick = require("./pick");
@@ -19,7 +20,6 @@ exports.range = require("./range");
 exports.switch = require("./switch");
 exports.throttle = require("./throttle");
 exports.timeofday = require("./timeofday");
-exports.timesince = require("./timesince");
 exports.toggle = require("./toggle");
 
 exports["parallel-switch"] = require("./parallel-switch");

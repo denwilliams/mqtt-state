@@ -5,7 +5,7 @@ module.exports = (rule, reactive) => {
   const { source } = rule;
 
   const sourceBinding = reactive.getBinding(source);
-  const tickBinding = reactive.getBinding("root/tick/minutes");
+  const tickBinding = reactive.getBinding("root/ticker/minutes");
 
   return combineLatest(sourceBinding, tickBinding).pipe(
     map(values => {
@@ -13,7 +13,7 @@ module.exports = (rule, reactive) => {
       const dateFrom = new Date(sourceDate).getTime();
       const dateTo = Date.now();
 
-      return Math.round((dateTo - dateFrom) / 1000);
+      return Math.round((dateTo - dateFrom) / 60000);
     })
   );
 };
