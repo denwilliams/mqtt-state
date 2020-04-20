@@ -64,3 +64,5 @@ state.json
 config.yml
 
 .vscode
+
+lib/
