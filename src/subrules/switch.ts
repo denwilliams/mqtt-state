@@ -1,6 +1,8 @@
-import { RuleDetails } from "../types";
+import { SwitchRule, MatchRule, WithDetails } from "../types";
 
-export function _switch(rule: RuleDetails) {
+export function _switch(
+  rule: WithDetails<SwitchRule>
+): WithDetails<MatchRule>[] {
   return Object.keys(rule.cases).map((key) => {
     return {
       key: rule.key + "/" + key,

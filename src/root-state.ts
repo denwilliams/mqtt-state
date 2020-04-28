@@ -1,5 +1,7 @@
 import { createStore } from "redux";
 import { RootState, StateValues } from "./types";
+import { observable } from "rxjs";
+import { Symbol } from "symbol-observable";
 
 export function create(initialState: StateValues): RootState {
   function setToValue(obj: StateValues, key: string, value: any) {
@@ -25,6 +27,14 @@ export function create(initialState: StateValues): RootState {
   }
 
   const store = createStore(appState, initialState);
+
+  // Can't seem to find a way around this hack.
+  // Seems Rxjs uses a different symbol with the current versions of the 2
+  const storeAny = store as any;
+  if (!storeAny[observable]) {
+    console.debug("Need hack for observable symbol");
+    storeAny[observable] = store[Symbol.observable];
+  }
 
   // const unsubscribe = store.subscribe(function () {
   //   console.log(store.getState());

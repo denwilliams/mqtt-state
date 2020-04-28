@@ -1,26 +1,21 @@
 import anyTest, { TestInterface } from "ava";
 import { beforeEach, TestContext } from "./_test-helper";
-import { create as createRules } from "../rules";
 const test = anyTest as TestInterface<TestContext>;
 
 test.beforeEach(beforeEach);
 
 test("outputs from any of the sources", (t) => {
-  const { mockMqtt, reactive, rootState } = t.context;
-  const rules = createRules(
-    [
-      { key: "output/all/1", type: "all", sources: ["root/input/all/a"] },
-      { key: "output/all/2", type: "all", sources: ["root/input/all/b"] },
-      {
-        key: "output/all/3",
-        type: "all",
-        sources: ["root/input/all/c", "root/input/all/b"],
-      },
-      { key: "output/all/4", type: "all", sources: ["root/input/all/c"] },
-    ],
-    reactive,
-    mockMqtt
-  );
+  const { rootState } = t.context;
+  const rules = t.context.createRules([
+    { key: "output/all/1", type: "all", sources: ["root/input/all/a"] },
+    { key: "output/all/2", type: "all", sources: ["root/input/all/b"] },
+    {
+      key: "output/all/3",
+      type: "all",
+      sources: ["root/input/all/c", "root/input/all/b"],
+    },
+    { key: "output/all/4", type: "all", sources: ["root/input/all/c"] },
+  ]);
   rootState.setValue("root/input/all/a", 123);
   rootState.setValue("root/input/all/b", 456);
 
@@ -31,19 +26,15 @@ test("outputs from any of the sources", (t) => {
 });
 
 test("is the last value of any source", (t) => {
-  const { mockMqtt, reactive, rootState } = t.context;
-  const rules = createRules(
-    [
-      {
-        key: "output/all/last/1",
-        type: "all",
-        sources: ["root/input/all/a", "root/input/all/b"],
-      },
-      { key: "output/all/last/2", type: "all", sources: ["root/input/all/a"] },
-    ],
-    reactive,
-    mockMqtt
-  );
+  const { rootState } = t.context;
+  const rules = t.context.createRules([
+    {
+      key: "output/all/last/1",
+      type: "all",
+      sources: ["root/input/all/a", "root/input/all/b"],
+    },
+    { key: "output/all/last/2", type: "all", sources: ["root/input/all/a"] },
+  ]);
   rootState.setValue("root/input/all/a", 123);
   rootState.setValue("root/input/all/b", 456);
 

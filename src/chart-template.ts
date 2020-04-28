@@ -1,6 +1,19 @@
-export function render(dependencyTree) {
-  const nodes = [{ id: "root", label: "root" }];
-  const edges = [];
+import { DependencyTree } from "./types";
+
+interface Node {
+  id: string;
+  label: string;
+  color?: string;
+}
+
+interface Edge {
+  from: string;
+  to: string;
+}
+
+export function render(dependencyTree: DependencyTree) {
+  const nodes: Node[] = [{ id: "root", label: "root" }];
+  const edges: Edge[] = [];
 
   Object.entries(dependencyTree).forEach(([key, dep]) => {
     const isRoot = key.startsWith("root");

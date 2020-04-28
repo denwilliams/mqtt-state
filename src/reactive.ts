@@ -1,12 +1,12 @@
-import { from, Observable } from "rxjs";
+import { from, Observable, ObservableInput } from "rxjs";
 import { map, distinctUntilChanged } from "rxjs/operators";
-import { RootState } from "./types";
+import { RootState, Reactive } from "./types";
 
-export function create(rootState: RootState) {
+export function create(rootState: RootState): Reactive {
   const bindings: Record<string, Observable<any>> = {};
 
-  const state$ = from(rootState.store);
-  // state$.unsubscribe();
+  const input: ObservableInput<Record<string, any>> = rootState.store as any;
+  const state$: Observable<Record<string, any>> = from(input);
 
   function getRootBinding(path: string): Observable<any> {
     const key = path.startsWith("root/") ? path : `root/${path}`;

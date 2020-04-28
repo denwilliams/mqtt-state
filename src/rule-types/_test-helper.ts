@@ -1,6 +1,6 @@
 import { create as createReactive } from "../reactive";
 import { create as createRootState } from "../root-state";
-import { create as createRules } from "../rules";
+import { Rules } from "../rules";
 import { ulid } from "ulid";
 import { RuleDetails, RootState, Reactive } from "../types";
 
@@ -32,7 +32,7 @@ export function beforeEach(t: { context: any }) {
   t.context.reactive = reactive;
 
   t.context.createRules = (rulesList: RuleDetails[]) =>
-    createRules(rulesList, reactive, mockMqtt);
+    new Rules(rulesList, reactive, mockMqtt, {});
 
   t.context.output = "output/" + ulid();
 }

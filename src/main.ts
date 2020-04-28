@@ -6,7 +6,7 @@ import { create as createRootState } from "./root-state";
 import { Mqtt } from "./mqtt";
 import { create as createReactive } from "./reactive";
 import { create as createMetrics } from "./metrics";
-import { create as createRules } from "./rules";
+import { Rules } from "./rules";
 import { create as createHttp } from "./http";
 import { create as createTicker } from "./ticker";
 import { RuleDetails, Config } from "./types";
@@ -41,7 +41,7 @@ for (const rule of config.rules) {
 }
 
 const metrics = createMetrics(config.metrics);
-const rules = createRules(rulesList, reactive, mqtt, metrics);
+const rules = new Rules(rulesList, reactive, mqtt, metrics);
 const http = createHttp(rootState, rules, config.http.port);
 const ticker = createTicker(rootState, reactive);
 

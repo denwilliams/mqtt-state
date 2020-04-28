@@ -38,12 +38,12 @@ export function onoffrange(rule: OnOffRangeRule, reactive: Reactive) {
     }
 
     // looking for on
-    if (value < low) {
+    if (low !== undefined && value < low) {
       lastState = STATE_LOW;
       direction = DIRECTION_UP;
     }
 
-    if (value > high) {
+    if (high !== undefined && value > high) {
       lastState = STATE_HIGH;
       direction = DIRECTION_DOWN;
     }

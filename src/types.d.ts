@@ -4,6 +4,14 @@ import { Observable } from "rxjs";
 
 export type StateValues = Record<string, any>;
 
+interface Dependency {
+  hidden?: boolean;
+  retain?: boolean;
+  parents: string[];
+}
+
+export type DependencyTree = Record<string, Dependency>;
+
 export interface Unsubscribe {
   (): void;
 }
@@ -30,12 +38,14 @@ export interface Rules {
   stop(): Promise<void>;
   getState(): StateValues;
   getList(): RuleDetails[];
-  getDependencyTree(): {};
+  getDependencyTree(): DependencyTree;
 }
 
 export interface Reactive {
+  state$: Observable<Record<string, any>>;
   getBinding(source: string): Observable<any>;
   getRootBinding(key: string): Observable<any>;
+  setBinding(path: string, stream: Observable<any>): void;
 }
 
 export type QoS = 0 | 1 | 2;
@@ -87,8 +97,15 @@ export interface Config {
   };
 }
 
+export interface BaseRule {
+  type: string;
+  source?: string;
+  sources?: string[];
+}
+
 export interface ActivityRule {
   type: "activity";
+  source?: undefined;
   sources: string[];
   interval: number;
   delay?: number;
@@ -98,21 +115,25 @@ export interface ActivityRule {
 export interface AliasRule {
   type: "alias";
   source: string;
+  sources?: undefined;
 }
 
 export interface AllRule {
   type: "all";
+  source?: undefined;
   sources: string[];
 }
 
 export interface BoolRule {
   type: "bool";
   source: string;
+  sources?: undefined;
 }
 
 export interface CalculationRule {
   type: "calculation";
   source: string;
+  sources?: undefined;
   op: ">" | "<" | ">=" | "<=" | "==" | "===";
   value: any;
 }
@@ -120,26 +141,32 @@ export interface CalculationRule {
 export interface CounterRule {
   type: "counter";
   source: string;
+  sources?: undefined;
 }
 
 export interface DoWRule {
   type: "dayofweek";
   source: string;
+  sources?: undefined;
   days: number[];
 }
 
 export interface DebounceRule {
   type: "debounce";
   source: string;
+  sources?: undefined;
   interval: number;
 }
 
 export interface FilterRule {
   type: "filter";
   source: string;
+  sources?: undefined;
   regexp: string;
 }
 export interface LogicalRule {
+  type: "logical";
+  source?: undefined;
   sources: string[];
   op: "AND" | "OR";
 }
@@ -147,36 +174,53 @@ export interface LogicalRule {
 export interface MatchRule {
   type: "match";
   source: string;
+  sources?: undefined;
   regexp: string;
 }
 
 export interface MergeRule {
   type: "merge";
-  source: string;
+  source?: undefined;
   sources: string[];
+}
+
+export interface MergeSwitchRule {
+  type: "merge-switch";
+  source?: undefined;
+  sources?: undefined;
+  cases: {
+    source: string;
+    value: string | number;
+    regexp: string;
+  }[];
 }
 
 export interface MinutesSinceRule {
   type: "minutessince";
   source: string;
+  sources?: undefined;
 }
 
 export interface NotRule {
   type: "not";
   source: string;
+  sources?: undefined;
 }
 
 export interface OnOffAutoRule {
   type: "onoffauto";
   source: string;
+  sources?: undefined;
   auto: string;
 }
 
 export interface OnOffRangeRule {
+  type: "onoffrange";
   source: string;
+  sources?: undefined;
   values: {
     low?: number;
-    mid?: number;
+    mid: number;
     high?: number;
   };
   returns: {
@@ -186,15 +230,44 @@ export interface OnOffRangeRule {
   };
 }
 
+export type ParallelSwitchCase =
+  | ActivityRule
+  | AliasRule
+  | BoolRule
+  | CalculationRule
+  | DoWRule
+  | DebounceRule
+  | LogicalRule
+  | NotRule
+  | FilterRule
+  | MatchRule
+  | MergeRule
+  | MergeSwitchRule
+  | OnOffRangeRule
+  | PickRule
+  | RangeRule
+  | SwitchRule
+  | ThrottleRule
+  | ToDRule;
+
+export interface ParallelSwitchRule {
+  type: "parallel-switch";
+  source: string;
+  sources?: undefined;
+  cases: Record<string, ParallelSwitchCase>;
+}
+
 export interface PickRule {
   type: "pick";
   source: string;
+  sources?: undefined;
   field: string;
 }
 
 export interface RangeRule {
   type: "range";
   source: string;
+  sources?: undefined;
   outside?: boolean;
   values: [number, number];
 }
@@ -202,26 +275,39 @@ export interface RangeRule {
 export interface SwitchRule {
   type: "switch";
   source: string;
+  sources?: undefined;
   cases: Record<string, string>;
 }
 
 export interface ThrottleRule {
   type: "throttle";
   source: string;
+  sources?: undefined;
   interval: number;
 }
 
 export interface ToggleRule {
   type: "filter";
   source: string;
+  sources?: undefined;
+}
+
+export interface ToDRule {
+  type: "timeofday";
+  source: string;
+  sources?: undefined;
+  outside?: boolean;
+  values: [number, number];
 }
 
 export interface ChainRule {
   type: "chain";
   source: string;
+  sources?: undefined;
+  rules: Rule[];
 }
 
-export type RuleDetails = (
+export type Rule =
   | ActivityRule
   | AliasRule
   | AllRule
@@ -229,10 +315,12 @@ export type RuleDetails = (
   | CalculationRule
   | CounterRule
   | DoWRule
-  | ChainRule
-) & {
+  | SwitchRule
+  | ChainRule;
+
+export type RuleOptions = {
   key: string;
-  import: undefined;
+  import?: undefined;
   hidden?: boolean;
   metric?: {
     name: string;
@@ -242,6 +330,11 @@ export type RuleDetails = (
   sources?: string[];
   retain?: boolean;
 };
+
+export type WithDetails<T> = T & RuleOptions;
+
+export type RuleDetails = WithDetails<Rule>;
+
 // interval?: number;
 // sources?: any;
 // delay?: number;

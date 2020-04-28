@@ -48,7 +48,7 @@ export class Mqtt implements MqttEmitter, Startable {
   }
 
   emit(key: string, value: any, options?: EmitOptions) {
-    const publishOpts: IClientPublishOptions | undefined = options;
-    this.client?.publish(key, JSON.stringify(value), publishOpts);
+    const publishOpts: IClientPublishOptions = options || { qos: 2 };
+    this.client?.publish(key, JSON.stringify(value), publishOpts, undefined);
   }
 }

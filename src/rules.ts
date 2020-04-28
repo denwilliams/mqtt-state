@@ -1,5 +1,5 @@
 import { Gauge } from "prom-client";
-import * as types from "./rule-types";
+import { getFactoryForType } from "./rule-types/factory";
 import * as subrules from "./subrules";
 import {
   Reactive,
@@ -8,22 +8,27 @@ import {
   MqttEmitter,
   RuleDetails,
   Metrics,
+  QoS,
+  ChainRule,
+  WithDetails,
+  DependencyTree,
 } from "./types";
+import { Observable } from "rxjs";
 
 export class Rules implements IRules {
   private emitMqtt: boolean = false;
   private state: StateValues = {};
-  private dependencyTree = {};
+  private dependencyTree: DependencyTree = {};
 
   constructor(
     private rulesList: RuleDetails[],
-    reactive: Reactive,
-    mqtt: MqttEmitter,
-    metrics: Record<string, Gauge<string>>
+    private reactive: Reactive,
+    private mqtt: MqttEmitter,
+    private metrics: Record<string, Gauge<string>>
   ) {
     // for now rules need to appear in dependency order
     for (let rule of rulesList) {
-      this.bindRule(rule, reactive);
+      this.bindRule(rule);
     }
   }
 
@@ -53,13 +58,12 @@ export class Rules implements IRules {
     return this.dependencyTree;
   }
 
-  private bindRule(rule: RuleDetails, reactive: Reactive) {
-    const { type: ruleType } = rule;
-    if (ruleType === "chain") {
-      return bindChain(rule);
+  private bindRule(rule: RuleDetails) {
+    if (rule.type === "chain") {
+      return this.bindChain(rule);
     }
 
-    const ruleFactory = types[ruleType];
+    const ruleFactory = getFactoryForType(rule.type);
 
     if (!ruleFactory) {
       // eslint-disable-next-line no-console
@@ -67,23 +71,26 @@ export class Rules implements IRules {
       return;
     }
 
-    const stream = ruleFactory(rule, reactive);
+    const stream: Observable<any> = ruleFactory(rule, this.reactive);
 
     // TODO: move logic to rules
-    const dependency = dependencyTree[rule.key] || {};
-    dependencyTree[rule.key] = dependency;
+    const dependency = this.dependencyTree[rule.key] || {};
+    this.dependencyTree[rule.key] = dependency;
     dependency.hidden = rule.hidden;
     dependency.retain = rule.retain;
     dependency.parents = [];
-    const addParent = (parent) => {
+
+    const addParent = (parent: string) => {
       dependency.parents.push(parent);
-      if (!dependencyTree[parent]) {
-        dependencyTree[parent] = { parents: [] };
+      if (!this.dependencyTree[parent]) {
+        this.dependencyTree[parent] = { parents: [] };
       }
     };
+
     if (rule.source) {
       addParent(rule.source);
     }
+
     if (rule.sources) {
       if (Array.isArray(rule.sources)) {
         rule.sources.forEach(addParent);
@@ -100,43 +107,46 @@ export class Rules implements IRules {
     //   help: 'metric_help'
     // });
 
-    const gauge = getMetric(rule, metrics);
+    const gauge = getMetric(rule, this.metrics);
 
     const options = {
-      qos: 2,
+      qos: 2 as QoS,
       retain: rule.retain,
     };
 
     stream.subscribe((n) => {
-      state[rule.key] = n;
+      this.state[rule.key] = n;
       // eslint-disable-next-line no-console
       console.log(rule.key, n);
 
-      if (this.emitMqtt) mqtt.emit(rule.key, n, options);
+      if (this.emitMqtt) this.mqtt.emit(rule.key, n, options);
 
       if (!gauge) return;
       else if (typeof n === "number") gauge.set(n);
       else if (typeof n === "boolean") gauge.set(n ? 1 : 0);
     });
-    reactive.setBinding(rule.key, stream);
+    this.reactive.setBinding(rule.key, stream);
 
-    const subruleFactory = subrules[rule.type];
-    if (!subruleFactory) return;
+    if (rule.type === "switch") {
+      const subruleFactory = subrules[rule.type];
+      if (!subruleFactory) return;
 
-    subruleFactory(rule).forEach(bindRule);
+      subruleFactory(rule).forEach((r: WithDetails<any>) => this.bindRule(r));
+    }
   }
 
-  private bindChain(chain) {
+  private bindChain(chain: WithDetails<ChainRule>) {
     const { key: chainKey, source } = chain;
     let index = 0;
-    const lastKey = () => chainKey + "/" + index;
-    const nextKey = () => chainKey + "/" + ++index;
+    const lastKey = chainKey + "/" + index;
+    const nextKey = chainKey + "/" + ++index;
 
-    bindRule({ key: lastKey(), type: "alias", source });
+    const rootRule: RuleDetails = { key: lastKey, type: "alias", source };
+    this.bindRule(rootRule);
     chain.rules.forEach((rule) => {
-      const source = lastKey();
-      const key = nextKey();
-      bindRule(Object.assign({}, rule, { key, source }));
+      const source = lastKey;
+      const key = nextKey;
+      this.bindRule(Object.assign({}, rule, { key, source }));
     });
   }
 }
@@ -158,7 +168,7 @@ function getMetric(rule: RuleDetails, metrics: Metrics) {
     /**
      * @param {any} value
      */
-    set(value) {
+    set(value: number) {
       existingMetric.set(labels, value);
     },
   };

@@ -1,6 +1,6 @@
 import { combineLatest } from "rxjs";
 import { map } from "rxjs/operators";
-import { Reactive } from "../types";
+import { Reactive, MergeSwitchRule } from "../types";
 
 /*
 - key: my/key
@@ -14,15 +14,7 @@ import { Reactive } from "../types";
       regexp: matchthat
 */
 
-interface Rule {
-  cases: {
-    source: string;
-    value: string | number;
-    regexp: string;
-  }[];
-}
-
-export function mergeSwitch(rule: Rule, reactive: Reactive) {
+export function mergeSwitch(rule: MergeSwitchRule, reactive: Reactive) {
   const sources = rule.cases.map((c) => c.source);
   const values = rule.cases.map((c) => c.value);
   const matchers = rule.cases.map((c) => new RegExp(c.regexp));

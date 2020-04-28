@@ -1,15 +1,9 @@
 // Might need to be root - emit time of day as decimal once per minute
 // insde/outside pair of numbers
 import { distinctUntilChanged, map } from "rxjs/operators";
-import { Reactive } from "../types";
+import { Reactive, ToDRule } from "../types";
 
-interface Rule {
-  outside?: boolean;
-  values: [number, number];
-  source: string;
-}
-
-export function timeofday(rule: Rule, reactive: Reactive) {
+export function timeofday(rule: ToDRule, reactive: Reactive) {
   const a = rule.values[0];
   const b = rule.values[1];
   let a2 = a;
