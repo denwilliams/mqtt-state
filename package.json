@@ -1,8 +1,8 @@
 {
   "name": "mqtt-state",
   "description": "State management for home automation based on MQTT input/output.",
-  "version": "3.0.0-beta1",
-  "main": "main.js",
+  "version": "3.0.0",
+  "main": "lib/main.js",
   "dependencies": {
     "cors": "^2.8.5",
     "eslint": "^6.8.0",
@@ -31,7 +31,7 @@
     "test": "nyc ava -v"
   },
   "bin": {
-    "mqtt-state": "./main.js"
+    "mqtt-state": "./lib/main.js"
   },
   "engines": {
     "node": ">=8.6.0"
