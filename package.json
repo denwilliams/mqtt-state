@@ -28,6 +28,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "prepack": "chmod u+x lib/main.js",
     "test": "nyc ava -v"
   },
   "bin": {
