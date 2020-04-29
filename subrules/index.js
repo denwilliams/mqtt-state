@@ -1,1 +1,0 @@
-exports.switch = require("./switch");
