@@ -12,6 +12,7 @@ import {
   ChainRule,
   WithDetails,
   DependencyTree,
+  RootState,
 } from "./types";
 import { Observable } from "rxjs";
 
@@ -24,6 +25,7 @@ export class Rules implements IRules {
     private rulesList: RuleDetails[],
     private reactive: Reactive,
     private mqtt: MqttEmitter,
+    private rootState: RootState,
     private metrics: Record<string, Gauge<string>>
   ) {
     // for now rules need to appear in dependency order
@@ -51,6 +53,7 @@ export class Rules implements IRules {
   }
 
   getValue = (path: string) => {
+    if (path.startsWith("root/")) return this.rootState.getValue(path);
     return this.state[path];
   };
 

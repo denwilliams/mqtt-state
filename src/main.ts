@@ -55,7 +55,7 @@ async function main() {
   }
 
   const metrics = createMetrics(config.metrics);
-  const rules = new Rules(rulesList, reactive, mqtt, metrics);
+  const rules = new Rules(rulesList, reactive, mqtt, rootState, metrics);
   const http = createHttp(rootState, rules, config.http.port);
   const ticker = createTicker(rootState, reactive);
 

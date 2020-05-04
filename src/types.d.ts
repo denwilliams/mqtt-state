@@ -159,12 +159,6 @@ export interface DebounceRule {
   interval: number;
 }
 
-export interface ExternalToggleRule {
-  type: "external-toggle";
-  source: string;
-  sources?: undefined;
-}
-
 export interface FilterRule {
   type: "filter";
   source: string;
@@ -296,6 +290,7 @@ export interface ThrottleRule {
 export interface ToggleRule {
   type: "filter";
   source: string;
+  toggle_source?: string;
   sources?: undefined;
 }
 
@@ -323,7 +318,6 @@ export type Rule =
   | CalculationRule
   | CounterRule
   | DoWRule
-  | ExternalToggleRule
   | SwitchRule;
 
 export type RuleOptions = {

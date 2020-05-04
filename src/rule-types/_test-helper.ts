@@ -32,7 +32,7 @@ export function beforeEach(t: { context: any }) {
   t.context.reactive = reactive;
 
   t.context.createRules = (rulesList: RuleDetails[]) =>
-    new Rules(rulesList, reactive, mockMqtt, {});
+    new Rules(rulesList, reactive, mockMqtt, rootState, {});
 
   t.context.output = "output/" + ulid();
 }
