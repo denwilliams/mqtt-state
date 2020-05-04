@@ -66,3 +66,4 @@ config.yml
 .vscode
 
 lib/
+docs/

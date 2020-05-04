@@ -1,0 +1,3 @@
+site_name: MQTT State
+docs_dir: src
+theme: material
