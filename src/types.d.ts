@@ -76,9 +76,9 @@ export interface Startable {
 
 export type Metrics = Record<string, Gauge<string>>;
 
-export interface FileState {
+export interface PersistedState {
   save(state: StateValues): void;
-  load(): StateValues;
+  load(): Promise<StateValues>;
 }
 
 export interface Config {
