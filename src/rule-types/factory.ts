@@ -5,7 +5,11 @@ import { types } from "./index";
 
 type TypeKey = keyof typeof types;
 
-export type RuleFactory = (rule: Rule, reactive: Reactive) => Observable<any>;
+export type RuleFactory = (
+  rule: Rule,
+  reactive: Reactive,
+  getValue: (path: string) => any | undefined
+) => Observable<any>;
 
 export function getFactoryForType(key: TypeKey): RuleFactory | undefined {
   const factory = types[key];

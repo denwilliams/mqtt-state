@@ -50,6 +50,9 @@ export function create(initialState: StateValues): RootState {
     getState(): StateValues {
       return store.getState();
     },
+    getValue(path: string) {
+      return store.getState()[path];
+    },
     subscribe: store.subscribe.bind(store),
   };
 }

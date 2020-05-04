@@ -18,6 +18,7 @@ export interface Unsubscribe {
 
 export interface RootState {
   getState(): StateValues;
+  getValue(path: string): any | undefined;
   setValue(path: string, value: any): void;
   subscribe: (listener: () => void) => Unsubscribe;
   store: Store<Record<string, any>, any>;
@@ -156,6 +157,12 @@ export interface DebounceRule {
   source: string;
   sources?: undefined;
   interval: number;
+}
+
+export interface ExternalToggleRule {
+  type: "external-toggle";
+  source: string;
+  sources?: undefined;
 }
 
 export interface FilterRule {
@@ -308,6 +315,7 @@ export interface ChainRule {
 }
 
 export type Rule =
+  | ChainRule
   | ActivityRule
   | AliasRule
   | AllRule
@@ -315,8 +323,8 @@ export type Rule =
   | CalculationRule
   | CounterRule
   | DoWRule
-  | SwitchRule
-  | ChainRule;
+  | ExternalToggleRule
+  | SwitchRule;
 
 export type RuleOptions = {
   key: string;

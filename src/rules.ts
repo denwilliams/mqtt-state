@@ -50,6 +50,10 @@ export class Rules implements IRules {
     return this.state;
   }
 
+  getValue = (path: string) => {
+    return this.state[path];
+  };
+
   getList(): RuleDetails[] {
     return this.rulesList;
   }
@@ -71,7 +75,11 @@ export class Rules implements IRules {
       return;
     }
 
-    const stream: Observable<any> = ruleFactory(rule, this.reactive);
+    const stream: Observable<any> = ruleFactory(
+      rule,
+      this.reactive,
+      this.getValue
+    );
 
     // TODO: move logic to rules
     const dependency = this.dependencyTree[rule.key] || {};
