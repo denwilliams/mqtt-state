@@ -26,7 +26,7 @@ export function create(redisUrl: string): PersistedState {
     }).pipe(throttleTime(1000, undefined, { leading: true, trailing: true }));
 
     stream.subscribe((state: StateValues) => {
-      console.log("Persisting to Redis...");
+      // console.log("Persisting to Redis...");
       client.set("mqtt-state:persistence", JSON.stringify(state), (err) => {
         if (err) console.error(err);
       });
