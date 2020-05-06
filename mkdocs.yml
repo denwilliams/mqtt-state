@@ -1,3 +1,13 @@
 site_name: MQTT State
 docs_dir: src
 theme: material
+plugins:
+  - exclude:
+      glob:
+        # - exclude/this/path/*
+        - "*.ts"
+      # regex:
+      #   - '.*\.(tmp|bin|tar)$'
+markdown_extensions:
+  - admonition
+  - codehilite

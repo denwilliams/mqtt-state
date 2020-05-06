@@ -14,14 +14,14 @@ A `boolean` value of the current state.
 
 A switch that outputs true/false on alternating presses. If the output of this were to be used to control a light it would not care if the light was turned on elsewhere (ie the toggle state is not in-sync with the light state):
 
-```yml
+```yaml
 - rule: external-toggle
   source: kitchen/wall-switch/button-press
 ```
 
 Using a wall remote button press to toggle the state of the light. In this case the toggle _is_ in sync with the light state provided `kitchen/light/is-on` is in-sync with the actual light state. eg: if there is a delay until `kitchen/light/is-on` is updated if turned on elsewhere then pressing the button again won't change anything.
 
-```yml
+```yaml
 - rule: external-toggle
   source: kitchen/wall-switch/button-press
   toggle_source: kitchen/light/is-on
