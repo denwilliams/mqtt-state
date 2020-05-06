@@ -15,7 +15,7 @@
     
     
       
-        <title>Toggle - MQTT State</title>
+        <title>Pick - MQTT State</title>
       
     
     
@@ -76,7 +76,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Toggle
+              Pick
             
           </span>
         </div>
@@ -205,18 +205,6 @@
           
           
 
-
-  <li class="md-nav__item">
-    <a href="../pick/" title="Pick" class="md-nav__link">
-      Pick
-    </a>
-  </li>
-
-        
-          
-          
-          
-
   
 
 
@@ -226,14 +214,14 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        Toggle
+        Pick
         <span class="md-nav__icon md-icon">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
         </span>
       </label>
     
-    <a href="./" title="Toggle" class="md-nav__link md-nav__link--active">
-      Toggle
+    <a href="./" title="Pick" class="md-nav__link md-nav__link--active">
+      Pick
     </a>
     
       
@@ -274,6 +262,18 @@
   
 </nav>
     
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../toggle/" title="Toggle" class="md-nav__link">
+      Toggle
+    </a>
   </li>
 
         
@@ -342,25 +342,27 @@
                   
                 
                 
-                  <h1>Toggle</h1>
+                  <h1>Pick</h1>
                 
-                <p>Toggles a value when an event is received from <code>source</code>.</p>
+                <p>Republishes a single field from a topic. Typically used to extract a primitive value from an object.</p>
 <h2 id="outputs">Outputs</h2>
-<p>A <code>boolean</code> value of the current state.</p>
+<p>A value of <code>any</code> type.</p>
 <h2 id="inputs">Inputs</h2>
-<p><code>source</code>: the topic to subscribe to for events. Note that the contents of source are ignored, so it does not matter what the output of this topic is.</p>
-<p><code>toggle_source</code> (optional): if provided the output will be the inverse of this, and no internal toggle state is managed. It is intended that the output of this toggle is used to set whatever source represents.</p>
+<p><code>source</code>: the topic to subscribe to for events.</p>
 <h2 id="examples">Examples</h2>
-<p>A switch that outputs true/false on alternating presses. If the output of this were to be used to control a light it would not care if the light was turned on elsewhere (ie the toggle state is not in-sync with the light state):</p>
-<div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">rule</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">external-toggle</span>
-  <span class="nt">source</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">kitchen/wall-switch/button-press</span>
+<p>Expose a temperature value from a sensor status update. Eg if the source provides <code>{"timestamp":"2000-01-01 00:00:00Z", "temperature": 20.3}</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">bedroom/temperature</span>
+  <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">pick</span>
+  <span class="nt">field</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">temperature</span>
+  <span class="nt">source</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">sensor-hub/tempABCD/status</span>
 </code></pre></div>
 
 
-<p>Using a wall remote button press to toggle the state of the light. In this case the toggle <em>is</em> in sync with the light state provided <code>kitchen/light/is-on</code> is in-sync with the actual light state. eg: if there is a delay until <code>kitchen/light/is-on</code> is updated if turned on elsewhere then pressing the button again won't change anything.</p>
-<div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">rule</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">external-toggle</span>
-  <span class="nt">source</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">kitchen/wall-switch/button-press</span>
-  <span class="nt">toggle_source</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">kitchen/light/is-on</span>
+<p>Works for nested values, eg if the source provides <code>{"timestamp":"2000-01-01 00:00:00Z", {"values":{"temperature": 20.3,"humidity":60}}</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">bedroom/temperature</span>
+  <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">pick</span>
+  <span class="nt">field</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">values.temperature</span>
+  <span class="nt">source</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">sensor-hub/tempABCD/status</span>
 </code></pre></div>
                 
               
@@ -380,7 +382,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../pick/" title="Pick" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../bool/" title="Bool" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -389,11 +391,25 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Pick
+                Bool
               </div>
             </div>
           </a>
         
+        
+          <a href="../toggle/" title="Toggle" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Toggle
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
         
       </nav>
     </div>
