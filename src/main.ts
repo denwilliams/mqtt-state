@@ -14,6 +14,7 @@ import { Rules } from "./rules";
 import { create as createHttp } from "./http";
 import { create as createTicker } from "./ticker";
 import { RuleDetails, Config } from "./types";
+import { loadConfig } from "./config";
 
 const readFileAsync = promisify(readFile);
 
@@ -26,8 +27,7 @@ function getPersistence(config: { data: { redis?: string; file?: string } }) {
 }
 
 async function main() {
-  const configPath = process.env.CONFIG_PATH || __dirname + "/config.yml";
-  const config: Config = yaml.safeLoad(await readFileAsync(configPath, "utf8"));
+  const config: Config = await loadConfig();
 
   const persistence = getPersistence(config);
   const rootState = createRootState(await persistence.load());
