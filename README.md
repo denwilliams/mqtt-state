@@ -12,7 +12,9 @@ Allows for transformation of MQTT input events into managed state that is output
 
 `CONFIG_PATH` - path to configuration file
 
-If not specified will default to `config.yml` in the app folder.
+`CONSUL_KEY` - new in 3.3. Load configuration from Consul at this key path.
+
+If neither specified will default to `config.yml` in the app folder.
 
 ## Installing
 
