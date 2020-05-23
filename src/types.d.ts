@@ -101,13 +101,15 @@ export interface Config {
 export interface BaseRule {
   type: string;
   source?: string;
-  sources?: string[];
+  sources?: string[] | Record<string, string>;
 }
 
 export interface ActivityRule {
   type: "activity";
-  source?: undefined;
-  sources: string[];
+  /** If only 1 source */
+  source?: string;
+  /** If multiple sources or reset... list of sources to subscribe to */
+  sources?: string[] | Record<string, string>;
   interval: number;
   delay?: number;
   initial?: boolean;
@@ -329,7 +331,7 @@ export type RuleOptions = {
     labels: Record<string, string>;
   };
   source?: string;
-  sources?: string[];
+  sources?: string[] | Record<string, string>;
   retain?: boolean;
 };
 

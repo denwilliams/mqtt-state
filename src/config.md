@@ -99,7 +99,8 @@ An array of rule definitions. The keys vary per-type, but always contain:
 
 - **.key** `string`: The of this rule. Must be unique.
 - **.type** `string`: The rule type.
-- **.source** `string|object`: The key(s) to subscribe to. For subscribed (root) topics prefix with `root/`.
+- **.source** `string`: The key to subscribe to. For subscribed (root) topics prefix with `root/`.
+- **.sources** `Array<string>|Record<string,string>`: Some rule types allow for or require multiple sources. They may take an array of keys or a map(object) of keys to subscribe to.
 - **.metric** `object`: Optionally provide a named metric to publish to. If not provided one will be created by `_`underscoring the key.
 - **.hidden** `boolean`:
 
