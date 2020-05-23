@@ -8,6 +8,8 @@ Allows for transformation of MQTT input events into managed state that is output
 
 ![Overview](src/overview.png)
 
+**[Documentation](https://www.denwilliams.net/mqtt-state/)**
+
 ## Environment
 
 `CONFIG_PATH` - path to configuration file
