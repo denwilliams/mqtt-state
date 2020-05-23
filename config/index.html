@@ -327,8 +327,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../rule-types/activity/" title="Activity" class="md-nav__link">
-      Activity
+    <a href="../rule-types/activity/" title="Activity Rule" class="md-nav__link">
+      Activity Rule
     </a>
   </li>
 
@@ -808,7 +808,8 @@
 <ul>
 <li><strong>.key</strong> <code>string</code>: The of this rule. Must be unique.</li>
 <li><strong>.type</strong> <code>string</code>: The rule type.</li>
-<li><strong>.source</strong> <code>string|object</code>: The key(s) to subscribe to. For subscribed (root) topics prefix with <code>root/</code>.</li>
+<li><strong>.source</strong> <code>string</code>: The key to subscribe to. For subscribed (root) topics prefix with <code>root/</code>.</li>
+<li><strong>.sources</strong> <code>Array&lt;string&gt;|Record&lt;string,string&gt;</code>: Some rule types allow for or require multiple sources. They may take an array of keys or a map(object) of keys to subscribe to.</li>
 <li><strong>.metric</strong> <code>object</code>: Optionally provide a named metric to publish to. If not provided one will be created by <code>_</code>underscoring the key.</li>
 <li><strong>.hidden</strong> <code>boolean</code>:</li>
 </ul>

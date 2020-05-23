@@ -15,7 +15,7 @@
     
     
       
-        <title>Activity - MQTT State</title>
+        <title>Activity Rule - MQTT State</title>
       
     
     
@@ -47,6 +47,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#activity-rule" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -71,7 +76,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Activity
+              Activity Rule
             
           </span>
         </div>
@@ -219,10 +224,45 @@
     
     <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
     
+      
     
-    <a href="./" title="Activity" class="md-nav__link md-nav__link--active">
-      Activity
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Activity Rule
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
+        </span>
+      </label>
+    
+    <a href="./" title="Activity Rule" class="md-nav__link md-nav__link--active">
+      Activity Rule
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#resetting-before-interval" class="md-nav__link">
+    Resetting Before Interval
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
     
   </li>
 
@@ -515,6 +555,38 @@
               </div>
             
             
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#resetting-before-interval" class="md-nav__link">
+    Resetting Before Interval
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
@@ -524,9 +596,17 @@
                   
                 
                 
-                  <h1>Activity</h1>
-                
-                
+                <h1 id="activity-rule">Activity Rule</h1>
+<p>Outputs <code>true</code> as soon as any activity is identified on sources.</p>
+<p>Outputs <code>false</code> after <code>interval</code> has passed.</p>
+<p>Any event received while <code>true</code> will restart/extend the <code>interval</code> again.</p>
+<p>NOTE: events with value === undefined are ignored.</p>
+<h2 id="resetting-before-interval">Resetting Before Interval</h2>
+<p>If you want to reset use a map of sources with one named "reset".</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">sources</span><span class="p">:</span>
+  <span class="nt">input</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">activity/input</span>
+  <span class="nt">reset</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">activity/reset</span>
+</code></pre></div>
                 
               
               
