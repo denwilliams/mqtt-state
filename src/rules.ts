@@ -151,7 +151,13 @@ export class Rules implements IRules {
     let index = 0;
     let lastKey = chainKey + "/" + index;
 
-    const rootRule: RuleDetails = { key: lastKey, type: "alias", source };
+    // TODO: don't need this now.
+    const rootRule: RuleDetails = {
+      key: lastKey,
+      type: "alias",
+      source,
+      hidden: true,
+    };
     this.bindRule(rootRule);
     chain.rules.forEach((rule) => {
       const source = lastKey;
