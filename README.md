@@ -6,7 +6,7 @@ Allows for transformation of MQTT input events into managed state that is output
 
 > BREAKING CHANGE IN 2.0 - now uses Accept header rather than always returning JSON. Note you can override the accept header using query string (?accept=application/json). This was primarily to allow Node-RED to continue fetch in JSON.
 
-![Overview](overview.png)
+![Overview](src/overview.png)
 
 ## Environment
 

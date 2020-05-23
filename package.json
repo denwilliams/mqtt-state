@@ -31,6 +31,7 @@
     "ulid": "^2.3.0"
   },
   "scripts": {
+    "docs": "mkdocs serve",
     "build": "tsc",
     "prepack": "chmod u+x lib/main.js",
     "test": "nyc ava -v"
