@@ -9,10 +9,12 @@ import { debounce } from "./debounce";
 import { logical } from "./logical";
 import { not } from "./not";
 import { filter } from "./filter";
+import { json } from "./json";
 import { match } from "./match";
 import { merge } from "./merge";
 import { mergeSwitch } from "./merge-switch";
 import { minutesSince } from "./minutes-since";
+import { number } from "./number";
 import { onoffauto } from "./onoffauto";
 import { onoffrange } from "./onoffrange";
 import { pick } from "./pick";
@@ -33,6 +35,7 @@ export const types = {
   counter,
   dayofweek,
   debounce,
+  json,
   logical,
   not,
   filter,
@@ -40,6 +43,7 @@ export const types = {
   merge,
   "merge-switch": mergeSwitch,
   "minutes-since": minutesSince,
+  number,
   onoffauto,
   onoffrange,
   pick,

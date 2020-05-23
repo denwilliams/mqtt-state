@@ -167,6 +167,13 @@ export interface FilterRule {
   sources?: undefined;
   regexp: string;
 }
+
+export interface JsonRule {
+  type: "json";
+  source: string;
+  sources?: undefined;
+}
+
 export interface LogicalRule {
   type: "logical";
   source?: undefined;
@@ -199,13 +206,19 @@ export interface MergeSwitchRule {
 }
 
 export interface MinutesSinceRule {
-  type: "minutessince";
+  type: "minutes-since";
   source: string;
   sources?: undefined;
 }
 
 export interface NotRule {
   type: "not";
+  source: string;
+  sources?: undefined;
+}
+
+export interface NumberRule {
+  type: "number";
   source: string;
   sources?: undefined;
 }
@@ -319,8 +332,25 @@ export type Rule =
   | BoolRule
   | CalculationRule
   | CounterRule
+  | DebounceRule
   | DoWRule
-  | SwitchRule;
+  | FilterRule
+  | JsonRule
+  | LogicalRule
+  | MatchRule
+  | MergeRule
+  | MergeSwitchRule
+  | MinutesSinceRule
+  | NotRule
+  | NumberRule
+  | OnOffAutoRule
+  | OnOffRangeRule
+  | PickRule
+  | RangeRule
+  | SwitchRule
+  | ToDRule
+  | ThrottleRule
+  | ToggleRule;
 
 export type RuleOptions = {
   key: string;
