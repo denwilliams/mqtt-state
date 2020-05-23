@@ -15,7 +15,7 @@
     
     
       
-        <title>Counter - MQTT State</title>
+        <title>Chain Rule - MQTT State</title>
       
     
     
@@ -47,6 +47,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#chain-rule" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -71,7 +76,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Counter
+              Chain Rule
             
           </span>
         </div>
@@ -272,18 +277,6 @@
           
           
 
-
-  <li class="md-nav__item">
-    <a href="../chain/" title="Chain Rule" class="md-nav__link">
-      Chain Rule
-    </a>
-  </li>
-
-        
-          
-          
-          
-
   
 
 
@@ -291,11 +284,25 @@
     
     <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
     
+      
     
-    <a href="./" title="Counter" class="md-nav__link md-nav__link--active">
-      Counter
+    
+    <a href="./" title="Chain Rule" class="md-nav__link md-nav__link--active">
+      Chain Rule
     </a>
     
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../counter/" title="Counter" class="md-nav__link">
+      Counter
+    </a>
   </li>
 
         
@@ -563,6 +570,21 @@
               </div>
             
             
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
@@ -572,9 +594,20 @@
                   
                 
                 
-                  <h1>Counter</h1>
-                
-                
+                <h1 id="chain-rule">Chain Rule</h1>
+<p>A chain is not specifically a rule, but a chain or pipeline of rules with a single input to be executed in order.</p>
+<p>Any rule that can take a single <code>source</code> can be chained, since the chain rule works by chaining the output of each step to the input of the next one.</p>
+<p>Example:</p>
+<div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">too_hot</span>
+  <span class="nt">source</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">sensor/state</span>
+  <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">chain</span>
+  <span class="nt">rules</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">pick</span>
+      <span class="nt">field</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">temperature</span>
+    <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">calculation</span>
+      <span class="nt">op</span><span class="p">:</span> <span class="s">&quot;&gt;&quot;</span>
+      <span class="nt">value</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">20</span>
+</code></pre></div>
                 
               
               
@@ -593,7 +626,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../chain/" title="Chain Rule" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../calculation/" title="Calculation" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -602,19 +635,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Chain Rule
+                Calculation
               </div>
             </div>
           </a>
         
         
-          <a href="../dayofweek/" title="Dayofweek" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../counter/" title="Counter" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Dayofweek
+                Counter
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">

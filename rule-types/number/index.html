@@ -15,7 +15,7 @@
     
     
       
-        <title>Counter - MQTT State</title>
+        <title>Number - MQTT State</title>
       
     
     
@@ -47,6 +47,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#outputs" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -71,7 +76,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Counter
+              Number
             
           </span>
         </div>
@@ -284,18 +289,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-    
-    <a href="./" title="Counter" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../counter/" title="Counter" class="md-nav__link">
       Counter
     </a>
-    
   </li>
 
         
@@ -423,11 +421,63 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../number/" title="Number" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Number
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
+        </span>
+      </label>
+    
+    <a href="./" title="Number" class="md-nav__link md-nav__link--active">
       Number
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#outputs" class="md-nav__link">
+    Outputs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inputs" class="md-nav__link">
+    Inputs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    Examples
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -563,6 +613,50 @@
               </div>
             
             
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#outputs" class="md-nav__link">
+    Outputs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inputs" class="md-nav__link">
+    Inputs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    Examples
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
@@ -572,9 +666,19 @@
                   
                 
                 
-                  <h1>Counter</h1>
+                  <h1>Number</h1>
                 
-                
+                <p>Outputs the input as explicit <code>number</code> type. Eg converts <code>"100"</code> to <code>100</code>.</p>
+<p><em>Does not emit for every source event, only when the value changes.</em></p>
+<h2 id="outputs">Outputs</h2>
+<p>A value of <code>number</code> type.</p>
+<h2 id="inputs">Inputs</h2>
+<p><code>source</code>: the topic to subscribe to for events. Can provide a value of any type.</p>
+<h2 id="examples">Examples</h2>
+<div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">status/number-value</span>
+  <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">number</span>
+  <span class="nt">source</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">some/source/string-value</span>
+</code></pre></div>
                 
               
               
@@ -593,7 +697,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../chain/" title="Chain Rule" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../not/" title="Not" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -602,19 +706,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Chain Rule
+                Not
               </div>
             </div>
           </a>
         
         
-          <a href="../dayofweek/" title="Dayofweek" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../onoffauto/" title="Onoffauto" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Dayofweek
+                Onoffauto
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">
