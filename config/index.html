@@ -1,0 +1,911 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-5.2.1">
+    
+    
+      
+        <title>Configuration - MQTT State</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.71dfd922.min.css">
+      
+      
+    
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#configuration" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href=".." title="MQTT State" class="md-header-nav__button md-logo" aria-label="MQTT State">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            MQTT State
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              Configuration
+            
+          </span>
+        </div>
+      
+    </div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+        
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="MQTT State" class="md-nav__button md-logo" aria-label="MQTT State">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    MQTT State
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="MQTT State" class="md-nav__link">
+      MQTT State
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Configuration
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
+        </span>
+      </label>
+    
+    <a href="./" title="Configuration" class="md-nav__link md-nav__link--active">
+      Configuration
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#using-file-configuration" class="md-nav__link">
+    Using File Configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="Using File Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#importing" class="md-nav__link">
+    Importing
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-consul-for-configuration" class="md-nav__link">
+    Using Consul for Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-keys" class="md-nav__link">
+    Configuration Keys
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration Keys">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mqtt" class="md-nav__link">
+    mqtt
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data" class="md-nav__link">
+    data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http" class="md-nav__link">
+    http
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metrics" class="md-nav__link">
+    metrics
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rules" class="md-nav__link">
+    rules
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../http/" title="HTTP Server and API" class="md-nav__link">
+      HTTP Server and API
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../metrics/" title="Metrics" class="md-nav__link">
+      Metrics
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../ticker/" title="Ticker" class="md-nav__link">
+      Ticker
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Rule types
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Rule types" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Rule types
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rule-types/" title="Listing" class="md-nav__link">
+      Listing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rule-types/activity/" title="Activity" class="md-nav__link">
+      Activity
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rule-types/alias/" title="Alias" class="md-nav__link">
+      Alias
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rule-types/all/" title="All" class="md-nav__link">
+      All
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rule-types/bool/" title="Bool" class="md-nav__link">
+      Bool
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rule-types/calculation/" title="Calculation" class="md-nav__link">
+      Calculation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rule-types/counter/" title="Counter" class="md-nav__link">
+      Counter
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rule-types/dayofweek/" title="Dayofweek" class="md-nav__link">
+      Dayofweek
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rule-types/debounce/" title="Debounce" class="md-nav__link">
+      Debounce
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rule-types/filter/" title="Filter" class="md-nav__link">
+      Filter
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rule-types/logical/" title="Logical" class="md-nav__link">
+      Logical
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rule-types/match/" title="Match" class="md-nav__link">
+      Match
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rule-types/merge-switch/" title="Merge switch" class="md-nav__link">
+      Merge switch
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rule-types/merge/" title="Merge" class="md-nav__link">
+      Merge
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rule-types/minutes-since/" title="Minutes since" class="md-nav__link">
+      Minutes since
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rule-types/not/" title="Not" class="md-nav__link">
+      Not
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rule-types/onoffauto/" title="Onoffauto" class="md-nav__link">
+      Onoffauto
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rule-types/onoffrange/" title="Onoffrange" class="md-nav__link">
+      Onoffrange
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rule-types/parallel-switch/" title="Parallel switch" class="md-nav__link">
+      Parallel switch
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rule-types/pick/" title="Pick" class="md-nav__link">
+      Pick
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rule-types/range/" title="Range" class="md-nav__link">
+      Range
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rule-types/switch/" title="Switch" class="md-nav__link">
+      Switch
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rule-types/throttle/" title="Throttle" class="md-nav__link">
+      Throttle
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rule-types/timeofday/" title="Timeofday" class="md-nav__link">
+      Timeofday
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rule-types/toggle/" title="Toggle" class="md-nav__link">
+      Toggle
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#using-file-configuration" class="md-nav__link">
+    Using File Configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="Using File Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#importing" class="md-nav__link">
+    Importing
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-consul-for-configuration" class="md-nav__link">
+    Using Consul for Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-keys" class="md-nav__link">
+    Configuration Keys
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration Keys">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mqtt" class="md-nav__link">
+    mqtt
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data" class="md-nav__link">
+    data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http" class="md-nav__link">
+    http
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metrics" class="md-nav__link">
+    metrics
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rules" class="md-nav__link">
+    rules
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  
+                
+                
+                <h1 id="configuration">Configuration</h1>
+<p>Configuration is provided in YAML format, either as a static file or via the Consul key-value store.</p>
+<p>See config.example.yml for an example configuration.</p>
+<h2 id="using-file-configuration">Using File Configuration</h2>
+<p>Use environment variable <code>CONFIG_PATH</code> to specify a path to configuration file.</p>
+<p>If not specified it will look for <code>config.yml</code> in the app folder.</p>
+<h3 id="importing">Importing</h3>
+<p>To break up large config files you can import rules from separate files:</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">rules</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">import</span><span class="p">:</span> <span class="s">&quot;/path/to/rules.yml&quot;</span>
+</code></pre></div>
+
+
+<h2 id="using-consul-for-configuration">Using Consul for Configuration</h2>
+<p>Use environment variable <code>CONSUL_KEY</code> to specify the key in the Consul KV store where configuration is located.</p>
+<h2 id="configuration-keys">Configuration Keys</h2>
+<p>No matter where the configuration is located, the keys are the same.</p>
+<h3 id="mqtt">mqtt</h3>
+<p>MQTT configuration.</p>
+<ul>
+<li><strong>mqtt.uri</strong> <code>string</code>: URI/URL for the MQTT server. May contain credentials.</li>
+<li><strong>mqtt.subscriptions</strong> <code>Array&lt;string&gt;</code>: List of topics to subscribe to (+/# wildcards allowed). Anything received here becomes the root (persisted) state and a starting point for any rules. Without any subscriptions you cannot define any rules.</li>
+</ul>
+<p>Example:</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">mqtt</span><span class="p">:</span>
+  <span class="nt">uri</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">mqtt://192.168.86.123</span>
+  <span class="nt">subscriptions</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">value/#</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">home/sensor/#</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">rfsensor/+/rfin</span>
+</code></pre></div>
+
+
+<h3 id="data">data</h3>
+<p>Data storage/persistence options. You need to provide at least 1.</p>
+<ul>
+<li><strong>data.file</strong> <code>string</code>: Path to file where root state can be persisted.</li>
+<li><strong>data.redis</strong> <code>string</code>: Redis URL to persist using Redis.</li>
+</ul>
+<p>Examples:</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">data</span><span class="p">:</span>
+  <span class="nt">file</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/usr/local/lib/mqtt-state/state.json</span>
+</code></pre></div>
+
+
+<div class="codehilite"><pre><span></span><code><span class="nt">data</span><span class="p">:</span>
+  <span class="nt">redis</span><span class="p">:</span> <span class="s">&quot;redis://192.168.1.123&quot;</span>
+</code></pre></div>
+
+
+<h3 id="http">http</h3>
+<p>HTTP server configuration.</p>
+<ul>
+<li><strong>http.port</strong> <code>number</code>: TCP port to listen on for HTTP requests.</li>
+</ul>
+<p>Example:</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">http</span><span class="p">:</span>
+  <span class="nt">port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3000</span>
+</code></pre></div>
+
+
+<h3 id="metrics">metrics</h3>
+<p>Shared/named metrics. Unless <code>hidden</code> all rules receive their own metric. Define named metrics here to use across multiple keys, eg define <code>temperature</code> with a label <code>zone</code> allowing a single temperature metric to be used to describe multiple zones.</p>
+<p>Contains an array of metric definitions with <code>name</code>, <code>help</code>, and <code>labels</code>.</p>
+<p>Example:</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">metrics</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">temperature</span>
+    <span class="nt">help</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Current temperature</span>
+    <span class="nt">labels</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">zone</span>
+</code></pre></div>
+
+
+<h3 id="rules">rules</h3>
+<p>An array of rule definitions. The keys vary per-type, but always contain:</p>
+<ul>
+<li><strong>.key</strong> <code>string</code>: The of this rule. Must be unique.</li>
+<li><strong>.type</strong> <code>string</code>: The rule type.</li>
+<li><strong>.source</strong> <code>string|object</code>: The key(s) to subscribe to. For subscribed (root) topics prefix with <code>root/</code>.</li>
+<li><strong>.metric</strong> <code>object</code>: Optionally provide a named metric to publish to. If not provided one will be created by <code>_</code>underscoring the key.</li>
+<li><strong>.hidden</strong> <code>boolean</code>:</li>
+</ul>
+<p>Examples:</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">rules</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">bedroom/temperature</span>
+    <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">alias</span>
+    <span class="nt">source</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">root/value/sensor/bedroom/temperature</span>
+    <span class="nt">metric</span><span class="p">:</span>
+      <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">temperature</span>
+      <span class="nt">labels</span><span class="p">:</span>
+        <span class="nt">zone</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">bedroom</span>
+  <span class="p p-Indicator">-</span> <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">hallway/motion</span>
+    <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">match</span>
+    <span class="nt">source</span><span class="p">:</span> <span class="s">&quot;root/RF433/garage/rfin&quot;</span>
+    <span class="nt">regexp</span><span class="p">:</span> <span class="s">&quot;.*(59875C|D5455)$&quot;</span>
+    <span class="nt">hidden</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href=".." title="MQTT State" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                MQTT State
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../http/" title="HTTP Server and API" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                HTTP Server and API
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/vendor.d710d30a.min.js"></script>
+      <script src="../assets/javascripts/bundle.5f27aba8.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      
+      <script>
+        app = initialize({
+          base: "..",
+          features: [],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.27c6a5e6.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>

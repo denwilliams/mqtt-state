@@ -15,7 +15,7 @@
     
     
       
-        <title>Listing - MQTT State</title>
+        <title>HTTP Server and API - MQTT State</title>
       
     
     
@@ -48,7 +48,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#listing" class="md-skip">
+        <a href="#http-server-and-api" class="md-skip">
           Skip to content
         </a>
       
@@ -76,7 +76,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Listing
+              HTTP Server and API
             
           </span>
         </div>
@@ -142,11 +142,114 @@
       
       
 
+  
 
-  <li class="md-nav__item">
-    <a href="../http/" title="HTTP Server and API" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        HTTP Server and API
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
+        </span>
+      </label>
+    
+    <a href="./" title="HTTP Server and API" class="md-nav__link md-nav__link--active">
       HTTP Server and API
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#endpoints" class="md-nav__link">
+    Endpoints
+  </a>
+  
+    <nav class="md-nav" aria-label="Endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    API
+  </a>
+  
+    <nav class="md-nav" aria-label="API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#list-state-values" class="md-nav__link">
+    List State Values
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fetch-a-single-state-value" class="md-nav__link">
+    Fetch a Single State Value
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rules" class="md-nav__link">
+    Rules
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metrics" class="md-nav__link">
+    Metrics
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tree" class="md-nav__link">
+    Tree
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
     
@@ -178,12 +281,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" checked>
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
     
     <label class="md-nav__link" for="nav-6">
       Rule types
@@ -205,20 +306,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-    <a href="./" title="Listing" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../rule-types/" title="Listing" class="md-nav__link">
       Listing
     </a>
-    
   </li>
 
         
@@ -228,7 +320,7 @@
 
 
   <li class="md-nav__item">
-    <a href="activity/" title="Activity" class="md-nav__link">
+    <a href="../rule-types/activity/" title="Activity" class="md-nav__link">
       Activity
     </a>
   </li>
@@ -240,7 +332,7 @@
 
 
   <li class="md-nav__item">
-    <a href="alias/" title="Alias" class="md-nav__link">
+    <a href="../rule-types/alias/" title="Alias" class="md-nav__link">
       Alias
     </a>
   </li>
@@ -252,7 +344,7 @@
 
 
   <li class="md-nav__item">
-    <a href="all/" title="All" class="md-nav__link">
+    <a href="../rule-types/all/" title="All" class="md-nav__link">
       All
     </a>
   </li>
@@ -264,7 +356,7 @@
 
 
   <li class="md-nav__item">
-    <a href="bool/" title="Bool" class="md-nav__link">
+    <a href="../rule-types/bool/" title="Bool" class="md-nav__link">
       Bool
     </a>
   </li>
@@ -276,7 +368,7 @@
 
 
   <li class="md-nav__item">
-    <a href="calculation/" title="Calculation" class="md-nav__link">
+    <a href="../rule-types/calculation/" title="Calculation" class="md-nav__link">
       Calculation
     </a>
   </li>
@@ -288,7 +380,7 @@
 
 
   <li class="md-nav__item">
-    <a href="counter/" title="Counter" class="md-nav__link">
+    <a href="../rule-types/counter/" title="Counter" class="md-nav__link">
       Counter
     </a>
   </li>
@@ -300,7 +392,7 @@
 
 
   <li class="md-nav__item">
-    <a href="dayofweek/" title="Dayofweek" class="md-nav__link">
+    <a href="../rule-types/dayofweek/" title="Dayofweek" class="md-nav__link">
       Dayofweek
     </a>
   </li>
@@ -312,7 +404,7 @@
 
 
   <li class="md-nav__item">
-    <a href="debounce/" title="Debounce" class="md-nav__link">
+    <a href="../rule-types/debounce/" title="Debounce" class="md-nav__link">
       Debounce
     </a>
   </li>
@@ -324,7 +416,7 @@
 
 
   <li class="md-nav__item">
-    <a href="filter/" title="Filter" class="md-nav__link">
+    <a href="../rule-types/filter/" title="Filter" class="md-nav__link">
       Filter
     </a>
   </li>
@@ -336,7 +428,7 @@
 
 
   <li class="md-nav__item">
-    <a href="logical/" title="Logical" class="md-nav__link">
+    <a href="../rule-types/logical/" title="Logical" class="md-nav__link">
       Logical
     </a>
   </li>
@@ -348,7 +440,7 @@
 
 
   <li class="md-nav__item">
-    <a href="match/" title="Match" class="md-nav__link">
+    <a href="../rule-types/match/" title="Match" class="md-nav__link">
       Match
     </a>
   </li>
@@ -360,7 +452,7 @@
 
 
   <li class="md-nav__item">
-    <a href="merge-switch/" title="Merge switch" class="md-nav__link">
+    <a href="../rule-types/merge-switch/" title="Merge switch" class="md-nav__link">
       Merge switch
     </a>
   </li>
@@ -372,7 +464,7 @@
 
 
   <li class="md-nav__item">
-    <a href="merge/" title="Merge" class="md-nav__link">
+    <a href="../rule-types/merge/" title="Merge" class="md-nav__link">
       Merge
     </a>
   </li>
@@ -384,7 +476,7 @@
 
 
   <li class="md-nav__item">
-    <a href="minutes-since/" title="Minutes since" class="md-nav__link">
+    <a href="../rule-types/minutes-since/" title="Minutes since" class="md-nav__link">
       Minutes since
     </a>
   </li>
@@ -396,7 +488,7 @@
 
 
   <li class="md-nav__item">
-    <a href="not/" title="Not" class="md-nav__link">
+    <a href="../rule-types/not/" title="Not" class="md-nav__link">
       Not
     </a>
   </li>
@@ -408,7 +500,7 @@
 
 
   <li class="md-nav__item">
-    <a href="onoffauto/" title="Onoffauto" class="md-nav__link">
+    <a href="../rule-types/onoffauto/" title="Onoffauto" class="md-nav__link">
       Onoffauto
     </a>
   </li>
@@ -420,7 +512,7 @@
 
 
   <li class="md-nav__item">
-    <a href="onoffrange/" title="Onoffrange" class="md-nav__link">
+    <a href="../rule-types/onoffrange/" title="Onoffrange" class="md-nav__link">
       Onoffrange
     </a>
   </li>
@@ -432,7 +524,7 @@
 
 
   <li class="md-nav__item">
-    <a href="parallel-switch/" title="Parallel switch" class="md-nav__link">
+    <a href="../rule-types/parallel-switch/" title="Parallel switch" class="md-nav__link">
       Parallel switch
     </a>
   </li>
@@ -444,7 +536,7 @@
 
 
   <li class="md-nav__item">
-    <a href="pick/" title="Pick" class="md-nav__link">
+    <a href="../rule-types/pick/" title="Pick" class="md-nav__link">
       Pick
     </a>
   </li>
@@ -456,7 +548,7 @@
 
 
   <li class="md-nav__item">
-    <a href="range/" title="Range" class="md-nav__link">
+    <a href="../rule-types/range/" title="Range" class="md-nav__link">
       Range
     </a>
   </li>
@@ -468,7 +560,7 @@
 
 
   <li class="md-nav__item">
-    <a href="switch/" title="Switch" class="md-nav__link">
+    <a href="../rule-types/switch/" title="Switch" class="md-nav__link">
       Switch
     </a>
   </li>
@@ -480,7 +572,7 @@
 
 
   <li class="md-nav__item">
-    <a href="throttle/" title="Throttle" class="md-nav__link">
+    <a href="../rule-types/throttle/" title="Throttle" class="md-nav__link">
       Throttle
     </a>
   </li>
@@ -492,7 +584,7 @@
 
 
   <li class="md-nav__item">
-    <a href="timeofday/" title="Timeofday" class="md-nav__link">
+    <a href="../rule-types/timeofday/" title="Timeofday" class="md-nav__link">
       Timeofday
     </a>
   </li>
@@ -504,7 +596,7 @@
 
 
   <li class="md-nav__item">
-    <a href="toggle/" title="Toggle" class="md-nav__link">
+    <a href="../rule-types/toggle/" title="Toggle" class="md-nav__link">
       Toggle
     </a>
   </li>
@@ -532,6 +624,84 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#endpoints" class="md-nav__link">
+    Endpoints
+  </a>
+  
+    <nav class="md-nav" aria-label="Endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    API
+  </a>
+  
+    <nav class="md-nav" aria-label="API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#list-state-values" class="md-nav__link">
+    List State Values
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fetch-a-single-state-value" class="md-nav__link">
+    Fetch a Single State Value
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rules" class="md-nav__link">
+    Rules
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metrics" class="md-nav__link">
+    Metrics
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tree" class="md-nav__link">
+    Tree
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -546,8 +716,57 @@
                   
                 
                 
-                <h1 id="listing">Listing</h1>
-<p>TBD</p>
+                <h1 id="http-server-and-api">HTTP Server and API</h1>
+<p>A set of GET endpoints are exposed on the configured HTTP port and are described below.</p>
+<h2 id="configuration">Configuration</h2>
+<p>To configure the HTTP port used, set set http.port in your configuration:</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">http</span><span class="p">:</span>
+  <span class="nt">port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3000</span>
+</code></pre></div>
+
+
+<h2 id="endpoints">Endpoints</h2>
+<h3 id="api">API</h3>
+<p>Will return response in human readable <code>text/html</code> format by default. You can also request plain text or JSON for the response format.</p>
+<p>To receive in a different format make sure to specify the content type in the request header, ie <code>Accept: application/json</code> or <code>Accept: text/plain</code>. If you can't provide this header (eg in browser) you can also specify in the query string, eg <code>/state?accept=application/json</code> or <code>/state?accept=text/plain</code>.</p>
+<h4 id="list-state-values">List State Values</h4>
+<p><code>GET /state</code></p>
+<p>When the response is JSON returns an object containing a key-value pairs of the results.</p>
+<p>By default returns all keys defined in rules.</p>
+<p>To also include all keys from the root state (cached values of subscribed events) add a querystring parameter <code>root=true</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="err">/state?root=true</span>
+</code></pre></div>
+
+
+<p>To fetch only specific values use the <code>select</code> querystring:</p>
+<div class="codehilite"><pre><span></span><code><span class="err">/state?select=bedroom/temperature</span>
+</code></pre></div>
+
+
+<p>You can select multiple values:</p>
+<div class="codehilite"><pre><span></span><code><span class="err">/state?select=bedroom/temperature,bedroom/humidity</span>
+</code></pre></div>
+
+
+<p>TODO: should not expose hidden rules unless hidden=true is specified.</p>
+<h4 id="fetch-a-single-state-value">Fetch a Single State Value</h4>
+<p><code>GET /state/*</code></p>
+<p>You can fetch the value of a single key by providing the key after /state.</p>
+<p>When the response is JSON returns the value of the key serialized as JSON, for example <code>"off"</code> for a string, <code>true</code> for boolean, <code>20</code> for a number.</p>
+<p>Example:</p>
+<div class="codehilite"><pre><span></span><code><span class="err">/state/bedroom/temperature</span>
+</code></pre></div>
+
+
+<h4 id="rules">Rules</h4>
+<p><code>GET /rules</code></p>
+<p>Lists all known rules. NOTE: can also fetch in JSON format.</p>
+<h3 id="metrics">Metrics</h3>
+<p><code>GET /metrics</code></p>
+<p>Returns Prometheus metrics for the current state. NOTE: only works for keys with a numeric or boolean value, where boolean is represented as 0 or 1.</p>
+<h3 id="tree">Tree</h3>
+<p><code>GET /tree</code></p>
+<p>Experimental visualisation of rule inheritance. Falls apart when too many nodes.</p>
                 
               
               
@@ -566,7 +785,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../ticker/" title="Ticker" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../config/" title="Configuration" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -575,19 +794,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Ticker
+                Configuration
               </div>
             </div>
           </a>
         
         
-          <a href="activity/" title="Activity" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../metrics/" title="Metrics" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Activity
+                Metrics
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">

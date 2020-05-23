@@ -1,0 +1,23 @@
+@startuml
+
+interface "MQTT" as mqttin
+interface "MQTT" as mqttout
+interface "Data File" as file
+interface "Prometheus Client" as prom
+interface "GET /state" as getstate
+interface "GET /metrics" as getmetrics
+database "Root\nState\n(Redux)" as root
+agent "Rules" as rules
+database "Calculated\nState\n(RxJs)" as calculated
+
+mqttin -> root
+root .up.> file: backup
+root -> rules: events
+rules .down.> calculated: events
+rules -> mqttout
+rules .down.> prom: gauge
+root .down.> getstate: current state
+calculated .down.> getstate: current state
+prom .down.> getmetrics: current state
+
+@enduml
