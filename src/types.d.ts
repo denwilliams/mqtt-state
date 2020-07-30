@@ -306,6 +306,7 @@ export interface ToggleRule {
   type: "filter";
   source: string;
   toggle_source?: string;
+  set_source?: string;
   sources?: undefined;
 }
 

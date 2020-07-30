@@ -10,6 +10,8 @@ A `boolean` value of the current state.
 
 `toggle_source` (optional): if provided the output will be the inverse of this, and no internal toggle state is managed. It is intended that the output of this toggle is used to set whatever source represents.
 
+`set_source` (optional): if provided this sets state and output to be this rather than toggles it. Can be used to "reset" things to a certain state, eg forcing something off regardless of current state.
+
 ## Examples
 
 A switch that outputs true/false on alternating presses. If the output of this were to be used to control a light it would not care if the light was turned on elsewhere (ie the toggle state is not in-sync with the light state):
