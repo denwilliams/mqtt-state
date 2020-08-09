@@ -14,7 +14,7 @@ Expose a multiple motion sensors on a single topic.
 
 ```yaml
 - key: kitchen/motion-event
-  type: true
+  type: all
   sources:
     - sensor-hub/motion001/motion-detected
     - sensor-hub/motion002/motion-detected

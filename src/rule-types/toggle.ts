@@ -9,22 +9,10 @@ export function toggle(
 ) {
   const { source, toggle_source: toggleSource, set_source: setSource } = rule;
 
-  let last = false;
-
-  const getNext = toggleSource
-    ? () => !getValue(toggleSource)
-    : () => {
-        last = !last;
-        return last;
-      };
-  const setNext = toggleSource
-    ? (value: boolean) => {
-        return value;
-      }
-    : (value: boolean) => {
-        last = value;
-        return last;
-      };
+  const getNext = () => !getValue(toggleSource || source);
+  const setNext = (value: boolean) => {
+    return value;
+  };
 
   const sourceStream: Observable<any> = reactive.getBinding(source);
   const setSourceStream: null | Observable<any> = setSource
@@ -52,7 +40,7 @@ export function toggle(
       );
     }
 
-    subscriber.next(toggleSource ? Boolean(getValue(toggleSource)) : last);
+    subscriber.next(Boolean(getValue(toggleSource || source)));
 
     return subscription;
   });
