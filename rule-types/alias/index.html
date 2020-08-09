@@ -673,7 +673,10 @@
 <h2 id="outputs">Outputs</h2>
 <p>A value of <code>any</code> type.</p>
 <h2 id="inputs">Inputs</h2>
-<p><code>source</code>: the topic to subscribe to for events. The contents of this are republished to the output.</p>
+<ul>
+<li><code>source</code>: the topic to subscribe to for events. The contents of this are republished to the output.</li>
+<li><code>distinct</code>: only emits output when the output value has changed</li>
+</ul>
 <h2 id="examples">Examples</h2>
 <p>Expose a temperature sensor input as a room's temperature.</p>
 <div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">bedroom/temperature</span>

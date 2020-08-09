@@ -673,7 +673,10 @@
 <h2 id="outputs">Outputs</h2>
 <p>A value of <code>any</code> type.</p>
 <h2 id="inputs">Inputs</h2>
-<p><code>source</code>: the topic to subscribe to for events.</p>
+<ul>
+<li><code>source</code>: the topic to subscribe to for events.</li>
+<li><code>distinct</code>: only emits output when the output value has changed</li>
+</ul>
 <h2 id="examples">Examples</h2>
 <p>Expose a temperature value from a sensor status update. Eg if the source provides <code>{"timestamp":"2000-01-01 00:00:00Z", "temperature": 20.3}</code>:</p>
 <div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">bedroom/temperature</span>
