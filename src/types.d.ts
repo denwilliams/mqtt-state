@@ -119,6 +119,7 @@ export interface AliasRule {
   type: "alias";
   source: string;
   sources?: undefined;
+  distinct?: boolean;
 }
 
 export interface AllRule {
@@ -277,6 +278,7 @@ export interface PickRule {
   type: "pick";
   source: string;
   sources?: undefined;
+  distinct?: boolean;
   field: string;
 }
 

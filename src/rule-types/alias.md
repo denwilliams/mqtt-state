@@ -6,7 +6,8 @@ A value of `any` type.
 
 ## Inputs
 
-`source`: the topic to subscribe to for events. The contents of this are republished to the output.
+- `source`: the topic to subscribe to for events. The contents of this are republished to the output.
+- `distinct`: only emits output when the output value has changed
 
 ## Examples
 
