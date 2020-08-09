@@ -12,19 +12,31 @@ import { Reactive, MergeSwitchRule } from "../types";
     - value: val2
       source: root/source/key2
       regexp: matchthat
+    - value: val2
+      source: root/source/key2
+      eq: true
 */
 
 export function mergeSwitch(rule: MergeSwitchRule, reactive: Reactive) {
   const sources = rule.cases.map((c) => c.source);
   const values = rule.cases.map((c) => c.value);
-  const matchers = rule.cases.map((c) => new RegExp(c.regexp));
+  const matchers = rule.cases.map((c) => {
+    if (c.regexp) {
+      const regexp = new RegExp(c.regexp);
+      return (str: string) => regexp.test(str);
+    }
+    if (c.eq) {
+      return (val: number | string | boolean) => c.eq === val;
+    }
+    return () => false;
+  });
 
   const bindings = sources.map((path) => reactive.getBinding(path));
 
   return combineLatest(...bindings).pipe(
     map((results) => {
       for (let i = 0; i < results.length; i++) {
-        if (matchers[i].test(results[i])) return values[i];
+        if (matchers[i](results[i])) return values[i];
       }
 
       return null;

@@ -166,7 +166,10 @@ export interface FilterRule {
   type: "filter";
   source: string;
   sources?: undefined;
-  regexp: string;
+  /** Filter using this regular expression */
+  regexp?: string;
+  /** Filter using the eq */
+  eq?: boolean | number | string;
 }
 
 export interface JsonRule {
@@ -202,7 +205,10 @@ export interface MergeSwitchRule {
   cases: {
     source: string;
     value: string | number;
-    regexp: string;
+    /** Matches using this regular expression */
+    regexp?: string;
+    /** Matches exactly this value (===) */
+    eq?: boolean | string | number;
   }[];
 }
 
