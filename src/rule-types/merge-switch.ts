@@ -1,5 +1,5 @@
 import { combineLatest } from "rxjs";
-import { map } from "rxjs/operators";
+import { map, distinctUntilChanged } from "rxjs/operators";
 import { Reactive, MergeSwitchRule } from "../types";
 
 /*
@@ -25,7 +25,7 @@ export function mergeSwitch(rule: MergeSwitchRule, reactive: Reactive) {
       const regexp = new RegExp(c.regexp);
       return (str: string) => regexp.test(str);
     }
-    if (c.eq) {
+    if (c.eq !== undefined) {
       return (val: number | string | boolean) => c.eq === val;
     }
     return () => false;
@@ -33,7 +33,7 @@ export function mergeSwitch(rule: MergeSwitchRule, reactive: Reactive) {
 
   const bindings = sources.map((path) => reactive.getBinding(path));
 
-  return combineLatest(...bindings).pipe(
+  const observable = combineLatest(...bindings).pipe(
     map((results) => {
       for (let i = 0; i < results.length; i++) {
         if (matchers[i](results[i])) return values[i];
@@ -42,4 +42,8 @@ export function mergeSwitch(rule: MergeSwitchRule, reactive: Reactive) {
       return null;
     })
   );
+
+  if (!rule.distinct) return observable;
+
+  return observable.pipe(distinctUntilChanged());
 }

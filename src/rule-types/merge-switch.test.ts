@@ -74,6 +74,11 @@ test("eq match", (t) => {
           source: "root/input/merge-switch-eq/b",
           eq: 4444,
         },
+        {
+          value: "five",
+          source: "root/input/merge-switch-eq/a",
+          eq: false,
+        },
       ],
     },
   ]);
@@ -94,4 +99,6 @@ test("eq match", (t) => {
   rootState.setValue("root/input/merge-switch-eq/b", "defined");
   // Nothing matches anymore. Null output
   t.is(rules.getState()[t.context.output], null);
+  rootState.setValue("root/input/merge-switch-eq/a", false);
+  t.is(rules.getState()[t.context.output], "five");
 });

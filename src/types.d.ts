@@ -202,6 +202,8 @@ export interface MergeSwitchRule {
   type: "merge-switch";
   source?: undefined;
   sources?: undefined;
+  /** Only emits a value when changed */
+  distinct?: boolean;
   cases: {
     source: string;
     value: string | number;

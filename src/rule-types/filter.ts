@@ -14,7 +14,7 @@ function getMatcher(rule: FilterRule) {
     const regexp = new RegExp(rule.regexp);
     return (str: string) => regexp.test(str);
   }
-  if (rule.eq) {
+  if (rule.eq !== undefined) {
     return (val: number | string | boolean) => rule.eq === val;
   }
   return () => false;
