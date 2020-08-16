@@ -1,15 +1,19 @@
-import { map } from "rxjs/operators";
 import { Reactive, ToggleRule } from "../types";
 import { Observable, Subscriber } from "rxjs";
 
 export function toggle(
-  rule: ToggleRule,
+  rule: ToggleRule & { key: string },
   reactive: Reactive,
   getValue: (path: string) => any
 ) {
-  const { source, toggle_source: toggleSource, set_source: setSource } = rule;
+  const {
+    key,
+    source,
+    toggle_source: toggleSource,
+    set_source: setSource,
+  } = rule;
 
-  const getNext = () => !getValue(toggleSource || source);
+  const getNext = () => !getValue(toggleSource || key);
   const setNext = (value: boolean) => {
     return value;
   };
