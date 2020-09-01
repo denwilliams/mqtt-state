@@ -15,7 +15,7 @@
     
     
       
-        <title>Dayofweek - MQTT State</title>
+        <title>Expression Rule - MQTT State</title>
       
     
     
@@ -48,6 +48,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#expression-rule" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -72,7 +77,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Dayofweek
+              Expression Rule
             
           </span>
         </div>
@@ -293,18 +298,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-    
-    <a href="./" title="Dayofweek" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../dayofweek/" title="Dayofweek" class="md-nav__link">
       Dayofweek
     </a>
-    
   </li>
 
         
@@ -324,11 +322,70 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../expression/" title="Expression Rule" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Expression Rule
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="./" title="Expression Rule" class="md-nav__link md-nav__link--active">
       Expression Rule
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#outputs" class="md-nav__link">
+    Outputs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inputs" class="md-nav__link">
+    Inputs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#expressions" class="md-nav__link">
+    Expressions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    Examples
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -572,6 +629,57 @@
               </div>
             
             
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#outputs" class="md-nav__link">
+    Outputs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inputs" class="md-nav__link">
+    Inputs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#expressions" class="md-nav__link">
+    Expressions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    Examples
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
@@ -581,9 +689,40 @@
                   
                 
                 
-                  <h1>Dayofweek</h1>
-                
-                
+                <h1 id="expression-rule">Expression Rule</h1>
+<p>Evaluates an expression declared in a string and returns the response.</p>
+<h2 id="outputs">Outputs</h2>
+<p>A value of <code>any</code> type - whatever the expression returns.</p>
+<h2 id="inputs">Inputs</h2>
+<ul>
+<li><code>source</code>: the topic to subscribe to for events. The contents of this are republished to the output.</li>
+<li><code>distinct</code>: only emits output when the output value has changed</li>
+</ul>
+<h2 id="expressions">Expressions</h2>
+<p>Written as a string with 2 variables in scope:</p>
+<ul>
+<li><code>value</code> contains the input value from the <code>source</code> input that triggered the expression call</li>
+<li><code>getValue</code> is a function to get the current state of any state</li>
+</ul>
+<h2 id="examples">Examples</h2>
+<p>Format the raw temperature input to 1 decimal place</p>
+<div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">bedroom/temperature</span>
+  <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">expression</span>
+  <span class="nt">source</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">sensor-hub/tempABCD/temperature-raw</span>
+  <span class="nt">ignore_undefined</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+  <span class="nt">ignore_null</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+  <span class="nt">expression</span><span class="p">:</span> <span class="s">&quot;value.toFixed(1)&quot;</span>
+</code></pre></div>
+
+
+<p>Output true if the temperature is the same as another</p>
+<div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">is_same_temperature</span>
+  <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">expression</span>
+  <span class="nt">source</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">bedroom/temperature</span>
+  <span class="nt">ignore_undefined</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+  <span class="nt">ignore_null</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+  <span class="nt">expression</span><span class="p">:</span> <span class="s">&quot;value</span><span class="nv"> </span><span class="s">===</span><span class="nv"> </span><span class="s">getValue(&#39;kitchen/temperature&#39;)&quot;</span>
+</code></pre></div>
                 
               
               
@@ -602,7 +741,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../counter/" title="Counter" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../debounce/" title="Debounce" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -611,19 +750,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Counter
+                Debounce
               </div>
             </div>
           </a>
         
         
-          <a href="../debounce/" title="Debounce" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../filter/" title="Filter" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Debounce
+                Filter
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">
