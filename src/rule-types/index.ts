@@ -6,6 +6,7 @@ import { calculation } from "./calculation";
 import { counter } from "./counter";
 import { dayofweek } from "./dayofweek";
 import { debounce } from "./debounce";
+import { expression } from "./expression";
 import { logical } from "./logical";
 import { not } from "./not";
 import { filter } from "./filter";
@@ -35,6 +36,7 @@ export const types = {
   counter,
   dayofweek,
   debounce,
+  expression,
   json,
   logical,
   not,

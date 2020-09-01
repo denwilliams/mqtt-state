@@ -172,6 +172,18 @@ export interface FilterRule {
   eq?: boolean | number | string;
 }
 
+export interface ExpressionRule {
+  type: "expression";
+  source: string;
+  sources?: undefined;
+  expression: string;
+  distinct?: boolean;
+  /** If true then undefined input values (including initial values) are not processed by the expression */
+  ignore_undefined?: boolean;
+  /** If true then null input values are not processed by the expression */
+  ignore_null?: boolean;
+}
+
 export interface JsonRule {
   type: "json";
   source: string;
