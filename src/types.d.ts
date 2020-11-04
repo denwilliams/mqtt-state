@@ -143,6 +143,7 @@ export interface CalculationRule {
 }
 
 export interface CounterRule {
+  key: string;
   type: "counter";
   source: string;
   sources?: undefined;
@@ -174,8 +175,10 @@ export interface FilterRule {
 
 export interface ExpressionRule {
   type: "expression";
-  source: string;
-  sources?: undefined;
+  /** Provide either a single source */
+  source?: string;
+  /** Or provide a set of sources */
+  sources?: Record<string, string>;
   expression: string;
   distinct?: boolean;
   /** If true then undefined input values (including initial values) are not processed by the expression */
@@ -236,12 +239,14 @@ export interface NotRule {
   type: "not";
   source: string;
   sources?: undefined;
+  distinct?: boolean;
 }
 
 export interface NumberRule {
   type: "number";
   source: string;
   sources?: undefined;
+  distinct?: boolean;
 }
 
 export interface OnOffAutoRule {

@@ -1,14 +1,13 @@
 Outputs the input as explicit `number` type. Eg converts `"100"` to `100`.
 
-_Does not emit for every source event, only when the value changes._
-
 ## Outputs
 
 A value of `number` type.
 
 ## Inputs
 
-`source`: the topic to subscribe to for events. Can provide a value of any type.
+- `source`: the topic to subscribe to for events. Can provide a value of any type.
+- `distinct`: only emits output when the output value has changed
 
 ## Examples
 
