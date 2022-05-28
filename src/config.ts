@@ -8,10 +8,14 @@ import { EmitOptions } from "./mqtt";
 const readFileAsync = promisify(readFile);
 
 export interface RuleConfig {
+  /** Event key/name/topic to emit on  */
   key: string;
-  code: string;
+  /** Events keys/names to subscribe to. These can be subscribed MQTT topics, or internal state changes. */
   events: string[];
-  mqttOptions: EmitOptions;
+  /** Javascript code to execute when subscribed events occur. */
+  code: string;
+  /** Set to false to not emit over MQTT, true to emit, or an object with MQTT options. Default true. */
+  mqtt?: boolean | EmitOptions;
 }
 
 export interface Config {

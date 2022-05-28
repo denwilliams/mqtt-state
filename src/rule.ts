@@ -11,14 +11,14 @@ export interface RuleContext extends BaseContext {
 export class Rule {
   readonly key: string;
   readonly events: string[];
-  readonly mqttOptions: EmitOptions;
+  readonly mqtt?: boolean | EmitOptions;
   private readonly script: vm.Script;
 
   constructor(details: RuleConfig) {
     this.script = new vm.Script(details.code);
     this.key = details.key;
     this.events = details.events;
-    this.mqttOptions = details.mqttOptions;
+    this.mqtt = details.mqtt;
   }
 
   exec(context: BaseContext) {
