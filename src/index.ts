@@ -28,8 +28,8 @@ export async function start(config: Config) {
     }
 
     if (rule.gauge) {
-      if (typeof value === "number") rule.gauge.set(value);
-      else if (typeof value === "boolean") rule.gauge.set(value ? 1 : 0);
+      if (typeof value === "number") rule.gauge(value);
+      else if (typeof value === "boolean") rule.gauge(value ? 1 : 0);
     }
   });
 
