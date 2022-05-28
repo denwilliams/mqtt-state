@@ -1,11 +1,27 @@
-import consul from "consul";
 import { readFile } from "fs";
-import yaml from "js-yaml";
+import { join } from "path";
 import { promisify } from "util";
-
-import { Config } from "./types";
+import consul from "consul";
+import yaml from "js-yaml";
+import { EmitOptions } from "./mqtt";
 
 const readFileAsync = promisify(readFile);
+
+export interface RuleConfig {
+  key: string;
+  code: string;
+  events: string[];
+  mqttOptions: EmitOptions;
+}
+
+export interface Config {
+  mqtt: {
+    uri: string;
+    subscriptions: string[];
+    raw: string[];
+  };
+  rules: Array<RuleConfig>;
+}
 
 export async function loadConfig(): Promise<Config> {
   if (process.env.CONSUL_KEY) return getConsulConfig(process.env.CONSUL_KEY);
@@ -22,7 +38,8 @@ async function getConsulConfig(key: string) {
 }
 
 async function getFileConfig() {
-  const configPath = process.env.CONFIG_PATH || __dirname + "/config.yml";
+  const configPath =
+    process.env.CONFIG_PATH || join(__dirname, "..", "/config.yml");
   const config: Config = yaml.safeLoad(await readFileAsync(configPath, "utf8"));
   return config;
 }

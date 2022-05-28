@@ -1,17 +1,33 @@
 import mqtt, { IClientPublishOptions } from "mqtt";
-import { RootState, EmitOptions, MqttEmitter, Startable } from "./types";
+import { Events } from "./events";
 
-export class Mqtt implements MqttEmitter, Startable {
+export type QoS = 0 | 1 | 2;
+
+export interface EmitOptions {
+  /**
+   * the QoS
+   */
+  qos: QoS;
+  /**
+   * the retain flag
+   */
+  retain?: boolean;
+  /**
+   * whether or not mark a message as duplicate
+   */
+  dup?: boolean;
+}
+
+export class Mqtt {
   private client?: mqtt.MqttClient;
 
   constructor(
-    private rootState: RootState,
     private uri: string,
     private subscriptions: string[],
     private raw: string[]
   ) {}
 
-  async start() {
+  async start(events: Events) {
     // eslint-disable-next-line no-console
     console.log("Connecting to " + this.uri);
     this.client = mqtt.connect(this.uri);
@@ -30,10 +46,10 @@ export class Mqtt implements MqttEmitter, Startable {
         }
       }
 
-      this.rootState.setValue("root/" + topic, data);
+      events.publish(topic, data);
     });
 
-    await new Promise((resolve) => {
+    await new Promise<void>((resolve) => {
       this.client?.on("connect", () => {
         // eslint-disable-next-line no-console
         console.log("MQTT connected");
@@ -47,7 +63,7 @@ export class Mqtt implements MqttEmitter, Startable {
     this.client?.end();
   }
 
-  emit(key: string, value: any, options?: EmitOptions) {
+  send(key: string, value: any, options?: EmitOptions) {
     const publishOpts: IClientPublishOptions = options || { qos: 2 };
     this.client?.publish(key, JSON.stringify(value), publishOpts, undefined);
   }
