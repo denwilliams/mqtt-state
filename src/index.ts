@@ -1,5 +1,6 @@
 import { Config } from "./config";
 import { Events } from "./events";
+import { HttpServer } from "./http";
 import { Metrics } from "./metrics";
 import { Mqtt } from "./mqtt";
 import { Rule } from "./rule";
@@ -12,7 +13,7 @@ export async function start(config: Config) {
     config.mqtt.subscriptions,
     config.mqtt.raw
   );
-  const metrics = new Metrics(config.metrics);
+  const metrics = new Metrics(config.metrics || []);
 
   state.on("change", ({ value, key }) => {
     const rule = rules[key];
@@ -43,6 +44,11 @@ export async function start(config: Config) {
     for (const e of rule.events) {
       events.subscribe(e, handler);
     }
+  }
+
+  if (config.http) {
+    const http = new HttpServer();
+    await http.start(config.http.port);
   }
 
   await mqtt.start(events);

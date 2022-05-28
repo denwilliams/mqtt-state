@@ -39,7 +39,10 @@ export interface Config {
     subscriptions: string[];
     raw: string[];
   };
-  metrics: MetricDetails[];
+  http?: {
+    port: number;
+  };
+  metrics?: MetricDetails[];
   rules: Array<RuleConfig>;
 }
 
