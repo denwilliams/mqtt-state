@@ -14,7 +14,7 @@ export class Rule {
   readonly key: string;
   readonly events: string[];
   readonly mqtt?: boolean | EmitOptions;
-  readonly gauge?: Gauge<string>;
+  readonly gauge?: (value: number) => void;
   private readonly script: vm.Script;
 
   constructor(details: RuleConfig, metrics: Metrics) {
@@ -24,13 +24,16 @@ export class Rule {
     this.mqtt = details.mqtt;
 
     if (details.metric) {
-      this.gauge = metrics.getGauge(details.metric.name);
-      if (!this.gauge) {
-        this.gauge = new Gauge({
+      const gauge =
+        metrics.getGauge(details.metric.name) ||
+        new Gauge({
           name: details.metric.name,
           help: details.metric.name,
         });
-      }
+      this.gauge = (value: number) => {
+        if (details.metric?.labels) gauge.set(details.metric?.labels, value);
+        else gauge.set(value);
+      };
     }
   }
 
