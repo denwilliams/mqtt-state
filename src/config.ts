@@ -7,6 +7,13 @@ import { EmitOptions } from "./mqtt";
 
 const readFileAsync = promisify(readFile);
 
+export interface RuleMetric {
+  /** If this matches a shared metric name it will be used, else a new one created. */
+  name: string;
+  /** Label values to use for a shared metric. */
+  labels?: Record<string, string>;
+}
+
 export interface RuleConfig {
   /** Event key/name/topic to emit on  */
   key: string;
@@ -16,6 +23,14 @@ export interface RuleConfig {
   code: string;
   /** Set to false to not emit over MQTT, true to emit, or an object with MQTT options. Default true. */
   mqtt?: boolean | EmitOptions;
+  /** If defined a metric will be published for value updates on this rule. */
+  metric?: RuleMetric;
+}
+
+export interface MetricDetails {
+  name: string;
+  help: string;
+  labelNames?: string[];
 }
 
 export interface Config {
@@ -24,6 +39,7 @@ export interface Config {
     subscriptions: string[];
     raw: string[];
   };
+  metrics: MetricDetails[];
   rules: Array<RuleConfig>;
 }
 

@@ -1,6 +1,8 @@
 import vm from "vm";
+import { Gauge } from "prom-client";
 import { RuleConfig } from "./config";
 import { BaseContext } from "./events";
+import { Metrics } from "./metrics";
 import { EmitOptions } from "./mqtt";
 
 export interface RuleContext extends BaseContext {
@@ -12,13 +14,24 @@ export class Rule {
   readonly key: string;
   readonly events: string[];
   readonly mqtt?: boolean | EmitOptions;
+  readonly gauge?: Gauge<string>;
   private readonly script: vm.Script;
 
-  constructor(details: RuleConfig) {
+  constructor(details: RuleConfig, metrics: Metrics) {
     this.script = new vm.Script(details.code);
     this.key = details.key;
     this.events = details.events;
     this.mqtt = details.mqtt;
+
+    if (details.metric) {
+      this.gauge = metrics.getGauge(details.metric.name);
+      if (!this.gauge) {
+        this.gauge = new Gauge({
+          name: details.metric.name,
+          help: details.metric.name,
+        });
+      }
+    }
   }
 
   exec(context: BaseContext) {
