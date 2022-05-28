@@ -7,6 +7,7 @@ export interface EventDetails {
 
 export interface BaseContext {
   event: EventDetails;
+  value: any;
   console: any;
   state: State;
 }
@@ -37,6 +38,7 @@ export class Events {
     const event = { name, value };
     const context: BaseContext = {
       event,
+      value: event.value,
       console,
       state: this.state,
     };

@@ -22,14 +22,15 @@ export class Rule {
   }
 
   exec(context: BaseContext) {
-    const update = (value: any) => {
+    const set = (value: any) => {
       context.state.set(this.key, value);
     };
 
     this.script.runInNewContext({
       ...context,
       key: this.key,
-      update,
+      set,
+      update: set, // compat
     });
   }
 
