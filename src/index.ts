@@ -63,6 +63,7 @@ export function create(config: Config) {
     for (const e of rule.events) {
       events.subscribe(e, handler);
     }
+    console.info(`Loaded rule="${rule.key}" events="${rule.events}"`);
   }
 
   return {

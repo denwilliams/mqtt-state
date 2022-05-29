@@ -25,6 +25,16 @@ export class Rule {
   private readonly setValue: (value: any, subkey?: string) => void;
 
   constructor(details: RuleConfig, metrics: Metrics, ruleState: RuleState) {
+    if (!details.key) {
+      throw new Error(`Missing key on rule ${details.key}`);
+    }
+    if (!details.source) {
+      throw new Error(`Missing source on rule ${details.key}`);
+    }
+    if (!details.subscribe) {
+      throw new Error(`Missing subscriptions on rule ${details.key}`);
+    }
+
     this.script = new vm.Script(details.source);
     this.key = details.key;
     this.events = Array.isArray(details.subscribe)
