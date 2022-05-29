@@ -1,4 +1,5 @@
-import { State } from "./state";
+import { ActiveState } from "./active-state";
+import { RuleState } from "./rule-state";
 
 export interface EventDetails {
   name: string;
@@ -7,9 +8,8 @@ export interface EventDetails {
 
 export interface BaseContext {
   event: EventDetails;
-  value: any;
-  console: any;
-  state: State;
+  console: Console;
+  state: ActiveState;
 }
 
 export type SubscriptionHandler = (context: BaseContext) => void;
@@ -18,11 +18,7 @@ export class Events {
   private subscriptions: Record<string, Array<SubscriptionHandler>> = {};
   private globalSubscriptions: Array<SubscriptionHandler> = [];
 
-  constructor(private state: State) {
-    this.state.on("change", ({ key, value }) => {
-      this.publish(key, value);
-    });
-  }
+  constructor(private activeState: ActiveState) {}
 
   subscribe(name: string, fn: SubscriptionHandler) {
     if (!this.subscriptions[name]) this.subscriptions[name] = [];
@@ -38,9 +34,8 @@ export class Events {
     const event = { name, value };
     const context: BaseContext = {
       event,
-      value: event.value,
       console,
-      state: this.state,
+      state: this.activeState,
     };
 
     for (const s of this.globalSubscriptions) {

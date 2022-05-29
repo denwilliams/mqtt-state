@@ -1,55 +1,85 @@
+import { ActiveState } from "./active-state";
 import { Config } from "./config";
 import { Events } from "./events";
 import { HttpServer } from "./http";
 import { Metrics } from "./metrics";
-import { Mqtt } from "./mqtt";
+import { MockMqtt, Mqtt } from "./mqtt";
 import { Rule } from "./rule";
-import { State } from "./state";
+import { ChangeEvent, RuleState } from "./rule-state";
+import { Ticker } from "./ticker";
 
-export async function start(config: Config) {
-  const state = new State();
-  const mqtt = new Mqtt(
-    config.mqtt.uri,
-    config.mqtt.subscriptions,
-    config.mqtt.raw
-  );
+export function create(config: Config) {
+  // TODO: load from last run from file or redis
+  const activeState = new ActiveState();
+  const events = new Events(activeState);
+  const ticker = new Ticker(events);
+  const mqtt =
+    config.mqtt.uri === "mock"
+      ? new MockMqtt(config.mqtt.raw, activeState)
+      : new Mqtt(
+          config.mqtt.uri,
+          config.mqtt.subscriptions,
+          config.mqtt.raw,
+          activeState
+        );
+  const http = config.http
+    ? new HttpServer(activeState, config.http.port)
+    : undefined;
   const metrics = new Metrics(config.metrics || []);
+  const ruleState = new RuleState(activeState);
 
-  state.on("change", ({ value, key }) => {
-    const rule = rules[key];
-    console.log("State Updated:", key, "->", value);
+  ruleState.on(
+    "change",
+    ({ key, value, prevValue, rule }: ChangeEvent<any>) => {
+      if (config.log?.changes) {
+        console.info(
+          `${key} ${
+            value === prevValue ? "updated" : "changed"
+          }: ${prevValue} -> ${value}`
+        );
+      }
 
-    if (rule.mqtt !== false) {
-      mqtt.send(
-        key,
-        value,
-        typeof rule.mqtt === "object" ? rule.mqtt : undefined
-      );
+      events.publish(key, value);
+
+      if (rule?.mqtt !== false) {
+        mqtt.send(
+          key,
+          value,
+          typeof rule?.mqtt === "object" ? rule.mqtt : undefined
+        );
+      }
+
+      // NOTE: gauges won't work well with child values
+      if (rule?.gauge) {
+        if (typeof value === "number") rule.gauge(value);
+        else if (typeof value === "boolean") rule.gauge(value ? 1 : 0);
+      }
     }
-
-    if (rule.gauge) {
-      if (typeof value === "number") rule.gauge(value);
-      else if (typeof value === "boolean") rule.gauge(value ? 1 : 0);
-    }
-  });
-
-  const events = new Events(state);
-
-  const rules: Record<string, Rule> = {};
+  );
 
   for (const ruleDetails of config.rules) {
-    const rule = new Rule(ruleDetails, metrics);
-    rules[rule.key] = rule;
+    const rule = new Rule(ruleDetails, metrics, ruleState);
     const handler = rule.getHandler();
     for (const e of rule.events) {
       events.subscribe(e, handler);
     }
   }
 
-  if (config.http) {
-    const http = new HttpServer();
-    await http.start(config.http.port);
-  }
-
-  await mqtt.start(events);
+  return {
+    async start() {
+      if (http) await http.start();
+      await mqtt.start(events);
+      await ticker.start();
+    },
+    async stop() {
+      await mqtt.stop();
+      await ticker.stop();
+      if (http) await http.stop();
+    },
+    activeState,
+    ruleState,
+    mqtt,
+    http,
+    events,
+  };
 }

@@ -18,13 +18,15 @@ export interface RuleConfig {
   /** Event key/name/topic to emit on  */
   key: string;
   /** Events keys/names to subscribe to. These can be subscribed MQTT topics, or internal state changes. */
-  events: string[];
+  subscribe: string | string[];
   /** Javascript code to execute when subscribed events occur. */
-  code: string;
+  source: string;
   /** Set to false to not emit over MQTT, true to emit, or an object with MQTT options. Default true. */
   mqtt?: boolean | EmitOptions;
   /** If defined a metric will be published for value updates on this rule. */
   metric?: RuleMetric;
+  /** If true then set values will only be processed if changed from the previous value */
+  distinct?: boolean;
 }
 
 export interface MetricDetails {
@@ -41,6 +43,9 @@ export interface Config {
   };
   http?: {
     port: number;
+  };
+  log?: {
+    changes?: boolean;
   };
   metrics?: MetricDetails[];
   rules: Array<RuleConfig>;

@@ -1,8 +1,9 @@
 #!/usr/bin/env node
-import { start } from "./index";
+import { create } from "./index";
 import { loadConfig } from "./config";
 
 (async () => {
   const config = await loadConfig();
-  await start(config);
+  const service = create(config);
+  await service.start();
 })().catch(console.error);
