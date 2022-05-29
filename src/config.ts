@@ -27,6 +27,10 @@ export interface RuleConfig {
   metric?: RuleMetric;
   /** If true then set values will only be processed if changed from the previous value */
   distinct?: boolean;
+  /** Throttle execution of this rule to once per the number of ms if defined */
+  throttle?: number;
+  /** Debounce execution of this rule by the number of ms if defined */
+  debounce?: number;
 }
 
 export interface MetricDetails {

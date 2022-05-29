@@ -20,6 +20,8 @@ export class Rule {
   readonly mqtt?: boolean | EmitOptions;
   readonly gauge?: (value: number) => void;
   private readonly script: vm.Script;
+  private readonly throttle?: number;
+  private readonly debounce?: number;
   private readonly setValue: (value: any, subkey?: string) => void;
 
   constructor(details: RuleConfig, metrics: Metrics, ruleState: RuleState) {
@@ -30,6 +32,8 @@ export class Rule {
       : [details.subscribe];
     this.mqtt = details.mqtt;
     this.distinct = details.distinct || false;
+    this.throttle = details.throttle;
+    this.debounce = details.debounce;
 
     if (details.metric) {
       const gauge =
@@ -69,7 +73,7 @@ export class Rule {
   }
 
   getHandler() {
-    return (context: BaseContext) => {
+    const handler = (context: BaseContext) => {
       try {
         this.exec(context);
       } catch (err) {
@@ -78,5 +82,54 @@ export class Rule {
         );
       }
     };
+
+    if (this.throttle) return throttle(handler, this.throttle);
+    if (this.debounce) return debounce(handler, this.debounce);
+
+    return handler;
   }
+}
+
+function debounce(fn: Function, timeout = 1000) {
+  let timer: NodeJS.Timeout;
+  return (...args: any[]) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), timeout);
+  };
+}
+
+function throttle(fn: Function, timeout = 1000) {
+  let timer: NodeJS.Timeout | undefined;
+  let pendingArgs: any[] | undefined;
+
+  return (...args: any[]) => {
+    if (!timer) {
+      fn(...args);
+    } else {
+      pendingArgs = args;
+    }
+
+    timer = setTimeout(() => {
+      timer = undefined;
+      if (!pendingArgs) return;
+
+      fn(...pendingArgs);
+      pendingArgs = undefined;
+    }, timeout);
+  };
+}
+
+function debounceLeading(fn: Function, timeout = 1000) {
+  let timer: NodeJS.Timeout | undefined;
+  return (...args: any[]) => {
+    if (!timer) {
+      fn(...args);
+    } else {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => {
+      timer = undefined;
+      fn(...args);
+    }, timeout);
+  };
 }
