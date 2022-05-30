@@ -51,6 +51,9 @@ export class Rule {
         new Gauge({
           name: details.metric.name,
           help: details.metric.name,
+          labelNames: details.metric.labels
+            ? Object.keys(details.metric.labels)
+            : undefined,
         });
       this.gauge = (value: number) => {
         if (details.metric?.labels) gauge.set(details.metric?.labels, value);
