@@ -1,9 +1,9 @@
 import { Config } from "./config";
-import { create } from "./index";
+import { createService } from "./service";
 import { MockMqtt } from "./mqtt";
 
 export function createTestService(options: Pick<Config, "metrics" | "rules">) {
-  const results = create({
+  const results = createService({
     mqtt: {
       uri: "mock",
       subscriptions: [],

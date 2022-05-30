@@ -51,6 +51,11 @@ export interface Config {
   log?: {
     changes?: boolean;
   };
+  data?: {
+    file?: string;
+    redis?: string;
+    saveInterval?: number;
+  };
   metrics?: MetricDetails[];
   rules: Array<RuleConfig>;
 }

@@ -1,3 +1,4 @@
+import { Server } from "http";
 import express, { Express } from "express";
 import cors from "cors";
 import { register } from "prom-client";
@@ -5,6 +6,7 @@ import { ActiveState } from "./active-state";
 
 export class HttpServer {
   private readonly app: Express;
+  private server?: Server;
 
   constructor(private activeState: ActiveState, private port: number) {
     const app = express();
@@ -115,7 +117,7 @@ export class HttpServer {
 
   async start() {
     await new Promise<void>((resolve) => {
-      this.app.listen(this.port, () => {
+      this.server = this.app.listen(this.port, () => {
         // eslint-disable-next-line no-console
         console.log(`Listening on port ${this.port}`);
         resolve();
@@ -124,7 +126,7 @@ export class HttpServer {
   }
 
   async stop() {
-    // TODO: stop server
+    if (this.server) this.server.close();
   }
 }
 

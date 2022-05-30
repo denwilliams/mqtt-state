@@ -8,9 +8,12 @@ import { Rule } from "./rule";
 import { ChangeEvent, RuleState } from "./rule-state";
 import { Ticker } from "./ticker";
 
-export function create(config: Config) {
-  // TODO: load from last run from file or redis
-  const activeState = new ActiveState();
+export function createService(
+  config: Config,
+  saveState?: (state: Record<string, any>) => Promise<void>,
+  initialState?: Record<string, any>
+) {
+  const activeState = new ActiveState(initialState);
   const events = new Events(activeState);
   const ticker = new Ticker(events);
   const mqtt =
@@ -66,16 +69,28 @@ export function create(config: Config) {
     console.info(`Loaded rule="${rule.key}" events="${rule.events}"`);
   }
 
+  let interval: NodeJS.Timeout | undefined;
+
   return {
     async start() {
       if (http) await http.start();
       await mqtt.start(events);
       await ticker.start();
+
+      if (!interval && saveState) {
+        interval = setInterval(async () => {
+          await saveState(activeState.getAll());
+        }, config?.data?.saveInterval ?? 60000);
+      }
     },
     async stop() {
+      if (interval) clearInterval(interval);
+      interval = undefined;
+
       await mqtt.stop();
       await ticker.stop();
       if (http) await http.stop();
+      if (saveState) await saveState(activeState.getAll());
     },
     activeState,
     ruleState,
