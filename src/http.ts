@@ -25,14 +25,16 @@ export class HttpServer {
       // if (query.root) Object.assign(state, rootState.getState());
       // Object.assign(state, rules.getState());
 
-      if (!req.query.select) return this.activeState.getAll();
+      const selectedState = !req.query.select
+        ? this.activeState.getAll()
+        : (() => {
+            const selectors = (req.query.select as string).split(",");
 
-      const selectors = (req.query.select as string).split(",");
-
-      const selectedState = selectors.sort().reduce((obj, s) => {
-        obj[s] = this.activeState.get(s);
-        return obj;
-      }, {} as Record<string, any>);
+            return selectors.sort().reduce((obj, s) => {
+              obj[s] = this.activeState.get(s);
+              return obj;
+            }, {} as Record<string, any>);
+          })();
 
       res.format({
         text: () => {
