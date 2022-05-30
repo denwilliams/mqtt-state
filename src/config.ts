@@ -52,8 +52,13 @@ export interface Config {
     changes?: boolean;
   };
   data?: {
-    file?: string;
-    redis?: string;
+    file?: {
+      path: string;
+    };
+    redis?: {
+      url: string;
+      key?: string;
+    };
     saveInterval?: number;
   };
   metrics?: MetricDetails[];
