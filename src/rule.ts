@@ -10,7 +10,10 @@ export interface RuleContext extends BaseContext {
   key: string;
   set(value: any): void;
   setChild(subkey: string, value: any): void;
+  /** The current (last known) value for this rule */
   currentValue: any;
+  /** A list of event keys this rule is subscribed to */
+  subscriptions: string[];
 }
 
 export class Rule {
@@ -80,6 +83,7 @@ export class Rule {
       set,
       setChild,
       currentValue: context.state.get(this.key),
+      subscriptions: this.events,
     };
 
     this.script.runInNewContext(ruleContext);

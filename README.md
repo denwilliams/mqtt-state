@@ -29,3 +29,25 @@ Limitations:
 
 1. When a rule emits child values metrics won't work as expected. Don't use metrics with such rules yet.
 2. There is no cache from previous rule runs. You can access the last output of any other rule, including the current rules' child values so you could probably hack it. Because of this have't been able to figure out how to reproduce `activity`.
+
+
+## Config
+
+TBD
+
+## Rules
+
+### Source
+
+The source for each rule is Javascript code. This is executed by whatever version of Node js is running the process, so a newer version will have access to more syntax etc.
+
+The following globals are defined in the rule scope/context:
+
+- `key: string` - the unique key for this rule
+- `set(value: any)` - function to set the next value for the key. If this is not called during the rule execution then the value will remain unchanged.
+- `setChild(subkey: string, value: any)` - function to set a value on a subkey. You can set many child values on a single rule execution.
+- `currentValue: string` - The current (last known) value of this rule (ie the last value passed into the set function).
+- `subscriptions: string[]` - a list of keys this rule is subscribed to. Sometimes useful to iterate over.
+- `event: { key: string, value: any }` - the event that triggered this rule execution. If many events are subscribed to the key may be used to check which one it is.
+- `console: Console` - the usual Node js console
+- `state: { get, getMany }` - an object with a get and getMany function to get one or more values from the current active state by their string keys. This includes any subscribed MQTT events by their topic (key)
