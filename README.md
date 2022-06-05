@@ -74,7 +74,7 @@ Each tick event contains a body with the following integer fields:
 
 Eg:
 
-```
+```js
 {
   time: 1654431900661,
   hour: 22,
@@ -85,4 +85,43 @@ Eg:
   year: 2022,
   dayOfWeek: 1
 }
+```
+
+## Example Rules
+
+### Turn Off After Lapse in Activity
+
+Subscribe to one or more events.
+
+Turn on as soon as any event is received.
+
+Stays on as long as events are continued to be received.
+
+After a timeout period has elapsed without any events then it will turn off.
+
+Any events other than `ticker/tick` will be considered triggers.
+
+It does however mean that the returned value is an object, rather than a simple true/false.
+
+```yaml
+key: "presence-detected"
+source: |
+  const timeout = 30000;
+
+  if (currentValue?.active) {
+    // has it ticked past the timeout?
+    if (event.name === 'ticker/tick' && Date.now() > currentValue.inactiveAt) {
+      set({active: false});
+    }
+  } else if (event.name !== 'ticker/tick') {
+    set({
+      active: true,
+      inactiveAt: Date.now() + timeout,
+    });
+  }
+subscribe:
+  - ticker/tick
+  - motion1/detected
+  - motion2/detected
+  - motion3/detected
 ```

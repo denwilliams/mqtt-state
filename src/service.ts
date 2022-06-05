@@ -31,10 +31,12 @@ export function createService(
   const metrics = new Metrics(config.metrics || []);
   const ruleState = new RuleState(activeState);
 
+  const logChanges = config.log?.changes;
+
   ruleState.on(
     "change",
     ({ key, value, prevValue, rule }: ChangeEvent<any>) => {
-      if (config.log?.changes) {
+      if (logChanges) {
         console.info(
           `${key} ${
             value === prevValue ? "updated" : "changed"
