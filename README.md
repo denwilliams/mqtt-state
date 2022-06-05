@@ -51,3 +51,38 @@ The following globals are defined in the rule scope/context:
 - `event: { key: string, value: any }` - the event that triggered this rule execution. If many events are subscribed to the key may be used to check which one it is.
 - `console: Console` - the usual Node js console
 - `state: { get, getMany }` - an object with a get and getMany function to get one or more values from the current active state by their string keys. This includes any subscribed MQTT events by their topic (key)
+
+
+## Ticker
+
+Internal ticker events are fired every second on `ticker/tick`.
+
+If a rule subscribes to this it will execute every second.
+
+Alternatively you can subscribe to `ticker/minute` (one per minute), `ticker/quarter` (once per 15min), `ticker/hour` (once per hour).
+
+Each tick event contains a body with the following integer fields:
+
+- time: milliseconds since epoch
+- hour: hour of the day (0-23)
+- minute: minute of the hour (0-59)
+- quarter: quarter of the hour (0/15/30/45)
+- day: day of month (1-31)
+- month: month of year (1-12)
+- year: full year (2022+)
+- dayOfWeek: (1-7)
+
+Eg:
+
+```
+{
+  time: 1654431900661,
+  hour: 22,
+  minute: 25,
+  quarter: 15,
+  day: 5,
+  month: 6,
+  year: 2022,
+  dayOfWeek: 1
+}
+```
