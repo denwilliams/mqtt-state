@@ -87,6 +87,40 @@ Eg:
 }
 ```
 
+## Templates
+
+When you find yourself entering the same source for many rules you can use templates instead, and just reference the shared source code by ID. For examples:
+
+```yaml
+templates:
+  - id: not
+    source: set(!event.value)
+rules:
+  - key: is_dark
+    subscribe: is_light
+    template: not
+```
+
+Often the source will need values to be useful. When this is the case you can use params to define these values rather than hard coding them into the source. For example:
+
+```yaml
+templates:
+  - id: too_hot
+    source: set(event.value > params.threshold)
+rules:
+  - key: bath_too_hot
+    subscribe: bath_temperature
+    template: too_hot
+    params:
+      threshold: 40
+  - key: soup_too_hot
+    subscribe: soup_temperature
+    template: too_hot
+    params:
+      threshold: 60
+```
+
+
 ## Example Rules
 
 ### Turn Off After Lapse in Activity
