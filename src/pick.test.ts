@@ -6,8 +6,7 @@ test("'pick's the field on the object", (t) => {
     rules: [
       {
         key: "output",
-        // Note: if using node 14+ you could just do set(event.value?.pickMe)
-        source: "set(event.value && event.value.pickMe);",
+        source: "set(event.value?.pickMe);",
         subscribe: "input",
       },
     ],
