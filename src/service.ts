@@ -6,6 +6,7 @@ import { Metrics } from "./metrics";
 import { MockMqtt, Mqtt } from "./mqtt";
 import { Rule } from "./rule";
 import { ChangeEvent, RuleState } from "./rule-state";
+import { Template } from "./template";
 import { Ticker } from "./ticker";
 
 export function createService(
@@ -31,6 +32,7 @@ export function createService(
   const metrics = new Metrics(config.metrics || []);
   const ruleState = new RuleState(activeState);
 
+  const logRules = config.log?.rules;
   const logChanges = config.log?.changes;
 
   ruleState.on(
@@ -62,13 +64,25 @@ export function createService(
     }
   );
 
+  const templates = (config.templates || []).reduce((obj, t) => {
+    obj[t.id] = new Template(t);
+    return obj;
+  }, {} as Record<string, Template>);
+
   for (const ruleDetails of config.rules) {
-    const rule = new Rule(ruleDetails, metrics, ruleState);
+    const rule = new Rule(
+      ruleDetails,
+      metrics,
+      ruleState,
+      ruleDetails.template ? templates[ruleDetails.template] : undefined
+    );
     const handler = rule.getHandler();
     for (const e of rule.events) {
       events.subscribe(e, handler);
     }
-    console.info(`Loaded rule="${rule.key}" events="${rule.events}"`);
+    if (logRules) {
+      console.info(`Loaded rule="${rule.key}" events="${rule.events}"`);
+    }
   }
 
   let interval: NodeJS.Timeout | undefined;

@@ -19,8 +19,6 @@ export interface RuleConfig {
   key: string;
   /** Events keys/names to subscribe to. These can be subscribed MQTT topics, or internal state changes. */
   subscribe: string | string[];
-  /** Javascript code to execute when subscribed events occur. */
-  source: string;
   /** Set to false to not emit over MQTT, true to emit, or an object with MQTT options. Default true. */
   mqtt?: boolean | EmitOptions;
   /** If defined a metric will be published for value updates on this rule. */
@@ -31,6 +29,19 @@ export interface RuleConfig {
   throttle?: number;
   /** Debounce execution of this rule by the number of ms if defined */
   debounce?: number;
+  /** Javascript code to execute when subscribed events occur. If not provided then a template must be used. */
+  source?: string;
+  /** Template (ID) to use if source not provided. */
+  template?: string;
+  /** Optional parameters to pass to the template or rule source. */
+  params?: Record<string, any>;
+}
+
+export interface TemplateConfig {
+  /** Template unique ID  */
+  id: string;
+  /** Javascript code to execute when rule using this template is executed. */
+  source: string;
 }
 
 export interface MetricDetails {
@@ -49,6 +60,7 @@ export interface Config {
     port: number;
   };
   log?: {
+    rules?: boolean;
     changes?: boolean;
   };
   data?: {
@@ -62,6 +74,7 @@ export interface Config {
     saveInterval?: number;
   };
   metrics?: MetricDetails[];
+  templates?: Array<TemplateConfig>;
   rules: Array<RuleConfig>;
 }
 

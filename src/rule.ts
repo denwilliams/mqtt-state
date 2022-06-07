@@ -5,6 +5,7 @@ import { BaseContext } from "./events";
 import { Metrics } from "./metrics";
 import { EmitOptions } from "./mqtt";
 import { RuleState } from "./rule-state";
+import { Template } from "./template";
 
 export interface RuleContext extends BaseContext {
   key: string;
@@ -14,6 +15,8 @@ export interface RuleContext extends BaseContext {
   currentValue: any;
   /** A list of event keys this rule is subscribed to */
   subscriptions: string[];
+  /** Static parameters for this rule */
+  params?: Record<string, any>;
 }
 
 export class Rule {
@@ -22,23 +25,31 @@ export class Rule {
   readonly events: string[];
   readonly mqtt?: boolean | EmitOptions;
   readonly gauge?: (value: number) => void;
+  private readonly params?: Record<string, any>;
   private readonly script: vm.Script;
   private readonly throttle?: number;
   private readonly debounce?: number;
   private readonly setValue: (value: any, subkey?: string) => void;
 
-  constructor(details: RuleConfig, metrics: Metrics, ruleState: RuleState) {
+  constructor(
+    details: RuleConfig,
+    metrics: Metrics,
+    ruleState: RuleState,
+    template?: Template
+  ) {
     if (!details.key) {
       throw new Error(`Missing key on rule ${details.key}`);
     }
-    if (!details.source) {
+    if (!details.source && !template) {
       throw new Error(`Missing source on rule ${details.key}`);
     }
     if (!details.subscribe) {
       throw new Error(`Missing subscriptions on rule ${details.key}`);
     }
 
-    this.script = new vm.Script(details.source);
+    this.script = details.source
+      ? new vm.Script(details.source)
+      : template!.script;
     this.key = details.key;
     this.events = Array.isArray(details.subscribe)
       ? details.subscribe
@@ -47,6 +58,7 @@ export class Rule {
     this.distinct = details.distinct || false;
     this.throttle = details.throttle;
     this.debounce = details.debounce;
+    this.params = details.params;
 
     if (details.metric) {
       const gauge =
@@ -84,6 +96,7 @@ export class Rule {
       setChild,
       currentValue: context.state.get(this.key),
       subscriptions: this.events,
+      params: this.params,
     };
 
     this.script.runInNewContext(ruleContext);
@@ -122,17 +135,16 @@ function throttle(fn: Function, timeout = 1000) {
   return (...args: any[]) => {
     if (!timer) {
       fn(...args);
+      timer = setTimeout(() => {
+        timer = undefined;
+        if (!pendingArgs) return;
+
+        fn(...pendingArgs);
+        pendingArgs = undefined;
+      }, timeout);
     } else {
       pendingArgs = args;
     }
-
-    timer = setTimeout(() => {
-      timer = undefined;
-      if (!pendingArgs) return;
-
-      fn(...pendingArgs);
-      pendingArgs = undefined;
-    }, timeout);
   };
 }
 

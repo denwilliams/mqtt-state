@@ -30,10 +30,11 @@
     "typescript": "^4.0.2"
   },
   "scripts": {
+    "coverage": "nyc ava -v",
     "docs": "mkdocs serve",
     "build": "tsc",
     "prepack": "chmod u+x lib/main.js",
-    "_test": "nyc ava -v"
+    "test": "npx ava -v"
   },
   "bin": {
     "mqtt-state": "./lib/main.js"

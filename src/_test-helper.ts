@@ -2,7 +2,9 @@ import { Config } from "./config";
 import { createService } from "./service";
 import { MockMqtt } from "./mqtt";
 
-export function createTestService(options: Pick<Config, "metrics" | "rules">) {
+export function createTestService(
+  options: Pick<Config, "metrics" | "rules" | "templates">
+) {
   const results = createService({
     mqtt: {
       uri: "mock",
@@ -10,6 +12,7 @@ export function createTestService(options: Pick<Config, "metrics" | "rules">) {
       raw: [],
     },
     metrics: options.metrics,
+    templates: options.templates,
     rules: options.rules,
   });
   return {

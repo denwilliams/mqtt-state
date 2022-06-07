@@ -1,42 +1,53 @@
 import test from "ava";
 import { createTestService } from "./_test-helper";
 
-test("debounce requests to the defined ms value", async (t) => {
+test.serial("debounce requests to the defined ms value", async (t) => {
   const service = createTestService({
     rules: [
       {
-        key: "output",
+        key: "output/debounce",
         source: `set(event.value);`,
-        subscribe: "input",
+        subscribe: "input/debounce",
         debounce: 50,
       },
     ],
   });
 
   await service.start();
+  let resolveLastInput: () => void;
+  let pLastInput = new Promise<void>((resolve) => {
+    resolveLastInput = resolve;
+  });
   setImmediate(async () => {
-    for (let i = 0; i < 12; i++) {
-      service.events.publish("input", i + 1);
+    const MAX = 12;
+    for (let i = 0; i < MAX; i++) {
+      service.events.publish("input/debounce", i + 1);
+      if (i === MAX - 1) {
+        resolveLastInput();
+      }
       await new Promise((resolve) => setTimeout(resolve, 5));
     }
     await service.stop();
   });
 
   t.is(
-    service.activeState.get("output"),
+    service.activeState.get("output/debounce"),
     undefined,
     "Should be no leading event with debounce"
   );
 
-  await new Promise((resolve) => setTimeout(resolve, 200));
+  await pLastInput;
+  t.is(service.activeState.get("output/debounce"), undefined);
 
-  t.is(service.activeState.get("output"), 12);
+  await new Promise((resolve) => setTimeout(resolve, 50));
+
+  t.is(service.activeState.get("output/debounce"), 12);
 
   t.deepEqual(
     service.mqtt.sent,
     [
       {
-        topic: "output",
+        topic: "output/debounce",
         message: 12,
         options: undefined,
       },
