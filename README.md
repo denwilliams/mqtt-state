@@ -120,6 +120,21 @@ rules:
       threshold: 60
 ```
 
+### Included Templates
+
+The following templates are included out-of-the-box. You may override them if desired.
+
+* alias
+* pick
+* inside
+* within
+* outside
+* above
+* below
+* counter
+* bool
+* not
+* toggle
 
 ## Example Rules
 

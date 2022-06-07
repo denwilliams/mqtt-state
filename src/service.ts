@@ -6,7 +6,7 @@ import { Metrics } from "./metrics";
 import { MockMqtt, Mqtt } from "./mqtt";
 import { Rule } from "./rule";
 import { ChangeEvent, RuleState } from "./rule-state";
-import { Template } from "./template";
+import { baseTemplates, Template } from "./template";
 import { Ticker } from "./ticker";
 
 export function createService(
@@ -64,10 +64,13 @@ export function createService(
     }
   );
 
-  const templates = (config.templates || []).reduce((obj, t) => {
-    obj[t.id] = new Template(t);
-    return obj;
-  }, {} as Record<string, Template>);
+  const templates = (config.templates || []).reduce<Record<string, Template>>(
+    (obj, t) => {
+      obj[t.id] = new Template(t);
+      return obj;
+    },
+    { ...baseTemplates }
+  );
 
   for (const ruleDetails of config.rules) {
     const rule = new Rule(
