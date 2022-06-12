@@ -31,11 +31,13 @@ export class Rule {
   private readonly debounce?: number;
   private readonly setValue: (value: any, subkey?: string) => void;
 
+  // TODO: don't like this pattern of injecting Metrics etc. Need to refactor and find a better way.
   constructor(
     details: RuleConfig,
     metrics: Metrics,
     ruleState: RuleState,
-    template?: Template
+    template?: Template,
+    initialValue?: any
   ) {
     if (!details.key) {
       throw new Error(`Missing key on rule ${details.key}`);
@@ -80,6 +82,10 @@ export class Rule {
       const key = subkey ? this.key + "/" + subkey : this.key;
       ruleState.set(key, value, this);
     };
+
+    if (initialValue && this.gauge) {
+      this.gauge(initialValue);
+    }
   }
 
   exec(context: BaseContext) {

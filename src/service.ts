@@ -73,11 +73,13 @@ export function createService(
   );
 
   for (const ruleDetails of config.rules) {
+    const initialValue = activeState.get(ruleDetails.key);
     const rule = new Rule(
       ruleDetails,
       metrics,
       ruleState,
-      ruleDetails.template ? templates[ruleDetails.template] : undefined
+      ruleDetails.template ? templates[ruleDetails.template] : undefined,
+      initialValue
     );
     const handler = rule.getHandler();
     for (const e of rule.events) {
@@ -116,5 +118,6 @@ export function createService(
     mqtt,
     http,
     events,
+    metrics,
   };
 }
