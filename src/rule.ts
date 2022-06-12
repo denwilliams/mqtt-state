@@ -101,7 +101,7 @@ export class Rule {
       ruleState.set(key, value, this);
     };
 
-    if (initialValue && this.gauge) {
+    if (initialValue !== undefined && this.gauge) {
       this.gauge(initialValue);
     }
   }
