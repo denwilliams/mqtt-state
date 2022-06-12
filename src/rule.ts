@@ -63,6 +63,7 @@ export class Rule {
     this.params = details.params;
 
     if (details.metric) {
+      const metricName = details.metric.name;
       const gauge =
         metrics.getGauge(details.metric.name) ||
         new Gauge({
@@ -78,7 +79,14 @@ export class Rule {
         if (typeof value === "number") metricValue = value;
         else if (typeof value === "boolean") metricValue = value ? 1 : 0;
 
-        if (metricValue === undefined) return;
+        if (metricValue === undefined) {
+          console.warn(
+            `Ignored invalid metric update name=${metricName} value=${JSON.stringify(
+              value
+            )}`
+          );
+          return;
+        }
 
         if (details.metric?.labels) {
           gauge.set(details.metric?.labels, metricValue);
