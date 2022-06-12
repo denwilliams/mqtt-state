@@ -58,8 +58,7 @@ export function createService(
 
       // NOTE: gauges won't work well with child values
       if (rule?.gauge) {
-        if (typeof value === "number") rule.gauge(value);
-        else if (typeof value === "boolean") rule.gauge(value ? 1 : 0);
+        rule.gauge(value);
       }
     }
   );

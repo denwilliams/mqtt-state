@@ -72,9 +72,19 @@ export class Rule {
             ? Object.keys(details.metric.labels)
             : undefined,
         });
-      this.gauge = (value: number) => {
-        if (details.metric?.labels) gauge.set(details.metric?.labels, value);
-        else gauge.set(value);
+      this.gauge = (value: any) => {
+        let metricValue: number | undefined = undefined;
+
+        if (typeof value === "number") metricValue = value;
+        else if (typeof value === "boolean") metricValue = value ? 1 : 0;
+
+        if (metricValue === undefined) return;
+
+        if (details.metric?.labels) {
+          gauge.set(details.metric?.labels, metricValue);
+        } else {
+          gauge.set(metricValue);
+        }
       };
     }
 
