@@ -1,12 +1,12 @@
 import { EventEmitter } from "events";
 import { ActiveState } from "./active-state";
-import { Rule } from "./rule";
+import { Rule, RuleOptions } from "./rule";
 
 export interface ChangeEvent<T> {
   key: string;
   value: T;
   prevValue?: T;
-  rule?: Rule;
+  rule?: RuleOptions;
 }
 
 export class RuleState extends EventEmitter {
@@ -14,7 +14,7 @@ export class RuleState extends EventEmitter {
     super();
   }
 
-  set(key: string, value: any, rule?: Rule) {
+  set(key: string, value: any, rule?: RuleOptions) {
     const prevValue = this.activeState.get(key);
 
     // Skip if not distinct

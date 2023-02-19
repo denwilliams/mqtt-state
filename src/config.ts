@@ -14,17 +14,20 @@ export interface RuleMetric {
   labels?: Record<string, string>;
 }
 
-export interface RuleConfig {
-  /** Event key/name/topic to emit on  */
-  key: string;
-  /** Events keys/names to subscribe to. These can be subscribed MQTT topics, or internal state changes. */
-  subscribe: string | string[];
+export interface BasicRuleConfig {
   /** Set to false to not emit over MQTT, true to emit, or an object with MQTT options. Default true. */
   mqtt?: boolean | EmitOptions;
   /** If defined a metric will be published for value updates on this rule. */
   metric?: RuleMetric;
   /** If true then set values will only be processed if changed from the previous value */
   distinct?: boolean;
+}
+
+export interface RuleConfig extends BasicRuleConfig {
+  /** Event key/name/topic to emit on  */
+  key: string;
+  /** Events keys/names to subscribe to. These can be subscribed MQTT topics, or internal state changes. */
+  subscribe: string | string[];
   /** Throttle execution of this rule to once per the number of ms if defined */
   throttle?: number;
   /** Debounce execution of this rule by the number of ms if defined */
@@ -35,6 +38,8 @@ export interface RuleConfig {
   template?: string;
   /** Optional parameters to pass to the template or rule source. */
   params?: Record<string, any>;
+  /** Optional child outputs for the rule */
+  children?: Record<string, BasicRuleConfig>;
 }
 
 export interface TemplateConfig {

@@ -35,6 +35,8 @@ Limitations:
 
 TBD
 
+TODO: allow config to be passed in via params
+
 ## Rules
 
 ### Source
@@ -174,3 +176,34 @@ subscribe:
   - motion2/detected
   - motion3/detected
 ```
+
+
+## HTTP Server
+
+HTTP server can be enabled be specifying a `http` config in the YAML.
+
+```yaml
+http:
+  port: 8080
+```
+
+When running the server will expose the following endpoints:
+
+* `/metrics` - Prometheus metrics for all rules. Can be scraped into Prometheus and used to create dashboards and view historical timelines.
+* `/state/:key` - The current value of a single rule. Can be in HTML or JSON format depending on the `Accept` header.
+* `/state` - The current values of all rules. Can be in HTML or JSON format depending on the `Accept` header.
+* `/state?select=key1,key2` - The current values of the specified rules. Can be in HTML or JSON format depending on the `Accept` header.
+
+TODO: allow listing the current rules and their keys.
+
+## To Document
+
+Reusing metrics via `config.metrics`
+
+Configuring MQTT. Subscribing.
+
+Logging.
+
+Data persistence.
+
+Templates and rules.

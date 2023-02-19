@@ -1,6 +1,6 @@
 import vm from "vm";
 import { Gauge } from "prom-client";
-import { RuleConfig } from "./config";
+import { RuleConfig, RuleMetric } from "./config";
 import { BaseContext } from "./events";
 import { Metrics } from "./metrics";
 import { EmitOptions } from "./mqtt";
@@ -19,12 +19,53 @@ export interface RuleContext extends BaseContext {
   params?: Record<string, any>;
 }
 
-export class Rule {
+type GaugeFn = (value: number) => void;
+
+function createGauge(metric: RuleMetric, metrics: Metrics): GaugeFn {
+  const gauge =
+    metrics.getGauge(metric.name) ||
+    new Gauge({
+      name: metric.name,
+      help: metric.name,
+      labelNames: metric.labels ? Object.keys(metric.labels) : undefined,
+    });
+
+  return (value: any) => {
+    let metricValue: number | undefined = undefined;
+
+    if (typeof value === "number") metricValue = value;
+    else if (typeof value === "boolean") metricValue = value ? 1 : 0;
+
+    if (metricValue === undefined) {
+      console.warn(
+        `Ignored invalid metric update name=${
+          metric.name
+        } value=${JSON.stringify(value)}`
+      );
+      return;
+    }
+
+    if (metric.labels) {
+      gauge.set(metric.labels, metricValue);
+    } else {
+      gauge.set(metricValue);
+    }
+  };
+}
+
+export interface RuleOptions {
+  readonly distinct: boolean;
+  readonly mqtt?: boolean | EmitOptions;
+  readonly gauge?: GaugeFn;
+}
+
+export class Rule implements RuleOptions {
   readonly key: string;
   readonly distinct: boolean;
   readonly events: string[];
   readonly mqtt?: boolean | EmitOptions;
-  readonly gauge?: (value: number) => void;
+  readonly gauge?: GaugeFn;
+  readonly children?: Record<string, RuleOptions>;
   private readonly params?: Record<string, any>;
   private readonly script: vm.Script;
   private readonly throttle?: number;
@@ -63,42 +104,24 @@ export class Rule {
     this.params = details.params;
 
     if (details.metric) {
-      const metricName = details.metric.name;
-      const gauge =
-        metrics.getGauge(details.metric.name) ||
-        new Gauge({
-          name: details.metric.name,
-          help: details.metric.name,
-          labelNames: details.metric.labels
-            ? Object.keys(details.metric.labels)
-            : undefined,
-        });
-      this.gauge = (value: any) => {
-        let metricValue: number | undefined = undefined;
+      this.gauge = createGauge(details.metric, metrics);
+    }
 
-        if (typeof value === "number") metricValue = value;
-        else if (typeof value === "boolean") metricValue = value ? 1 : 0;
-
-        if (metricValue === undefined) {
-          console.warn(
-            `Ignored invalid metric update name=${metricName} value=${JSON.stringify(
-              value
-            )}`
-          );
-          return;
-        }
-
-        if (details.metric?.labels) {
-          gauge.set(details.metric?.labels, metricValue);
-        } else {
-          gauge.set(metricValue);
-        }
-      };
+    if (details.children) {
+      this.children = {};
+      for (const [key, child] of Object.entries(details.children)) {
+        this.children[key] = {
+          distinct: child.distinct || false,
+          mqtt: child.mqtt,
+          gauge: child.metric ? createGauge(child.metric, metrics) : undefined,
+        };
+      }
     }
 
     this.setValue = (value, subkey) => {
       const key = subkey ? this.key + "/" + subkey : this.key;
-      ruleState.set(key, value, this);
+      const ruleOptions = subkey ? this.children?.[subkey] ?? this : this;
+      ruleState.set(key, value, ruleOptions);
     };
 
     if (initialValue !== undefined && this.gauge) {
