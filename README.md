@@ -206,4 +206,4 @@ Logging.
 
 Data persistence.
 
-Templates and rules.
+Templates and rules. Template can also include details such as metrics on children since the values published are also controlled by them

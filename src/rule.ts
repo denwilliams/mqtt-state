@@ -74,7 +74,7 @@ export class Rule implements RuleOptions {
 
   // TODO: don't like this pattern of injecting Metrics etc. Need to refactor and find a better way.
   constructor(
-    details: RuleConfig,
+    details: RuleConfig & { script?: vm.Script },
     metrics: Metrics,
     ruleState: RuleState,
     template?: Template,

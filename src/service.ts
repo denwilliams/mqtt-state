@@ -71,13 +71,21 @@ export function createService(
     { ...baseTemplates }
   );
 
-  for (const ruleDetails of config.rules) {
-    const initialValue = activeState.get(ruleDetails.key);
+  for (const ruleConfig of config.rules) {
+    const initialValue = activeState.get(ruleConfig.key);
+    const templateId =
+      typeof ruleConfig.template === "string"
+        ? ruleConfig.template
+        : ruleConfig.template?.id;
+    const template = templateId ? templates[templateId] : undefined;
+
+    const details = template ? template.getRuleConfig(ruleConfig) : ruleConfig;
+
     const rule = new Rule(
-      ruleDetails,
+      details,
       metrics,
       ruleState,
-      ruleDetails.template ? templates[ruleDetails.template] : undefined,
+      templateId ? templates[templateId] : undefined,
       initialValue
     );
     const handler = rule.getHandler();

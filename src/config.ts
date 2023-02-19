@@ -23,6 +23,13 @@ export interface BasicRuleConfig {
   distinct?: boolean;
 }
 
+export interface TemplateSelection {
+  /** The id of the template to apply */
+  id: string;
+  /** Label values to pass through to the template */
+  labels?: Record<string, string>;
+}
+
 export interface RuleConfig extends BasicRuleConfig {
   /** Event key/name/topic to emit on  */
   key: string;
@@ -35,11 +42,27 @@ export interface RuleConfig extends BasicRuleConfig {
   /** Javascript code to execute when subscribed events occur. If not provided then a template must be used. */
   source?: string;
   /** Template (ID) to use if source not provided. */
-  template?: string;
+  template?: string | TemplateSelection;
   /** Optional parameters to pass to the template or rule source. */
   params?: Record<string, any>;
   /** Optional child outputs for the rule */
   children?: Record<string, BasicRuleConfig>;
+}
+
+export interface TemplateMetric {
+  /** If this matches a shared metric name it will be used, else a new one created. */
+  name: string;
+  /** Label values to pass through from the rule. */
+  labels?: string[];
+}
+
+export interface TemplateChildConfig {
+  /** Set to false to not emit over MQTT, true to emit, or an object with MQTT options. Default true. */
+  mqtt?: boolean | EmitOptions;
+  /** If true then set values will only be processed if changed from the previous value */
+  distinct?: boolean;
+  /** If defined a metric will be published for value updates on this rule. */
+  metric?: TemplateMetric;
 }
 
 export interface TemplateConfig {
@@ -47,6 +70,14 @@ export interface TemplateConfig {
   id: string;
   /** Javascript code to execute when rule using this template is executed. */
   source: string;
+  /** Set to false to not emit over MQTT, true to emit, or an object with MQTT options. Default true. */
+  mqtt?: boolean | EmitOptions;
+  /** If true then set values will only be processed if changed from the previous value */
+  distinct?: boolean;
+  /** If defined a metric will be published for value updates on this rule. */
+  metric?: TemplateMetric;
+  /** Optional child outputs for the template */
+  children?: Record<string, TemplateChildConfig>;
 }
 
 export interface MetricDetails {
