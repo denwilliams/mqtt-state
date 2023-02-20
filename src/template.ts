@@ -33,7 +33,7 @@ export class Template {
       (tMetric
         ? {
             name: tMetric.name,
-            labels: tMetric.labels?.reduce((acc, label) => {
+            labels: (tMetric.labels ?? []).reduce((acc, label) => {
               acc[label] = tConfig?.labels?.[label] ?? "unknown";
               return acc;
             }, {} as Record<string, string>),
@@ -50,7 +50,7 @@ export class Template {
               metric: childMetric
                 ? {
                     name: childMetric.name,
-                    labels: childMetric.labels?.reduce((acc, label) => {
+                    labels: (childMetric.labels ?? []).reduce((acc, label) => {
                       acc[label] = tConfig?.labels?.[label] ?? "unknown";
                       return acc;
                     }, {} as Record<string, string>),
