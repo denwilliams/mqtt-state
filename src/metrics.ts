@@ -1,12 +1,20 @@
 import { Gauge } from "prom-client";
-import { Metrics, MetricDetails } from "./types";
+import { MetricDetails } from "./config";
 
-export function create(metricsList: MetricDetails[]) {
-  const metrics: Metrics = {};
-  metricsList.forEach((m) => {
-    const { name, help, labelNames } = m;
-    const gauge = new Gauge({ name, help, labelNames });
-    metrics[name] = gauge;
-  });
-  return metrics;
+export type MetricsMap = Record<string, Gauge<string>>;
+
+export class Metrics {
+  private readonly metrics: MetricsMap = {};
+
+  constructor(metricsList: MetricDetails[]) {
+    metricsList.forEach((m) => {
+      const { name, help, labelNames } = m;
+      const gauge = new Gauge({ name, help, labelNames });
+      this.metrics[name] = gauge;
+    });
+  }
+
+  getGauge(name: string): Gauge<string> {
+    return this.metrics[name];
+  }
 }

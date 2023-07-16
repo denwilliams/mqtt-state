@@ -1,18 +1,51 @@
-import { Reactive, RootState, Startable } from "./types";
+import { Events } from "./events";
 
-export function create(rootState: RootState, reactive: Reactive): Startable {
-  const onTick = () => {
-    rootState.setValue("root/ticker/minutes", new Date().getTime());
+export class Ticker {
+  private interval?: NodeJS.Timeout;
+  private lastMinute?: number;
+  private lastQuarter?: number;
+  private lastHour?: number;
+
+  constructor(private events: Events) {}
+
+  private onTick = () => {
+    const date = new Date();
+
+    const body = {
+      time: date.getTime(),
+      hour: date.getHours(),
+      minute: date.getMinutes(),
+      quarter: Math.floor(date.getMinutes() / 15) * 15,
+      day: date.getDate(),
+      month: date.getMonth() + 1,
+      year: date.getFullYear(),
+      dayOfWeek: date.getDay() + 1,
+    };
+
+    if (this.lastHour !== body.hour) {
+      this.events.publish("ticker/hour", body);
+      this.lastHour = body.hour;
+    }
+
+    if (this.lastMinute !== body.minute) {
+      this.events.publish("ticker/minute", body);
+      this.lastMinute = body.minute;
+    }
+
+    if (this.lastQuarter !== body.quarter) {
+      this.events.publish("ticker/quarter", body);
+      this.lastQuarter = body.quarter;
+    }
+
+    this.events.publish("ticker/tick", body);
   };
 
-  return {
-    async start() {
-      onTick();
-      reactive.getRootBinding("root/ticker/minutes");
+  async start() {
+    this.interval = setInterval(this.onTick, 1000);
+    setImmediate(this.onTick);
+  }
 
-      setInterval(onTick, 60000);
-      // setImmediate(onTick);
-    },
-    async stop() {},
-  };
+  async stop() {
+    if (this.interval) clearInterval(this.interval);
+  }
 }

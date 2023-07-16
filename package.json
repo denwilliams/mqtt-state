@@ -1,7 +1,7 @@
 {
   "name": "mqtt-state",
   "description": "State management for home automation based on MQTT input/output.",
-  "version": "3.10.0",
+  "version": "4.0.0-beta-14",
   "main": "lib/main.js",
   "dependencies": {
     "consul": "^0.37.0",
@@ -12,8 +12,7 @@
     "mqtt": "^4.0.0",
     "prom-client": "^12.0.0",
     "redis": "^3.0.2",
-    "redux": "^4.0.5",
-    "rxjs": "^6.5.5"
+    "ulid": "^2.3.0"
   },
   "devDependencies": {
     "@ava/typescript": "^1.1.1",
@@ -28,20 +27,20 @@
     "nyc": "^15.1.0",
     "prettier": "^2.0.4",
     "ts-node": "^9.0.0",
-    "typescript": "^4.0.2",
-    "ulid": "^2.3.0"
+    "typescript": "^4.0.2"
   },
   "scripts": {
+    "coverage": "nyc ava -v",
     "docs": "mkdocs serve",
     "build": "tsc",
     "prepack": "chmod u+x lib/main.js",
-    "test": "nyc ava -v"
+    "test": "npx ava -v"
   },
   "bin": {
     "mqtt-state": "./lib/main.js"
   },
   "engines": {
-    "node": ">=8.6.0"
+    "node": ">=14.0.0"
   },
   "author": "Den Williams",
   "license": "MIT",

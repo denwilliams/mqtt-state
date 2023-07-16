@@ -1,134 +1,135 @@
-import express from "express";
+import { Server } from "http";
+import express, { Express } from "express";
 import cors from "cors";
 import { register } from "prom-client";
-import { render as renderChartTemplate } from "./chart-template";
-import { RootState, Rules, Startable, StateValues } from "./types";
+import { ActiveState } from "./active-state";
 
-export function create(
-  rootState: RootState,
-  rules: Rules,
-  port = 3000
-): Startable {
-  const app = express();
+export class HttpServer {
+  private readonly app: Express;
+  private server?: Server;
 
-  app.use(cors({ allowedHeaders: "*" }));
+  constructor(private activeState: ActiveState, private port: number) {
+    const app = express();
 
-  app.use((req, res, next) => {
-    const accept = req.query.accept as string | undefined;
-    if (accept) {
-      req.headers.accept = accept;
-    }
-    next();
-  });
+    app.use(cors({ allowedHeaders: "*" }));
 
-  app.get("/state", (req, res) => {
-    const stateUnordered: Record<string, any> = getState(req.query);
+    app.use((req, res, next) => {
+      const accept = req.query.accept as string | undefined;
+      if (accept) {
+        req.headers.accept = accept;
+      }
+      next();
+    });
 
-    const state: Record<string, any> = {};
-    Object.keys(stateUnordered)
-      .sort()
-      .forEach((key) => {
-        state[key] = stateUnordered[key];
+    app.get("/state", (req, res) => {
+      // if (query.root) Object.assign(state, rootState.getState());
+      // Object.assign(state, rules.getState());
+
+      const selectedState = !req.query.select
+        ? this.activeState.getAll()
+        : (() => {
+            const selectors = (req.query.select as string).split(",");
+
+            return selectors.sort().reduce((obj, s) => {
+              obj[s] = this.activeState.get(s);
+              return obj;
+            }, {} as Record<string, any>);
+          })();
+
+      res.format({
+        text: () => {
+          const lines = Object.entries(selectedState).map(
+            (e) => `${e[0]}: ${stringValue(e[1])}`
+          );
+          res.send(lines.join("\n"));
+        },
+        html: () => {
+          const lines = Object.entries(selectedState).map(
+            (e) => `<strong>${e[0]}</strong>: ${stringValue(e[1])}`
+          );
+          res.send(`<html><body>${lines.join("<br />")}</body></html>`);
+        },
+        json: () => {
+          res.json(selectedState);
+        },
       });
-
-    res.format({
-      text: () => {
-        const entries = Object.entries(state);
-        const lines = entries.map((e) => `${e[0]}: ${stringValue(e[1])}`);
-        res.send(lines.join("\n"));
-      },
-      html: () => {
-        const entries = Object.entries(state);
-        const lines = entries.map(
-          (e) => `<strong>${e[0]}</strong>: ${stringValue(e[1])}`
-        );
-        res.send(`<html><body>${lines.join("<br />")}</body></html>`);
-      },
-      json: () => {
-        res.json(state);
-      },
     });
-  });
 
-  app.get("/state/*", (req, res) => {
-    const key = req.params[0];
-    const value = rules.getState()[key];
+    app.get("/state/*", (req, res) => {
+      const key = req.params[0];
+      const value = this.activeState.get(key);
 
-    res.format({
-      text: () => {
-        res.send(`${key}: ${stringValue(value)}`);
-      },
-      html: () => {
-        res.send(
-          `<html><body><strong>${key}</strong>: ${stringValue(
-            value
-          )}</body></html>`
-        );
-      },
-      json: () => {
-        res.json(value);
-      },
+      res.format({
+        text: () => {
+          res.send(`${key}: ${stringValue(value)}`);
+        },
+        html: () => {
+          res.send(
+            `<html><body><strong>${key}</strong>: ${stringValue(
+              value
+            )}</body></html>`
+          );
+        },
+        json: () => {
+          res.json(value);
+        },
+      });
     });
-  });
-  app.get("/metrics", (req, res) => res.type("txt").send(register.metrics()));
-  app.get("/rules", (req, res) => {
-    const rulesList = rules.getList();
 
-    res.format({
-      text: () => {
-        const ruleItems = rulesList.reduce((arr, rule) => {
-          const entries = Object.entries(rule);
-          const lines = entries.map((e) => `${e[0]}: ${e[1]}`);
-          arr.push(lines.join("\n"));
-          return arr;
-        }, [] as string[]);
-        res.send(ruleItems.join("\n\n"));
-      },
-      html: () => {
-        const ruleItems = rulesList.reduce((arr, rule) => {
-          const entries = Object.entries(rule);
-          const lines = entries.map((e) => `<strong>${e[0]}</strong>: ${e[1]}`);
-          arr.push(lines.join("<br />"));
-          return arr;
-        }, [] as string[]);
-        res.send(`<html><body>${ruleItems.join("<br /><br />")}</body></html>`);
-      },
-      json: () => {
-        res.json(rulesList);
-      },
-    });
-  });
-  app.get("/tree", (req, res) => {
-    res.send(renderChartTemplate(rules.getDependencyTree()));
-  });
+    app.get("/metrics", (req, res) => res.type("txt").send(register.metrics()));
 
-  function getState(query: { root?: boolean; select?: string }) {
-    const state: StateValues = {};
-    if (query.root) Object.assign(state, rootState.getState());
-    Object.assign(state, rules.getState());
+    // app.get("/rules", (req, res) => {
+    //   const rulesList = rules.getList();
 
-    if (!query.select) return state;
+    //   res.format({
+    //     text: () => {
+    //       const ruleItems = rulesList.reduce((arr, rule) => {
+    //         const entries = Object.entries(rule);
+    //         const lines = entries.map((e) => `${e[0]}: ${e[1]}`);
+    //         arr.push(lines.join("\n"));
+    //         return arr;
+    //       }, [] as string[]);
+    //       res.send(ruleItems.join("\n\n"));
+    //     },
+    //     html: () => {
+    //       const ruleItems = rulesList.reduce((arr, rule) => {
+    //         const entries = Object.entries(rule);
+    //         const lines = entries.map(
+    //           (e) => `<strong>${e[0]}</strong>: ${e[1]}`
+    //         );
+    //         arr.push(lines.join("<br />"));
+    //         return arr;
+    //       }, [] as string[]);
+    //       res.send(
+    //         `<html><body>${ruleItems.join("<br /><br />")}</body></html>`
+    //       );
+    //     },
+    //     json: () => {
+    //       res.json(rulesList);
+    //     },
+    //   });
+    // });
 
-    const selectors = query.select.split(",");
+    // app.get("/tree", (req, res) => {
+    //   res.send(renderChartTemplate(rules.getDependencyTree()));
+    // });
 
-    return selectors.reduce((obj, s) => {
-      obj[s] = state[s];
-      return obj;
-    }, {} as StateValues);
+    this.app = app;
   }
 
-  return {
-    async start() {
-      return new Promise((resolve) => {
-        app.listen(port, () => {
-          // eslint-disable-next-line no-console
-          console.log(`Listening on port ${port}`);
-          resolve();
-        });
+  async start() {
+    await new Promise<void>((resolve) => {
+      this.server = this.app.listen(this.port, () => {
+        // eslint-disable-next-line no-console
+        console.log(`Listening on port ${this.port}`);
+        resolve();
       });
-    },
-    async stop() {},
-  };
+    });
+  }
+
+  async stop() {
+    if (this.server) this.server.close();
+  }
 }
 
 function stringValue(val: any): string {

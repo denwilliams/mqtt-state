@@ -1,49 +1,34 @@
 import redis from "redis";
 import { promisify } from "util";
-import { Observable, Subscriber } from "rxjs";
-import { throttleTime } from "rxjs/operators";
-import { StateValues, PersistedState } from "./types";
 
-export function create(redisUrl: string): PersistedState {
-  const client = redis.createClient({ url: redisUrl });
+export class RedisState {
+  private readonly client: redis.RedisClient;
+  private readonly getAsync: (key: string) => Promise<string>;
+  private readonly setAsync: (key: string, val: string) => Promise<unknown>;
 
-  client.on("error", function (error) {
-    console.error("Redis error:", error);
-  });
-
-  const getAsync = promisify(client.get).bind(client);
-
-  let next: (x: any) => void;
-  // let complete;
-  let stream: Observable<any>;
-
-  function getSaveStream() {
-    if (stream) return next;
-
-    stream = Observable.create((subscriber: Subscriber<any>) => {
-      next = (x: any) => subscriber.next(x);
-      // complete = () => subscriber.complete();
-    }).pipe(throttleTime(1000, undefined, { leading: true, trailing: true }));
-
-    stream.subscribe((state: StateValues) => {
-      // console.log("Persisting to Redis...");
-      client.set("mqtt-state:persistence", JSON.stringify(state), (err) => {
-        if (err) console.error(err);
-      });
+  constructor(
+    private redisUrl: string,
+    private key: string = "mqtt-state:persistence"
+  ) {
+    const client = redis.createClient({ url: redisUrl });
+    client.on("error", function (error) {
+      console.error("Redis error:", error);
     });
 
-    return next;
+    this.client = client;
+
+    this.setAsync = promisify(client.set).bind(client);
+    this.getAsync = promisify(client.get).bind(client);
   }
 
-  return {
-    save(state: StateValues) {
-      const saveStream = getSaveStream();
-      saveStream(state);
-    },
-    async load() {
-      const json = await getAsync("mqtt-state:persistence");
-      if (!json) return {};
-      return JSON.parse(json);
-    },
-  };
+  async load(): Promise<Record<string, any>> {
+    const json = await this.getAsync(this.key);
+    if (!json) return {};
+    return JSON.parse(json);
+  }
+
+  async save(state: Record<string, any>) {
+    await this.setAsync(this.key, JSON.stringify(state));
+    console.info(`Backed up active state to ${this.redisUrl}`);
+  }
 }
