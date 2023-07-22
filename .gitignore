@@ -68,3 +68,5 @@ config.yml
 lib/
 docs/
 src_old/
+
+.sea
